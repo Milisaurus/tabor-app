@@ -43,19 +43,6 @@ Aplikace umožňuje vedoucím na táboře snadno sledovat výsledky týmů, zad�
 
 ---
 
-## 💻 Použité technologie
-> Možný návrh technologií pro front-end i back-end řešení.
-
-### Frontend
-- **HTML/CSS**: Struktura a styl webových stránek, formuláře, případně interaktivní prvky v **JavaScriptu**.
-- **[Bootstrap](https://getbootstrap.com/)**: Framework pro responzivní návrh UI a styling, včetně šablon pro formuláře, navigaci a rozložení stránky.
-
-### Backend
-- **PHP**: Serverová strana aplikace, která pracuje s daty a komunikuje s frontendem.
-- **Formáty ukládání dat**: JSON nebo XML pro ukládání a načítání dat.
-
----
-
 ## 🚀 Instalace a spuštění
 
 1. Naklonujte tento repozitář:
