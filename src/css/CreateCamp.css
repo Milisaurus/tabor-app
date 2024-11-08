@@ -1,0 +1,101 @@
+/* Základní nastavení pro celou stránku */
+body {
+  background-color: #F8F9FA; /* Světle šedé pozadí */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Styl pro hlavní obsah */
+.create-camp-container {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+}
+
+/* Nadpis */
+h1 {
+  text-align: center;
+  color: #333;
+  margin: 20px 0;
+}
+
+/* Svislá čára */
+hr {
+  border: none;
+  border-top: 2px solid #333;
+  margin: 10px auto;
+  width: 80%;
+}
+
+/* Formuláře */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+}
+
+/* Mezery mezi formuláři - název tábora a počet týmů */
+form > div {
+  margin-bottom: 20px; /* Přidáme mezeru mezi položkami */
+}
+
+/* Vstupy a selecty */
+input, select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Tlačítko */
+button {
+  background-color: #2C2C2C; /* Barva tlačítka */
+  color: #fff;
+  border: none;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #007bff;
+}
+
+/* Formulář pro tým */
+.team-form {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Formulář pro děti */
+.child-form {
+  margin-top: 10px;
+  padding-left: 20px;
+}
