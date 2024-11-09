@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+Frontend/node_modules
 dist
 dist-ssr
 *.local
@@ -23,9 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-#doc
 doc/navrh.aux
-doc/fdb_latexmk
+doc/navrh.fdb_latexmk
 doc/navrh.fls
 doc/navrh.log
 doc/navrh.out
