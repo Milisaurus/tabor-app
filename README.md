@@ -47,5 +47,10 @@ Aplikace umožňuje vedoucím na táboře snadno sledovat výsledky týmů, zad�
 
 1. Naklonujte tento repozitář:
     ```bash
-    git clone https://github.com/Milisaurus/ITU-projekt.git
+    $ git clone https://github.com/Milisaurus/ITU-projekt.git
+    ```
+2. Spuštění FE:
+    ```bash
+    $ cd Frontend
+    $ npm run dev
     ```
