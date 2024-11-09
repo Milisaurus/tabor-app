@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#doc
+doc/navrh.aux
+doc/fdb_latexmk
+doc/navrh.fls
+doc/navrh.log
+doc/navrh.out
+doc/navrh.synctex.gz
+doc/navrh.toc
