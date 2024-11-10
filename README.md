@@ -55,11 +55,23 @@ Aplikace umožňuje vedoucím na táboře snadno sledovat výsledky týmů, zad�
     $ npm run dev
     ```
 3. Spuštění BE:
+    #### Vytvoření virtuálního prostředí: 
     ```bash
     $ cd Backend
     $ python3 -m venv .venv
     $ . .venv/bin/activate
-    $  pip install Flask
+    ```
+    #### Instalace potřebných balíčků
+    ```bash
+    $ pip install Flask
     $ pip install flask-cors
+    ```
+    #### Spuštění serveru
+    ```bash
     $ flask --app server.py run
+    ```
+
+    #### Spuštění serveru v módu debug
+    ```bash
+    $ flask --app server.py run --debug
     ```
