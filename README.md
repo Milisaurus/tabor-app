@@ -54,3 +54,12 @@ Aplikace umožňuje vedoucím na táboře snadno sledovat výsledky týmů, zad�
     $ cd Frontend
     $ npm run dev
     ```
+3. Spuštění BE:
+    ```bash
+    $ cd Backend
+    $ python3 -m venv .venv
+    $ . .venv/bin/activate
+    $  pip install Flask
+    $ pip install flask-cors
+    $ flask --app server.py run
+    ```

@@ -1,6 +1,23 @@
 import React, { useState } from "react";
 import "./css/CreateCamp.css"
 
+
+async function createCamp(data) {
+    try {
+      const response = await fetch("http://localhost:5000/api/create-camp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: data
+      });
+      const result = await response.json();
+      console.log(result.message);
+    } catch (error) {
+      console.error("Chyba:", error);
+    }
+  }
+
 const CreateCamp = () => {
     const [campName, setCampName] = useState("");
     const [teamCount, setTeamCount] = useState("");
@@ -29,6 +46,7 @@ const CreateCamp = () => {
     // Log the structured data
     console.log("Všechna data:", allData);
     console.log("Spojená data jako řetězec:", allDataString);
+    createCamp(allDataString);
     } 
 
 

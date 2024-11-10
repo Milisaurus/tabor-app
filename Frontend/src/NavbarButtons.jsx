@@ -18,4 +18,4 @@ const NavbarButtons = () => {
     );
 }
 
-export default NavbarButtons
+export default NavbarButtons;
