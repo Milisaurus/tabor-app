@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import './css/Navbar.css';
+import './css/NavbarButtons.css';
 
-const Navbar = () => {
+const NavbarButtons = () => {
     return(
         <nav>
-            <Link to="#" className="nav-button">
+            <Link to="/activity-history" className="nav-button">
                 <button>Historie Aktivit</button>
             </Link>
-            <Link to="#" className="nav-button">
+            <Link to="/team-points" className="nav-button">
                 <button>Vložení týmových bodů</button>
             </Link>
             <Link to="/individual-points" className="nav-button">
@@ -18,4 +18,4 @@ const Navbar = () => {
     );
 }
 
-export default Navbar 
+export default NavbarButtons

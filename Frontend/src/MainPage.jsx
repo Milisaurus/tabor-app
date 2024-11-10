@@ -1,20 +1,19 @@
 import React, { useState } from "react"
 import { Link } from 'react-router-dom';
-import "./css/CreateCamp.css"
 
 import NavbarTitle from "./NavbarTitle.jsx";
 import NavbarButtons from "./NavbarButtons.jsx";
 
 
-const IndividualPoints = () => {
+const MainPage = () => {
     return(
         <div>
-            <NavbarTitle goBackLink="/main-page" editLink1="#" editLink2="#"/>
+            <NavbarTitle goBackLink="/" editLink1={"#"} editLink2={"#"}/>
             <NavbarButtons/>
-            <h1>Vložení individuálních bodů</h1>
+            <h1>Sledování bodového postupu</h1>
 
         </div>
     );
 }
 
-export default IndividualPoints;
+export default MainPage;
