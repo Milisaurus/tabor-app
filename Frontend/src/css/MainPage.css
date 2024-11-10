@@ -1,0 +1,5 @@
+.team-color {
+    padding: 5px;
+    color: white; /* Text bude bílý, pokud barva pozadí bude tmavá */
+    width: 200px;
+}
