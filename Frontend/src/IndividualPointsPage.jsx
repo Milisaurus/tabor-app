@@ -154,7 +154,7 @@ const IndividualPoints = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button className="submitbutton" type="submit" onClick={handleSubmit}>Potvrdit</button>
+                <button className="submitbutton" type="submit">Potvrdit</button>
 
             </form>
 
