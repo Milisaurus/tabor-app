@@ -21,7 +21,7 @@ def create_camp():
         json.dump(data, f, ensure_ascii=False, indent=4)
 
     # Send a response
-    return jsonify({"message": f"Camp '{camp_name}' was received successfully"}), 200
+    return jsonify({"message": f"Camp '{camp_name}' was received successfully", "path": camp_file_path}), 200
 
 ################################# Get the name of every camp  #################################
 @app.route("/api/get-camps", methods=["GET"])

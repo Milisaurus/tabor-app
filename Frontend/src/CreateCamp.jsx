@@ -1,22 +1,6 @@
 import React, { useState } from "react";
 import "./css/CreateCamp.css"
-
-
-async function createCamp(data) {
-    try {
-      const response = await fetch("http://localhost:5000/api/create-camp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: data
-      });
-      const result = await response.json();
-      console.log(result.message);
-    } catch (error) {
-      console.error("Chyba:", error);
-    }
-  }
+import {createCamp} from "./api"
 
 const CreateCamp = () => {
     const [campName, setCampName] = useState("");
@@ -38,8 +22,36 @@ const CreateCamp = () => {
                 leader2: team.leader2,
                 childrenCount: team.childrenCount,
                 children: team.children
-            }))
-    };
+            })),
+            teamGames: [],
+            individualActivities: [],
+            gameTypes: [
+                {
+                    type: "Méně bodovaná",
+                    point_scheme: {
+                        "1st_place": 10,
+                        "2nd_place": 5,
+                        "3rd_place": 3
+                    }
+                },
+                {
+                    type: "Více bodovaná",
+                    point_scheme: {
+                        "1st_place": 30,
+                        "2nd_place": 20,
+                        "3rd_place": 10
+                    }
+                },
+                {
+                    type: "Velmi bodovaná",
+                    point_scheme: {
+                        "1st_place": 50,
+                        "2nd_place": 30,
+                        "3rd_place": 20
+                    }
+                }
+            ]
+        };
 
     const allDataString = JSON.stringify(allData);
 
