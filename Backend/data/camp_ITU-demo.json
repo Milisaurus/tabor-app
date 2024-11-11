@@ -34,33 +34,44 @@
     "teamGames": [],
     "individualActivities": [
         {
-            "day": "Saturday",
-            "reason": "Pomáhání v kuchyni",
-            "points": 5,
+            "day": "Sobota",
             "participants": [
-                "Tereza",
                 "Eliška",
-                "Michaela"
-            ]
+                "Anička",
+                "Jan"
+            ],
+            "points": 5,
+            "reason": "Kuchyň"
         },
         {
-            "day": "Saturday",
-            "reason": "Pomáhání v kuchyni",
-            "points": 5,
+            "day": "Sobota",
             "participants": [
-                "Tereza",
-                "Eliška",
+                "Josef",
+                "Ondřej",
+                "Pepa",
                 "Michaela"
-            ]
+            ],
+            "points": 3,
+            "reason": "Sekání dříví"
         },
         {
-            "day": "Saturday",
-            "reason": "Pomáhání v kuchyni",
+            "day": "Neděle",
+            "participants": [
+                "Josef",
+                "Ondřej",
+                "Eliška",
+                "Anička"
+            ],
+            "points": 10,
+            "reason": "Hledání dopisu"
+        },
+        {
+            "day": "Středa",
+            "reason": "Kreslení",
             "points": 5,
             "participants": [
-                "Tereza",
-                "Eliška",
-                "Michaela"
+                "Ondřej",
+                "Tereza"
             ]
         }
     ],

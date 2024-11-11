@@ -10,7 +10,7 @@ const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Saturday");
+    const [day, setDay] = useState("Sobota");
     const [reason, setReason] = useState("");
     const [numOfParticipants, setNumOfParticipants] = useState(1);
     const [points, setPoints] = useState("");
@@ -61,8 +61,6 @@ const IndividualPoints = () => {
         }
 
 
-
-
         campData['individualActivities'].push(newIndividualActivity);
         const updatedCampDataJson = JSON.stringify(campData);
 
@@ -79,7 +77,8 @@ const IndividualPoints = () => {
             console.error("Failed to update camp data:", error);
             console.log(updatedCampData);
         }
-        
+        navigate("/main-page");
+
     };
 
     const handleNumParticipantsChange = (event) => {
@@ -106,13 +105,13 @@ const IndividualPoints = () => {
                 <div>
                     <label>Vyberte den v týdnu</label>
                     <select value={day} onChange={(e) => setDay(e.target.value)} required>
-                        <option value="Saturday">Sobota</option>
-                        <option value="Sunday">Neděle</option>
-                        <option value="Monday">Pondělí</option>
-                        <option value="Tuesday">Úterý</option>
-                        <option value="Wednesday">Středa</option>
-                        <option value="Thursday">Čtvrtek</option>
-                        <option value="Friday">Pátek</option>
+                        <option value="Sobota">Sobota</option>
+                        <option value="Neděle">Neděle</option>
+                        <option value="Pondělí">Pondělí</option>
+                        <option value="Úterý">Úterý</option>
+                        <option value="Středa">Středa</option>
+                        <option value="Čtvrtek">Čtvrtek</option>
+                        <option value="Pátek">Pátek</option>
                     </select>
                 </div>
 

@@ -80,11 +80,12 @@ def get_camp_data(camp_name):
 @app.route("/api/update-camp/<camp_name>", methods=["POST"])
 def update_camp(camp_name):
     new_data = request.json
+
     camp_file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
     if not os.path.exists(camp_file_path):
         return jsonify({"message": f"Camp file for {camp_name} not found."}), 404
 
-    with open(camp_file_path, 'r') as file:
+    with open(camp_file_path, 'r', encoding="utf-8") as file:
         camp_data = json.load(file)
 
     camp_data.update(new_data)
