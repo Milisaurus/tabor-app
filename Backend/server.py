@@ -47,9 +47,8 @@ def create_camp():
         {"type": "velmi bodovaná", "point_scheme": calculate_points(number_of_teams, "velmi bodovaná")}
     ]
 
-   # Uložení dat do souboru
     with open(camp_file_path, "w", encoding="utf-8") as f:
-        data["gameTypes"] = game_types  # Přidání bodového schématu do dat tábora
+        data["gameTypes"] = game_types
         json.dump(data, f, ensure_ascii=False, indent=4)
 
     return jsonify({"message": f"Camp '{camp_name}' was received successfully", "name": camp_name}), 200
@@ -90,8 +89,8 @@ def update_camp(camp_name):
 
     camp_data.update(new_data)
 
-    with open(camp_file_path, 'w') as file:
-        json.dump(camp_data, file, indent=4)
+    with open(camp_file_path, 'w', encoding="utf-8") as file:
+        json.dump(camp_data, file, ensure_ascii=False, indent=4)
 
     return jsonify({"message": f"Camp '{camp_name}' was updated successfully"}), 200
 

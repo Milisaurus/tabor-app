@@ -1,0 +1,90 @@
+{
+    "campName": "ITU-demo",
+    "teamCount": 2,
+    "teams": [
+        {
+            "children": [
+                "Eliška",
+                "Anička",
+                "Jan",
+                "Tereza",
+                "Martin"
+            ],
+            "childrenCount": "5",
+            "color": "#FF0000",
+            "leader1": "Adam",
+            "leader2": "Petr",
+            "name": "Opičáci"
+        },
+        {
+            "children": [
+                "Josef",
+                "Ondřej",
+                "Pepa",
+                "Adéla",
+                "Michaela"
+            ],
+            "childrenCount": "5",
+            "color": "#0000FF",
+            "leader1": "Honza",
+            "leader2": "Milan",
+            "name": "Kočičky"
+        }
+    ],
+    "teamGames": [],
+    "individualActivities": [
+        {
+            "day": "Saturday",
+            "reason": "Pomáhání v kuchyni",
+            "points": 5,
+            "participants": [
+                "Tereza",
+                "Eliška",
+                "Michaela"
+            ]
+        },
+        {
+            "day": "Saturday",
+            "reason": "Pomáhání v kuchyni",
+            "points": 5,
+            "participants": [
+                "Tereza",
+                "Eliška",
+                "Michaela"
+            ]
+        },
+        {
+            "day": "Saturday",
+            "reason": "Pomáhání v kuchyni",
+            "points": 5,
+            "participants": [
+                "Tereza",
+                "Eliška",
+                "Michaela"
+            ]
+        }
+    ],
+    "gameTypes": [
+        {
+            "point_scheme": [
+                1,
+                2
+            ],
+            "type": "méně bodovaná"
+        },
+        {
+            "point_scheme": [
+                2,
+                4
+            ],
+            "type": "více bodovaná"
+        },
+        {
+            "point_scheme": [
+                3,
+                6
+            ],
+            "type": "velmi bodovaná"
+        }
+    ]
+}

@@ -10,7 +10,9 @@ const NavbarTitle = ({ goBackLink, editLink1, editLink2, title }) => {
         <img src="/back-button.png" alt="Zpět" className="nav-icon" />
       </Link>
 
+      <Link to="/main-page">
       <div className="navbar-title"><h1>tabor.app</h1></div>
+      </Link>
 
       <div className="navbar-right">
         <Link to={editLink1} className="icon-button">

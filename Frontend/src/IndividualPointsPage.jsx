@@ -10,7 +10,7 @@ const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Monday");
+    const [day, setDay] = useState("Saturday");
     const [reason, setReason] = useState("");
     const [numOfParticipants, setNumOfParticipants] = useState(1);
     const [points, setPoints] = useState("");
@@ -59,9 +59,13 @@ const IndividualPoints = () => {
             points: parseInt(points),
             participants
         }
-        
-        campData['individual_activities'].push(newIndividualActivity);
+
+
+
+
+        campData['individualActivities'].push(newIndividualActivity);
         const updatedCampDataJson = JSON.stringify(campData);
+
 
         try {
             await updateCamp(updatedCampDataJson);
@@ -102,13 +106,13 @@ const IndividualPoints = () => {
                 <div>
                     <label>Vyberte den v týdnu</label>
                     <select value={day} onChange={(e) => setDay(e.target.value)} required>
+                        <option value="Saturday">Sobota</option>
+                        <option value="Sunday">Neděle</option>
                         <option value="Monday">Pondělí</option>
                         <option value="Tuesday">Úterý</option>
                         <option value="Wednesday">Středa</option>
                         <option value="Thursday">Čtvrtek</option>
                         <option value="Friday">Pátek</option>
-                        <option value="Saturday">Sobota</option>
-                        <option value="Sunday">Neděle</option>
                     </select>
                 </div>
 
