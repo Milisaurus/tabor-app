@@ -10,6 +10,8 @@ const MainPage = () => {
     const { camp } = location.state || {}; // Load data from previous site
     const [campData, setCampData] = useState(null);
 
+    const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
+
     useEffect(() => {
         if (camp) {
             const fetchCampData = async () => {
@@ -17,7 +19,7 @@ const MainPage = () => {
                     const response = await fetch(`http://localhost:5000/api/get-camp-data/${camp.campName}`);
                     if (response.ok) {
                         const data = await response.json();
-                        setCampData(data);
+                        setCampData(data); 
                     } else {
                         console.error("Tábor nenalezen");
                     }
@@ -36,28 +38,41 @@ const MainPage = () => {
         <div>
             <NavbarTitle goBackLink="/" editLink1={"#"} editLink2={"#"} />
             <NavbarButtons />
-            <h1>{campData.campName}</h1>
-            <h2>Počet týmů: {campData.teams.length}</h2>
-
-            <h3>Seznam týmů:</h3>
-            <ul>
-                {campData.teams.map((team, index) => (
-                    <li key={index}>
-                        <h4>{team.name}</h4>
-                        <p>Vedoucí 1: {team.leader1}</p>
-                        <p>Vedoucí 2: {team.leader2}</p>
-                        <p className="team-color" style={{ backgroundColor: team.color }}>
-                            Barva: {team.color}
-                        </p>
-                        <h5>Seznam dětí:</h5>
-                        <ul className="children">
-                            {team.children.map((child, idx) => (
-                                <li key={idx}>{child}</li>
+            <div>
+                <h1 className="nadpis">Sledování bodového postupu</h1>
+                <h3>{campData.campName}</h3>
+                <div className="camp-results-table-container">
+                <table className="camp-results-table">
+                    <thead>
+                        <tr className="header-row">
+                            <th>Den</th>
+                            {campData.teams.map((team, index) => (
+                                <th key={index}>{team.name}</th>
                             ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {campDays.map((day, index) => (
+                            <tr key={index}>
+                                <td><strong>{day}</strong></td>
+                                {campData.teams.map((_, teamIndex) => (
+                                    <td key={teamIndex}></td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        <tr className="total-row">
+                            <td><strong>Celkem</strong></td>
+                            {campData.teams.map((_, teamIndex) => (
+                                <td key={teamIndex}></td>
+                            ))}
+                        </tr>
+                    </tfoot>
+                </table>
+                </div>
+            </div>
+            <img src="/wave.svg" alt="Wave" className="wave-svg"/>
         </div>
     );
 };

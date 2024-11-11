@@ -1,5 +1,57 @@
-.team-color {
-    padding: 5px;
-    color: white; /* Text bude bílý, pokud barva pozadí bude tmavá */
-    width: 200px;
+
+.camp-results-table-container {
+    display: flex;
+    justify-content: center;
 }
+
+.camp-results-table {
+    max-width: 700px;
+    width: 90%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+.nadpis {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+    color: #2C2C2C;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+h3 {
+    text-align: center;
+    font-size: 16px;
+    color: #2c2c2cb2;
+}
+
+.camp-results-table th,
+.camp-results-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.header-row {
+    background-color: #2C2C2C;
+    color: white;
+    font-weight: bold;
+}
+
+.total-row {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.wave-svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+  }
+  

@@ -1,0 +1,145 @@
+{
+	"campName": "Tábor 2024",
+	"teamCount": 4,
+	"teams": [
+		{
+			"name": "Opičáči",
+			"color": "#FF0000",
+			"leader1": "Adam",
+			"leader2": "Karel",
+			"childrenCount": "5",
+			"children": [
+				"Pepa",
+				"Eliška",
+				"Karlička",
+				"Jimbo",
+				"Honza"
+			]
+		},
+		{
+			"name": "Tygři",
+			"color": "#0000FF",
+			"leader1": "Jozífek",
+			"leader2": "Milan",
+			"childrenCount": "5",
+			"children": [
+				"OG",
+				"Petr",
+				"Martin",
+				"Jakub",
+				"Michaela"
+			]
+		},
+		{
+			"name": "Zubři",
+			"color": "#008000",
+			"leader1": "Tereza",
+			"leader2": "Lenka",
+			"childrenCount": "5",
+			"children": [
+				"Jirka",
+				"Pepa",
+				"Eliška",
+				"Františka",
+				"Alexa"
+			]
+		},
+		{
+			"name": "Hroznýši",
+			"color": "#FFFF00",
+			"leader1": "Steve",
+			"leader2": "Geralt",
+			"childrenCount": "5",
+			"children": [
+				"Ezio",
+				"Ronald",
+				"Harry",
+				"Hermiona",
+				"Užnevim"
+			]
+		}
+	],
+
+	"team_games": [
+		{
+			"day": "Wednesday",
+			"game_type": "více bodovaná",
+			"results": [
+				{
+					"team_name": "Modrý Orli",
+					"position": 1,
+					"points_awarded": 30
+				},
+				{
+					"team_name": "Červení Vlci",
+					"position": 2,
+					"points_awarded": 20
+				}
+			]
+		},
+		{
+			"day": "Thursday",
+			"game_type": "méně bodovaná",
+			"results": [
+				{
+					"team_name": "Červení Vlci",
+					"position": 1,
+					"points_awarded": 10
+				},
+				{
+					"team_name": "Modrý Orli",
+					"position": 2,
+					"points_awarded": 5
+				}
+			]
+		}
+	],
+
+	"game_types": [
+		{
+			"type": "méně bodovaná",
+			"point_scheme": {
+				"1st_place": 10,
+				"2nd_place": 5,
+				"3rd_place": 3
+			}
+		},
+		{
+			"type": "více bodovaná",
+			"point_scheme": {
+				"1st_place": 30,
+				"2nd_place": 20,
+				"3rd_place": 10
+			}
+		},
+		{
+			"type": "velmi bodovaná",
+			"point_scheme": {
+				"1st_place": 50,
+				"2nd_place": 30,
+				"3rd_place": 20
+			}
+		}
+	],
+
+	"individual_activities": [
+		{
+			"day": "Monday",
+			"reason": "Pomoc s úklidem",
+			"points": 5,
+			"participants": ["Tomáš Dvořák", "Václav Král"]
+		},
+		{
+			"day": "Tuesday",
+			"reason": "Výjimečná aktivita",
+			"points": 10,
+			"participants": ["Eliška Malá"]
+		},
+		{
+			"day": "Wednesday",
+			"reason": "Pomoc s přípravou her",
+			"points": 5,
+			"participants": ["Lukáš Holý"]
+		}
+	]
+}
