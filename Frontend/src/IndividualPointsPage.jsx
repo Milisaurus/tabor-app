@@ -93,11 +93,12 @@ const IndividualPoints = () => {
     };
 
     return(
-        <div>
-            {/* Navigation bars */}
-            <NavbarTitle goBackLink="/main-page" editLink1="#" editLink2="#"/>  
-            <NavbarButtons/>
-            <h1>Vložení individuálních bodů</h1>
+        <>
+        {/* Navigation bars */}
+        <NavbarTitle goBackLink="/main-page" editLink1="#" editLink2="#"/>  
+        <NavbarButtons/>
+        <h1>Vložení individuálních bodů</h1>
+        <div className="create-camp-container">
 
             <form onSubmit={handleSubmit} className="points-form">
 
@@ -158,6 +159,7 @@ const IndividualPoints = () => {
             </form>
 
         </div>
+        </>
     );
 }
 
