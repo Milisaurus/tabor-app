@@ -4,35 +4,46 @@ import { useLocation } from "react-router-dom";
 import NavbarTitle from "./NavbarTitle.jsx";
 import NavbarButtons from "./NavbarButtons.jsx";
 import './css/MainPage.css';
+import {getCamp} from "./api"
 
 const MainPage = () => {
-    const location = useLocation();
-    const { camp } = location.state || {}; // Load data from previous site
     const [campData, setCampData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
 
+    // Fetch the camp data
     useEffect(() => {
-        if (camp) {
-            const fetchCampData = async () => {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/get-camp-data/${camp.campName}`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        setCampData(data); 
-                    } else {
-                        console.error("Tábor nenalezen");
-                    }
-                } catch (error) {
-                    console.error("Chyba při načítání dat tábora:", error);
+        const fetchCampData = async () => {
+            try {
+                const data = await getCamp();
+                if (data) {
+                    setCampData(data);
+                } else {
+                    setError("Camp data not found.");
                 }
-            };
+            } catch (err) {
+                setError("Error loading camp data: " + err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-            fetchCampData();
-        }
-    }, [camp]);
+        fetchCampData();
+    }, []);
 
-    if (!campData) return <div>Loading...</div>;
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (!campData) {
+        return <div>No camp data available.</div>;
+    }
 
     return (
         <div>

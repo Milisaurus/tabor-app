@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import "./css/CreateCamp.css"
 import {createCamp} from "./api"
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateCamp = () => {
     const [campName, setCampName] = useState("");
     const [teamCount, setTeamCount] = useState("");
     const [teams, setTeams] = useState([]);
     const [currentChildIndexes, setCurrentChildIndexes] = useState([]);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // Hold inputs after submitting 
 
         // Combine all data into a single string
@@ -58,7 +60,8 @@ const CreateCamp = () => {
     // Log the structured data
     console.log("Všechna data:", allData);
     console.log("Spojená data jako řetězec:", allDataString);
-    createCamp(allDataString);
+    await createCamp(allDataString);
+    navigate("/main-page");
     } 
 
 

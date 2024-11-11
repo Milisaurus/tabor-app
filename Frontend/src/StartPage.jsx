@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/StartPage.css";
+import { getCamp } from "./api";
 
 const StartPage = () => {
     const [existingCamps, setExistingCamps] = useState([]);
@@ -12,16 +13,16 @@ const StartPage = () => {
             const response = await fetch("http://localhost:5000/api/get-camps");
             const data = await response.json();
             setExistingCamps(data);
-            setShowModal(true); // Show modal after fetching camps
+            setShowModal(true);
         } catch (error) {
-            console.error("Chyba při načítání táborů:", error);
+            console.error("Error loading camp names:", error);
         }
     };
 
     const handleSelectCamp = (camp) => {
-        // Close modal and navigate to MainPage with the selected camp
         setShowModal(false);
-        navigate("/main-page", { state: { camp } });
+        sessionStorage.setItem('camp_name', camp.campName);
+        navigate("/main-page");
     };
 
     return (
