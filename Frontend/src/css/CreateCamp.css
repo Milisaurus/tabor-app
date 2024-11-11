@@ -183,3 +183,20 @@ input:focus, select:focus {
   left: 0;
   z-index: -1;
 }
+
+.points-form {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center; 
+  margin: 0 auto;
+}
+
+.nadpish1 {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-family: 'Inter', sans-serif;
+  color: #2C2C2C;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}

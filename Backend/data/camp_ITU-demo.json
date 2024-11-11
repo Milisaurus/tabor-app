@@ -3,99 +3,57 @@
     "teamCount": 2,
     "teams": [
         {
+            "name": "Opičáci",
+            "color": "#FF0000",
+            "leader1": "Adam",
+            "leader2": "Petr",
+            "childrenCount": "5",
             "children": [
                 "Eliška",
                 "Anička",
                 "Jan",
                 "Tereza",
                 "Martin"
-            ],
-            "childrenCount": "5",
-            "color": "#FF0000",
-            "leader1": "Adam",
-            "leader2": "Petr",
-            "name": "Opičáci"
+            ]
         },
         {
+            "name": "Kočičky",
+            "color": "#0000FF",
+            "leader1": "Honza",
+            "leader2": "Milan",
+            "childrenCount": "5",
             "children": [
                 "Josef",
                 "Ondřej",
                 "Pepa",
                 "Adéla",
                 "Michaela"
-            ],
-            "childrenCount": "5",
-            "color": "#0000FF",
-            "leader1": "Honza",
-            "leader2": "Milan",
-            "name": "Kočičky"
-        }
-    ],
-    "teamGames": [],
-    "individualActivities": [
-        {
-            "day": "Sobota",
-            "participants": [
-                "Eliška",
-                "Anička",
-                "Jan"
-            ],
-            "points": 5,
-            "reason": "Kuchyň"
-        },
-        {
-            "day": "Sobota",
-            "participants": [
-                "Josef",
-                "Ondřej",
-                "Pepa",
-                "Michaela"
-            ],
-            "points": 3,
-            "reason": "Sekání dříví"
-        },
-        {
-            "day": "Neděle",
-            "participants": [
-                "Josef",
-                "Ondřej",
-                "Eliška",
-                "Anička"
-            ],
-            "points": 10,
-            "reason": "Hledání dopisu"
-        },
-        {
-            "day": "Středa",
-            "reason": "Kreslení",
-            "points": 5,
-            "participants": [
-                "Ondřej",
-                "Tereza"
             ]
         }
     ],
+    "teamGames": [],
+    "individualActivities": [],
     "gameTypes": [
         {
+            "type": "méně bodovaná",
             "point_scheme": [
                 1,
                 2
-            ],
-            "type": "méně bodovaná"
+            ]
         },
         {
+            "type": "více bodovaná",
             "point_scheme": [
                 2,
                 4
-            ],
-            "type": "více bodovaná"
+            ]
         },
         {
+            "type": "velmi bodovaná",
             "point_scheme": [
                 3,
                 6
-            ],
-            "type": "velmi bodovaná"
+            ]
         }
     ]
 }

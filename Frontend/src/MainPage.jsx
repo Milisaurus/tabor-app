@@ -14,11 +14,13 @@ const MainPage = () => {
 
     const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
 
-    // Fetch the camp data
+    // Executures when entering this page (this component)
     useEffect(() => {
+        // Fetch the camp data 
         const fetchCampData = async () => {
             try {
                 const data = await getCamp();
+                // Success, update camp data and calculate team score
                 if (data) {
                     setCampData(data);
                     calculateTeamScores(data);
@@ -34,14 +36,16 @@ const MainPage = () => {
         fetchCampData();
     }, []);
 
+    // Calculate team score based on given data (parses the input file)
     const calculateTeamScores = (data) => {
         const scores = {};
 
         // Initialize empty score structure
         data.teams.forEach((team) => {
-            scores[team.name] = campDays.reduce((acc, day) => {
-                acc[day] = 0;
-                return acc;
+            // reduce - for every item, do an operation
+            scores[team.name] = campDays.reduce((teamScores, day) => {
+                teamScores[day] = 0; // for every day, team starts with 0
+                return teamScores;
             }, {});
         });
 
@@ -50,7 +54,7 @@ const MainPage = () => {
             const { day, points, participants } = activity;
 
             participants.forEach((participant) => {
-                // Find the team of the participant
+                // Find the team of the participant and add points
                 data.teams.forEach((team) => {
                     if (team.children.includes(participant)) {
                         scores[team.name][day] += points;
@@ -62,6 +66,7 @@ const MainPage = () => {
         setTeamScores(scores);
     };
 
+    // Rendering, says if something went wrong
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -108,7 +113,9 @@ const MainPage = () => {
                                 <td><strong>Celkem</strong></td>
                                 {campData.teams.map((team, teamIndex) => (
                                     <td key={teamIndex}>
-                                        {Object.values(teamScores[team.name]).reduce((sum, score) => sum + score, 0)}
+                                        {/* Calculate the sum, take values for every day and sum it */}
+                                        {Object.values(teamScores[team.name]).reduce((sum, score) => 
+                                            sum + score, 0)}
                                     </td>
                                 ))}
                             </tr>

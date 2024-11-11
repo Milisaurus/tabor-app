@@ -97,7 +97,7 @@ const IndividualPoints = () => {
         {/* Navigation bars */}
         <NavbarTitle goBackLink="/main-page" editLink1="#" editLink2="#"/>  
         <NavbarButtons/>
-        <h1>Vložení individuálních bodů</h1>
+        <h1 className="nadpish1">Vložení individuálních bodů</h1>
         <div className="create-camp-container">
 
             <form onSubmit={handleSubmit} className="points-form">
@@ -154,7 +154,7 @@ const IndividualPoints = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" onClick={handleSubmit}>Potvrdit</button>
+                <button className="submitbutton" type="submit" onClick={handleSubmit}>Potvrdit</button>
 
             </form>
 
