@@ -1,0 +1,108 @@
+{
+    "campName": "blank",
+    "teamCount": 0,
+    "teams": [
+        {
+            "children": [
+                "Pepa",
+                "Eli\u0161ka",
+                "Karli\u010dka",
+                "Jimbo",
+                "Honza"
+            ],
+            "childrenCount": "5",
+            "color": "#FF0000",
+            "leader1": "Adam",
+            "leader2": "Karel",
+            "name": "Opi\u010d\u00e1\u010di"
+        }
+    ],
+    "team_games": [
+        {
+            "day": "Wednesday",
+            "game_type": "v\u00edce bodovan\u00e1",
+            "results": [
+                {
+                    "points_awarded": 30,
+                    "position": 1,
+                    "team_name": "Modr\u00fd Orli"
+                },
+                {
+                    "points_awarded": 20,
+                    "position": 2,
+                    "team_name": "\u010cerven\u00ed Vlci"
+                }
+            ]
+        }
+    ],
+    "individual_activities": [
+        {
+            "day": "Monday",
+            "participants": [
+                "Tom\u00e1\u0161 Dvo\u0159\u00e1k",
+                "V\u00e1clav Kr\u00e1l"
+            ],
+            "points": 5,
+            "reason": "Pomoc s \u00faklidem"
+        },
+        {
+            "day": "Tuesday",
+            "reason": "nevim",
+            "points": 1,
+            "participants": [
+                "mates"
+            ]
+        },
+        {
+            "day": "Tuesday",
+            "reason": "nevim",
+            "points": 1,
+            "participants": [
+                "mates"
+            ]
+        },
+        {
+            "day": "Tuesday",
+            "reason": "nevim",
+            "points": 1,
+            "participants": [
+                "mates"
+            ]
+        },
+        {
+            "day": "Tuesday",
+            "reason": "nevim",
+            "points": 1,
+            "participants": [
+                "mates",
+                "karol\u00edna"
+            ]
+        }
+    ],
+    "game_types": [
+        {
+            "point_scheme": {
+                "1st_place": 10,
+                "2nd_place": 5,
+                "3rd_place": 3
+            },
+            "type": "m\u00e9n\u011b bodovan\u00e1"
+        },
+        {
+            "point_scheme": {
+                "1st_place": 30,
+                "2nd_place": 20,
+                "3rd_place": 10
+            },
+            "type": "v\u00edce bodovan\u00e1"
+        },
+        {
+            "point_scheme": {
+                "1st_place": 50,
+                "2nd_place": 30,
+                "3rd_place": 20
+            },
+            "type": "velmi bodovan\u00e1"
+        }
+    ]
+}

@@ -15,10 +15,10 @@ export async function createCamp(data) {
 
         if (result.name) {
             sessionStorage.setItem('camp_name', result.name);
-            console.log("Name of the JSON file saved in sessionStorage:", result.name);
         } else {
-            console.log("No name returned in the server response.");
+            console.log("No camp_name returned in the server response.");
         }
+        console.log("Current camp_name stored in sessionStorage: ", result.name);
 
     } catch (error) {
       console.error("Error:", error);
@@ -57,13 +57,15 @@ export async function updateCamp(data) {
         console.log("No camp found in sessionStorage.");
         return null;
     }
+    console.log("Updating camp file with name:", campName);
     
     try {
         const response = await fetch(`http://localhost:5000/api/update-camp/${campName}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: data
         });
 
         if (!response.ok) {

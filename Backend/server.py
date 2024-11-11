@@ -36,7 +36,7 @@ def calculate_points(number_of_teams, game_type):
 @app.route("/api/create-camp", methods=["POST"])
 def create_camp():
     data = request.json 
-    camp_name = "camp_" + data.get("campName")
+    camp_name = "camp_" + data.get("campName").replace(" ", "_")
 
     camp_file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
 
@@ -81,12 +81,12 @@ def get_camp_data(camp_name):
 @app.route("/api/update-camp/<camp_name>", methods=["POST"])
 def update_camp(camp_name):
     new_data = request.json
-    camp_file_path = os.path.join(CAMPS_DIR, f"camp_{camp_name}.json")
+    camp_file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
     if not os.path.exists(camp_file_path):
         return jsonify({"message": f"Camp file for {camp_name} not found."}), 404
 
     with open(camp_file_path, 'r') as file:
-        camp_data = json.load(camp_file_path)
+        camp_data = json.load(file)
 
     camp_data.update(new_data)
 

@@ -29,7 +29,6 @@ const MainPage = () => {
                 setLoading(false);
             }
         };
-
         fetchCampData();
     }, []);
 
