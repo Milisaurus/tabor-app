@@ -27,32 +27,6 @@ const CreateCamp = () => {
             })),
             teamGames: [],
             individualActivities: [],
-            gameTypes: [
-                {
-                    type: "Méně bodovaná",
-                    point_scheme: {
-                        "1st_place": 10,
-                        "2nd_place": 5,
-                        "3rd_place": 3
-                    }
-                },
-                {
-                    type: "Více bodovaná",
-                    point_scheme: {
-                        "1st_place": 30,
-                        "2nd_place": 20,
-                        "3rd_place": 10
-                    }
-                },
-                {
-                    type: "Velmi bodovaná",
-                    point_scheme: {
-                        "1st_place": 50,
-                        "2nd_place": 30,
-                        "3rd_place": 20
-                    }
-                }
-            ]
         };
 
     const allDataString = JSON.stringify(allData);
