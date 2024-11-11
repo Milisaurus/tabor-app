@@ -39,8 +39,8 @@ const MainPage = () => {
             <NavbarTitle goBackLink="/" editLink1={"#"} editLink2={"#"} />
             <NavbarButtons />
             <div>
-                <h1 className="nadpis">Sledování bodového postupu</h1>
-                <h3>{campData.campName}</h3>
+                <h1 className="nadpish1">Sledování bodového postupu</h1>
+                <h3 className="nadpish3">{campData.campName}</h3>
                 <div className="camp-results-table-container">
                 <table className="camp-results-table">
                     <thead>
