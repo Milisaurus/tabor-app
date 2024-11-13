@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./css/StartPage.css";
-import { getCamp } from "./api";
+
+// COMPONENT IMPORT
+import Header from "../components/Header/Header"
+import Heading from "../components/Heading/Heading"
+
+import "../css/StartPage.css";
 
 const StartPage = () => {
     const [existingCamps, setExistingCamps] = useState([]);
@@ -27,9 +31,10 @@ const StartPage = () => {
 
     return (
         <div className="start-page">
-            <h1>tabor.app</h1>
-            <hr />
-            <h2>Vítejte v táborovém organizátoru bodů!</h2>
+            <Header goBackLink="/" editLink1={"#"} editLink2={"#"} 
+                showIconsLeft={false} showIconsRight={false}/>
+
+            <Heading text="Vítejte v táborovém organizátoru bodů!" level={1} className="nadpish1" />
             
             <div className="background-wrapper">
                 <p>Nejprve potřebujeme získat soubor s daty tábora:</p>
@@ -55,6 +60,7 @@ const StartPage = () => {
                     </div>
                 </div>
             )}
+            
             <img src="/wave.svg" alt="Wave" className="wave-svg"/>
         </div>
     );

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom";
-import {getCamp, updateCamp} from "./api"
-import "./css/CreateCamp.css"
+import {getCamp, updateCamp} from "../api"
 
-import NavbarTitle from "./NavbarTitle.jsx";
-import NavbarButtons from "./NavbarButtons.jsx";
+// COMPONENT IMPORT
+import Header from "../components/Header/Header";
+import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
+import Heading from "../components/Heading/Heading"
+
+import "../css/CreateCamp.css"
 
 const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
@@ -95,9 +98,9 @@ const IndividualPoints = () => {
     return(
         <>
         {/* Navigation bars */}
-        <NavbarTitle goBackLink="/main-page" editLink1="#" editLink2="#"/>  
+        <Header goBackLink="/main-page" editLink1="#" editLink2="#" showIcons="true"/>  
         <NavbarButtons/>
-        <h1 className="nadpish1">Vložení individuálních bodů</h1>
+        <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
         <div className="create-camp-container">
 
             <form onSubmit={handleSubmit} className="points-form">

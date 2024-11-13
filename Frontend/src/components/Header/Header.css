@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+  border-bottom: 2px solid #2C2C2C;
+}
+
+.left-icon img,
+.right-icons img {
+  width: 30px;
+  height: 30px;
+}
+
+.left-icon,
+.right-icons {
+  display: flex;
+  gap: 10px;
+  min-width: 50px;
+}
+
+.app-name {
+  font-family: 'Inknut Antiqua', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #2C2C2C;
+  margin: -5px;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+header a {
+  text-decoration: none;
+  color: inherit;
+}

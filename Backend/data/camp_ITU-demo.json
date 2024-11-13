@@ -3,57 +3,104 @@
     "teamCount": 2,
     "teams": [
         {
-            "name": "Opičáci",
-            "color": "#FF0000",
-            "leader1": "Adam",
-            "leader2": "Petr",
-            "childrenCount": "5",
             "children": [
                 "Eliška",
                 "Anička",
                 "Jan",
                 "Tereza",
                 "Martin"
-            ]
+            ],
+            "childrenCount": "5",
+            "color": "#FF0000",
+            "leader1": "Adam",
+            "leader2": "Petr",
+            "name": "Opičáci"
         },
         {
-            "name": "Kočičky",
-            "color": "#0000FF",
-            "leader1": "Honza",
-            "leader2": "Milan",
-            "childrenCount": "5",
             "children": [
                 "Josef",
                 "Ondřej",
                 "Pepa",
                 "Adéla",
                 "Michaela"
-            ]
+            ],
+            "childrenCount": "5",
+            "color": "#0000FF",
+            "leader1": "Honza",
+            "leader2": "Milan",
+            "name": "Kočičky"
         }
     ],
     "teamGames": [],
-    "individualActivities": [],
+    "individualActivities": [
+        {
+            "day": "Sobota",
+            "participants": [
+                "Eliška",
+                "Tereza"
+            ],
+            "points": 3,
+            "reason": "Kuchyň"
+        },
+        {
+            "day": "Sobota",
+            "participants": [
+                "Pepa",
+                "Josef",
+                "Ondřej",
+                "Tereza",
+                "Martin",
+                "Jan"
+            ],
+            "points": 10,
+            "reason": "Štípání dříví"
+        },
+        {
+            "day": "Sobota",
+            "participants": [
+                "Josef",
+                "Pepa"
+            ],
+            "points": 1,
+            "reason": "Něco"
+        },
+        {
+            "day": "Pondělí",
+            "reason": "Hledání vajíček",
+            "points": 5,
+            "participants": [
+                "Eliška",
+                "Josef",
+                "Anička",
+                "Ondřej",
+                "Jan",
+                "Pepa",
+                "Tereza",
+                "Adéla"
+            ]
+        }
+    ],
     "gameTypes": [
         {
-            "type": "méně bodovaná",
             "point_scheme": [
                 1,
                 2
-            ]
+            ],
+            "type": "méně bodovaná"
         },
         {
-            "type": "více bodovaná",
             "point_scheme": [
                 2,
                 4
-            ]
+            ],
+            "type": "více bodovaná"
         },
         {
-            "type": "velmi bodovaná",
             "point_scheme": [
                 3,
                 6
-            ]
+            ],
+            "type": "velmi bodovaná"
         }
     ]
 }
