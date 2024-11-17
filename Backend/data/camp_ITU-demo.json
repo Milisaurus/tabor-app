@@ -66,8 +66,6 @@
         },
         {
             "day": "Pondělí",
-            "reason": "Hledání vajíček",
-            "points": 5,
             "participants": [
                 "Eliška",
                 "Josef",
@@ -77,6 +75,26 @@
                 "Pepa",
                 "Tereza",
                 "Adéla"
+            ],
+            "points": 5,
+            "reason": "Hledání vajíček"
+        },
+        {
+            "day": "Středa",
+            "participants": [
+                "Eliška",
+                "Pepa",
+                "Josef"
+            ],
+            "points": 5,
+            "reason": "fjkdlaůlk"
+        },
+        {
+            "day": "Pátek",
+            "reason": "fkldůalkfds",
+            "points": 1,
+            "participants": [
+                "Ondřej"
             ]
         }
     ],
