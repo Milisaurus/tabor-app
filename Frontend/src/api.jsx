@@ -78,3 +78,39 @@ export async function updateCamp(data) {
         return null;
     }
 }
+
+export async function getTeams() {
+    const campData = await getCamp();
+    if (campData) {
+        return campData.teams;
+    }
+    return [];
+}
+
+export async function updateTeam(teamIndex, updatedTeam, originalTeam) {
+    const campData = await getCamp();
+
+    if (campData) {
+        const updatedTeams = [...campData.teams];
+        updatedTeams[teamIndex] = updatedTeam;
+
+        const updatedActivities = campData.individualActivities.map((activity) => {
+            const updatedParticipants = activity.participants.map((participant) => {
+                const originalIndex = originalTeam.children.indexOf(participant);
+                if (originalIndex !== -1) {
+                    return updatedTeam.children[originalIndex];
+                }
+                return participant;
+            });
+            return { ...activity, participants: updatedParticipants };
+        });
+
+        const updatedCampData = {
+            ...campData,
+            teams: updatedTeams,
+            individualActivities: updatedActivities,
+        };
+
+        await updateCamp(JSON.stringify(updatedCampData));
+    }
+}

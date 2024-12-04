@@ -8,6 +8,7 @@ import CreateCamp from "./pages/CreateCamp";
 import MainPage from "./pages/MainPage";
 import TeamPoints from "./pages/TeamPointsPage";
 import IndividualPoints from "./pages/IndividualPointsPage";
+import EditTeams from "./pages/EditTeam";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/main-page" element={<MainPage/>} />
                 <Route path="/team-points" element={<TeamPoints/>} />
                 <Route path="/individual-points" element={<IndividualPoints/>} />
+                <Route path="/edit-teams" element={<EditTeams />} />
             </Routes>
         </Router>
     );
