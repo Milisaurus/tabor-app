@@ -1,0 +1,76 @@
+/* Container for the entire component */
+.member_selector {
+    width: 80%;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+/* Container for each team */
+.team-container {
+    background-color: #f9f9f9;
+}
+
+/* Team header */
+.team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 15px; /* Adjust padding for better spacing */
+    border-radius: 4px;
+    color: white; /* White text for the team name */
+    transition: background-color 0.3s ease;
+}
+
+.team-header label{
+    font-size: 12px;
+}
+
+.team-header label input {
+    transform: scale(1.2);
+}
+
+.team-header:hover {
+    filter: brightness(1.05);
+}
+
+.team-content {
+    border-radius: 4px;
+    padding: 10px 15px;
+    background-color: #ffffff;
+}
+
+.team-header label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.child-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.child-item:last-child {
+    border-bottom: none;
+}
+
+.child-item span {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.child-item input[type="checkbox"] {
+    margin-left: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+    width: auto;
+}

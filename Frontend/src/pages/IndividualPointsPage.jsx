@@ -7,18 +7,18 @@ import Header from "../components/Header/Header";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Heading from "../components/Heading/Heading"
 import SelectDay from "../components/selectDay/selectDay";
+import SelectCampMembers from "../components/SelectTeamMembers/SelectTeamMembers";
 
-import "../css/CreateCamp.css"
+// import "../css/CreateCamp.css"
 
 const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Sobota");
+    const [day, setDay] = useState("Pondělí");
     const [reason, setReason] = useState("");
-    const [numOfParticipants, setNumOfParticipants] = useState(1);
     const [points, setPoints] = useState("");
-    const [participants, setParticipants] = useState([""]);
+    const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
 
     // synchronize component
@@ -71,29 +71,12 @@ const IndividualPoints = () => {
 
         try {
             await updateCamp(updatedCampDataJson);
-            //setCampData(updatedCampData);   // TODO: later replace with ACTUAL camp data
-            // setDay("");
-            // setReason("");
-            // setPoints("");
-            // setParticipants("");
-             
         } catch (error){
             console.error("Failed to update camp data:", error);
             console.log(updatedCampData);
         }
         navigate("/main-page");
 
-    };
-
-    const handleNumParticipantsChange = (event) => {
-        const count = parseInt(event.target.value) || 1;
-        setNumOfParticipants(count);
-    };
-
-    const handleParticipantChange = (index, value) => {
-        const updatedParticipants = [...participants];
-        updatedParticipants[index] = value;
-        setParticipants(updatedParticipants);
     };
 
     return(
@@ -115,30 +98,7 @@ const IndividualPoints = () => {
                 {/* Select Day of the Week */}
                 <SelectDay selectedDay={day} onDayChange={setDay}/>
 
-                {/* Number of Children */}
-                <div>
-                    <label>Počet dětí</label>
-                    <input type="number" value={numOfParticipants} onChange={handleNumParticipantsChange} min={1} placeholder="Počet" required/>
-                </div>
-
-
-                {/* TODO: this input lacks any kind of consistency with actual data, anyone can type here whatever they want. CHANGE IT!!! */}
-                {/* Dynamic Participant Inputs */}
-                <div>
-                    <label>Zadejte jména</label>
-
-                </div>
-                {Array.from({ length: numOfParticipants }, (_, index) => (
-                    <div key={index}>
-                        <input 
-                            type="text" 
-                            value={participants[index] || ""} 
-                            onChange={(e) => handleParticipantChange(index, e.target.value)} 
-                            required
-                            placeholder="Jméno"
-                        />
-                    </div>
-                ))}
+                <SelectCampMembers campData={campData} onSelectionChange={setParticipants} />
 
                 {/* Number of points */}
                 <div>
