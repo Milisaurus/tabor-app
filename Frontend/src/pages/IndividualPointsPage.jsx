@@ -6,6 +6,7 @@ import {getCamp, updateCamp} from "../api"
 import Header from "../components/Header/Header";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Heading from "../components/Heading/Heading"
+import SelectDay from "../components/selectDay/selectDay";
 
 import "../css/CreateCamp.css"
 
@@ -105,25 +106,14 @@ const IndividualPoints = () => {
 
             <form onSubmit={handleSubmit} className="points-form">
 
-                {/* Select Day of the Week */}
-                <div>
-                    <label>Vyberte den v týdnu</label>
-                    <select value={day} onChange={(e) => setDay(e.target.value)} required>
-                        <option value="Sobota">Sobota</option>
-                        <option value="Neděle">Neděle</option>
-                        <option value="Pondělí">Pondělí</option>
-                        <option value="Úterý">Úterý</option>
-                        <option value="Středa">Středa</option>
-                        <option value="Čtvrtek">Čtvrtek</option>
-                        <option value="Pátek">Pátek</option>
-                    </select>
-                </div>
-
                 {/* Activity Name */}
                 <div>
                     <label>Název aktivity</label>
                     <input type="text" value={reason} onChange={(e) => {setReason(e.target.value)}} required placeholder="Název" />
                 </div>
+
+                {/* Select Day of the Week */}
+                <SelectDay selectedDay={day} onDayChange={setDay}/>
 
                 {/* Number of Children */}
                 <div>
