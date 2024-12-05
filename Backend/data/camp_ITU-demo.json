@@ -4,14 +4,14 @@
     "teams": [
         {
             "children": [
-                "Eliška",
+                "Eliliška",
                 "Anička",
                 "Jan",
                 "Tereza",
                 "Martin"
             ],
             "childrenCount": "5",
-            "color": "#FF0000",
+            "color": "#FFA500",
             "leader1": "Adam",
             "leader2": "Petr",
             "name": "Opičáci"
@@ -36,7 +36,7 @@
         {
             "day": "Sobota",
             "participants": [
-                "Eliška",
+                "Eliliška",
                 "Tereza"
             ],
             "points": 3,
@@ -67,7 +67,7 @@
         {
             "day": "Pondělí",
             "participants": [
-                "Eliška",
+                "Eliliška",
                 "Josef",
                 "Anička",
                 "Ondřej",
@@ -82,7 +82,7 @@
         {
             "day": "Středa",
             "participants": [
-                "Eliška",
+                "Eliliška",
                 "Pepa",
                 "Josef"
             ],
@@ -91,11 +91,11 @@
         },
         {
             "day": "Pátek",
-            "reason": "fkldůalkfds",
-            "points": 1,
             "participants": [
                 "Ondřej"
-            ]
+            ],
+            "points": 1,
+            "reason": "fkldůalkfds"
         }
     ],
     "gameTypes": [

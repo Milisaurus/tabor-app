@@ -103,7 +103,7 @@ const MainPage = () => {
 
     return (
         <div className="main-page-container">
-            <Header goBackLink="/" editLink1={"#"} editLink2={"#"}/>
+            <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"}/>
             <NavbarButtons />
             <div>
                 <Heading text="Sledování bodového postupu" level={1} className="nadpish1" />
