@@ -9,7 +9,7 @@ import Heading from "../components/Heading/Heading"
 import SelectDay from "../components/selectDay/selectDay";
 import SelectCampMembers from "../components/SelectTeamMembers/SelectTeamMembers";
 
-// import "../css/CreateCamp.css"
+import "../css/IndividualPointsPage.css"
 
 const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
@@ -80,12 +80,11 @@ const IndividualPoints = () => {
     };
 
     return(
-        <>
-        {/* Navigation bars */}
-        <Header goBackLink="/main-page" editLink1="#" editLink2="#" showIcons="true"/>  
-        <NavbarButtons/>
-        <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
-        <div className="create-camp-container">
+        <div className="individual-points-page">
+            {/* Navigation bars */}
+            <Header goBackLink="/main-page" editLink1="#" editLink2="#" showIcons="true"/>  
+            <NavbarButtons/>
+            <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="points-form">
 
@@ -112,7 +111,6 @@ const IndividualPoints = () => {
             </form>
 
         </div>
-        </>
     );
 }
 
