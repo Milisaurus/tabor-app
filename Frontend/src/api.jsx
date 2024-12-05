@@ -87,30 +87,18 @@ export async function getTeams() {
     return [];
 }
 
-export async function updateTeam(teamIndex, updatedTeam, originalTeam) {
+export async function updateTeam(teamIndex, updatedTeam, updatedCampData) {
     const campData = await getCamp();
 
     if (campData) {
         const updatedTeams = [...campData.teams];
         updatedTeams[teamIndex] = updatedTeam;
 
-        const updatedActivities = campData.individualActivities.map((activity) => {
-            const updatedParticipants = activity.participants.map((participant) => {
-                const originalIndex = originalTeam.children.indexOf(participant);
-                if (originalIndex !== -1) {
-                    return updatedTeam.children[originalIndex];
-                }
-                return participant;
-            });
-            return { ...activity, participants: updatedParticipants };
-        });
-
-        const updatedCampData = {
-            ...campData,
+        const updatedCampDataWithTeams = {
+            ...updatedCampData,
             teams: updatedTeams,
-            individualActivities: updatedActivities,
         };
 
-        await updateCamp(JSON.stringify(updatedCampData));
+        await updateCamp(JSON.stringify(updatedCampDataWithTeams));
     }
 }

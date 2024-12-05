@@ -1,0 +1,25 @@
+.child-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.add-child-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.add-child-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
