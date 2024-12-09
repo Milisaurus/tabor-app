@@ -35,6 +35,23 @@
         {
             "name": "Honěná",
             "day": "Středa",
+            "gameTypeId": 1,
+            "results": [
+                {
+                    "team_name": "Opičáci",
+                    "position": 1,
+                    "points_awarded": 6
+                },
+                {
+                    "team_name": "Kočičky",
+                    "position": 2,
+                    "points_awarded": 4
+                }
+            ]
+        },
+        {
+            "name": "Lišky",
+            "day": "Středa",
             "gameTypeId": 2,
             "results": [
                 {
@@ -43,9 +60,26 @@
                     "points_awarded": 6
                 },
                 {
-                    "team_name": "Kočky",
+                    "team_name": "Kočičky",
                     "position": 2,
                     "points_awarded": 4
+                }
+            ]
+        },
+        {
+            "name": "HraHra",
+            "day": "Sobota",
+            "gameTypeId": 3,
+            "results": [
+                {
+                    "team_name": "Opičáci",
+                    "position": 1,
+                    "points_awarded": 2
+                },
+                {
+                    "team_name": "Kočičky",
+                    "position": 2,
+                    "points_awarded": 1
                 }
             ]
         }

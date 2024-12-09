@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
 import { getCamp } from "../api";
 
 // COMPONENT IMPORT
 import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Header from "../components/Header/Header";
+import ActivityHistory from '../components/ActivityHistory/ActivityHistory';
 
 import '../css/MainPage.css';
 
@@ -76,6 +76,18 @@ const MainPage = () => {
             });
         });
 
+        // Calculate scores based on teamGames
+        data.teamGames.forEach((game) => {
+            const { day, results } = game;
+            
+            results.forEach((result) => {
+                const team = result.team_name;
+                if (scores[team]) {
+                    scores[team][day] += result.points_awarded; 
+                }
+            });
+        });
+
         setTeamScores(scores);
     };
 
@@ -87,11 +99,13 @@ const MainPage = () => {
     if (!campData) return <div>No camp data available.</div>;
 
     // Filter games based on selected day and game type
-    const filteredGames = selectedGameType === "individual"
-        ? campData?.individualActivities.filter(activity => activity.day === selectedDay)
-        : selectedGameType === "team"
-            ? campData?.teamGames.filter(game => game.day === selectedDay)
-            : [];
+    const filteredGames = selectedGameType
+        ? (selectedGameType === "individual"
+            ? campData?.individualActivities
+            : campData?.teamGames
+        ).filter(game => game.day === selectedDay)
+        : [...campData?.individualActivities, ...campData?.teamGames].filter(game => game.day === selectedDay);
+
 
     const handleGameClick = (game) => {
         setSelectedActivity(game);
@@ -101,6 +115,13 @@ const MainPage = () => {
         setSelectedActivity(null);
     }
 
+    const gameTypeMapping = {
+        1: "Méně bodovaná",
+        2: "Více bodovaná",
+        3: "Velmi bodovaná",
+        4: "Vlastní",
+    };
+    
     return (
         <div className="main-page-container">
             <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"}/>
@@ -147,7 +168,6 @@ const MainPage = () => {
             </div>
             <br></br>
 
-            {/* Activity history, TODO make it as component */}
             <Heading text="Historie aktivit" level={1} className="nadpish1" />
             
             <div className="selectors-container">
@@ -185,59 +205,31 @@ const MainPage = () => {
             </div>
 
             <div className="games-list">
-                {campData[selectedGameType === "individual" ? 
-                    "individualActivities" : "teamGames"].filter((game) => 
-                    game.day === selectedDay).map((game, index) => (
-                        <div key={index} className="game-item" onClick={() => handleGameClick(game)}>
-                            <span className="game-name">{game.reason}</span>
-                            <span className="participant-count">{game.participants.length} osob</span>
-                        </div>
-                    ))}
+                {filteredGames.map((game, index) => (
+                    <div 
+                        key={index} 
+                        className="game-item" 
+                        onClick={() => handleGameClick(game)}
+                    >
+                        <span className="game-name">
+                            {game.reason || game.name}
+                        </span>
+                        <span className="participant-count">
+                            {game.participants ? 
+                            `${game.participants.length} osob`
+                            : 
+                            gameTypeMapping[game.gameTypeId]}
+                        </span>
+                    </div>
+                ))}
             </div>
 
             {selectedActivity && (
-                <div className="game-detail-modal">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <Link to="#">
-                                <img src="/edit-points-button.png" alt="Edit" className="modal-icon-left" />
-                            </Link>
-                            <h2 className="detail-hry">Detail hry</h2>
-                            <Link to="#">
-                                <img src="/recycle-bin.png" alt="Delete" className="modal-icon-right" />
-                            </Link>
-                        </div>
-                        <h3 className="game-type">{selectedActivity.reason} 
-                            ({selectedActivity.type === "individual" ? "Individuální" : "Týmová"})
-                        </h3>
-                        <p className="detail-hry">{selectedActivity.day}</p>
-                        <hr />
-                        <p><strong>Počet bodů:</strong> {selectedActivity.points}</p>
-                        <table className="participant-table">
-                            <thead>
-                                <tr>
-                                    <th>Tým</th>
-                                    <th>Jméno</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {selectedActivity.participants.map((participant, index) => {
-                                    const team = campData.teams.find(team => team.children.includes(participant));
-                                    const teamColor = team?.color || "#000"; // Default black color
-
-                                    return (
-                                        <tr key={index} style={{ color: teamColor }}>
-                                            <td>{team?.name}</td>
-                                            <td>{participant}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-
-                        </table>
-                        <button className="close-modal" onClick={closeModal}>Zavřít</button>
-                    </div>
-                </div>
+                <ActivityHistory 
+                    selectedActivity={selectedActivity} 
+                    campData={campData} 
+                    closeModal={closeModal} 
+                />
             )}
 
             <img src="/wave.svg" alt="Wave" className="wave-svg"/>

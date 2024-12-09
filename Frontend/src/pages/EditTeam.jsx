@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getCamp, updateTeam } from "../api";
 import { useNavigate } from "react-router-dom";
+
+// COMPONENT IMPORT
 import TeamFormEdit from "../components/TeamFormEdit/TeamFormEdit";
 import Header from "../components/Header/Header";
+import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 
 const EditTeam = () => {
@@ -125,6 +128,7 @@ const EditTeam = () => {
         <div className="create-camp-container">
             <Header goBackLink="/" editLink1="/edit-teams" editLink2="#" />
             <NavbarButtons />
+            <Heading text="Úprava informací o týmech" level={1} className="nadpish1" />
             <div className="teamSelect">
                 <label htmlFor="team-select">Vyber tým:</label>
                 <select
