@@ -33,25 +33,33 @@ def calculate_points(number_of_teams, game_type):
 
 ############################################ APIs #############################################
 
-@app.route("/api/create-camp", methods=["POST"])
+@app.route('/api/create-camp', methods=['POST'])
 def create_camp():
-    data = request.json 
-    camp_name = "camp_" + data.get("campName").replace(" ", "_")
+    data = request.json
+    camp_name = data.get("campName")
 
-    camp_file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
+    if not camp_name:
+        return jsonify({"error": "Camp name is required"}), 400
 
-    number_of_teams = data.get("teamCount")
-    game_types = [
-        {"type": "méně bodovaná", "point_scheme": calculate_points(number_of_teams, "méně bodovaná")},
-        {"type": "více bodovaná", "point_scheme": calculate_points(number_of_teams, "více bodovaná")},
-        {"type": "velmi bodovaná", "point_scheme": calculate_points(number_of_teams, "velmi bodovaná")}
-    ]
+    file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
+    if os.path.exists(file_path):
+        return jsonify({"error": "Camp already exists"}), 400
 
-    with open(camp_file_path, "w", encoding="utf-8") as f:
-        data["gameTypes"] = game_types
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    # Init JSON
+    initial_data = {
+        "campName": camp_name,
+        "teamCount": 0,
+        "teams": [],
+        "teamGames": [],
+        "individualActivities": [],
+    }
 
-    return jsonify({"message": f"Camp '{camp_name}' was received successfully", "name": camp_name}), 200
+    # Save
+    os.makedirs(CAMPS_DIR, exist_ok=True)
+    with open(file_path, 'w') as f:
+        json.dump(initial_data, f, indent=4)
+
+    return jsonify({"message": "Camp created successfully", "campName": camp_name}), 200
 
 
 @app.route("/api/get-camps", methods=["GET"])
@@ -94,6 +102,77 @@ def update_camp(camp_name):
         json.dump(camp_data, file, ensure_ascii=False, indent=4)
 
     return jsonify({"message": f"Camp '{camp_name}' was updated successfully"}), 200
+
+@app.route("/api/calculate-team-scores", methods=["POST"])
+def calculate_team_scores():
+    try:
+        data = request.json
+        camp_days = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
+
+        # Initialize empty score structure
+        scores = {team["name"]: {day: 0 for day in camp_days} for team in data["teams"]}
+
+        # Calculate scores based on individualActivities
+        for activity in data.get("individualActivities", []):
+            day = activity["day"]
+            points = activity["points"]
+            participants = activity["participants"]
+
+            for participant in participants:
+                for team in data["teams"]:
+                    if participant in team["children"]:
+                        scores[team["name"]][day] += points
+
+        # Calculate scores based on teamGames
+        for game in data.get("teamGames", []):
+            day = game["day"]
+            results = game["results"]
+
+            for result in results:
+                team_name = result["team_name"]
+                if team_name in scores:
+                    scores[team_name][day] += result["points_awarded"]
+
+        return jsonify(scores), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/add-game-types/<camp_name>', methods=['POST'])
+def add_game_types(camp_name):
+    """
+    API, která generuje gameTypes a uloží je do JSON souboru.
+    """
+    try:
+        camp_file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
+        if not os.path.exists(camp_file_path):
+            return jsonify({"error": "Camp not found"}), 404
+
+        with open(camp_file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        number_of_teams = data.get("teamCount", 0)
+
+        # Generate gameTypes
+        game_types = [
+            {"type": "Méně bodovaná", 
+             "point_scheme": calculate_points(number_of_teams, "méně bodovaná"), "everyone_else": 0,},
+            {"type": "Více bodovaná", 
+             "point_scheme": calculate_points(number_of_teams, "více bodovaná"), "everyone_else": 0,},
+            {"type": "Velmi bodovaná", 
+             "point_scheme": calculate_points(number_of_teams, "velmi bodovaná"), "everyone_else": 0,}
+        ]
+
+        # Save
+        data["gameTypes"] = game_types
+        with open(camp_file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+        return jsonify({"message": "GameTypes added successfully", "gameTypes": game_types}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+############################################ APIs #############################################
 
 if __name__ == "__main__":
     app.run(debug=True)

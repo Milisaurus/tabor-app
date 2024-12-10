@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createCamp } from "../api";
+import { updateCamp, addGameTypes } from "../api";
 
 // COMPONENT IMPORT
 import TeamForm from "../components/TeamForm/TeamForm";
@@ -10,17 +10,22 @@ import Header from "../components/Header/Header"
 import "../css/CreateCamp.css";
 
 const CreateCamp = () => {
-    const [campName, setCampName] = useState("");
     const [teamCount, setTeamCount] = useState("");
     const [teams, setTeams] = useState([]);
     const [currentChildIndexes, setCurrentChildIndexes] = useState([]);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const storedCampName = sessionStorage.getItem("camp_name");
+        if (!storedCampName) {
+          alert("Nebyly nalezeny informace o táboru.");
+        }
+      }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const allData = {
-            campName,
+            campName: sessionStorage.getItem("camp_name"),
             teamCount,
             teams: teams.map((team) => ({
                 name: team.name,
@@ -30,18 +35,14 @@ const CreateCamp = () => {
                 childrenCount: team.childrenCount,
                 children: team.children,
             })),
-            teamGames: [],
-            individualActivities: [],
         };
 
-        const allDataString = JSON.stringify(allData);
-        console.log("Všechna data:", allData);
-        console.log("Spojená data jako řetězec:", allDataString);
-        await createCamp(allDataString);
+        await updateCamp(JSON.stringify(allData));
+
+        await addGameTypes(allData.campName);
+
         navigate("/main-page");
     };
-
-    const handleCampNameChange = (e) => setCampName(e.target.value);
 
     const handleTeamCountChange = (e) => {
         const count = parseInt(e.target.value);
@@ -99,19 +100,6 @@ const CreateCamp = () => {
             <Heading text="Tvorba Tábora" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit}>
-                {/* Camp name */}
-                <div>
-                    <label htmlFor="campName">Název tábora:</label>
-                    <input 
-                        type="text"
-                        id="campName"
-                        value={campName}
-                        onChange={handleCampNameChange}
-                        required
-                        placeholder="Název"
-                    />
-                </div>
-
                 {/* Teams count */}
                 <div>
                     <label htmlFor="teamCount">Počet týmů:</label>

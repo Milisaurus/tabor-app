@@ -1,27 +1,36 @@
-export async function createCamp(data) {
+export const createCamp = async (campName) => {
     try {
         const response = await fetch("http://localhost:5000/api/create-camp", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: data
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ campName }),
         });
 
-        const result = await response.json();
-        console.log(result.message);
-
-        if (result.name) {
-            sessionStorage.setItem('camp_name', result.name);
-        } else {
-            console.log("No camp_name returned in the server response.");
+        if (!response.ok) {
+            throw new Error("Couldn't create camp");
         }
-        console.log("Current camp_name stored in sessionStorage: ", result.name);
 
+        const data = await response.json();
+        return data;
     } catch (error) {
-      console.error("Error:", error);
+        console.error("Backend error:", error);
+        throw error;
     }
-}
+};
+
+export const fetchCamps = async () => {
+    try {
+        const response = await fetch("http://localhost:5000/api/get-camps");
+        if (!response.ok) {
+            throw new Error("Error while loading camps.");
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error loading camp names:", error);
+        throw error;
+    }
+};
 
 export async function getCamp() {
     const campName = sessionStorage.getItem('camp_name');
@@ -102,3 +111,42 @@ export async function updateTeam(teamIndex, updatedTeam, updatedCampData) {
         await updateCamp(JSON.stringify(updatedCampDataWithTeams));
     }
 }
+
+export async function fetchTeamScores(campData) {
+    try {
+        const response = await fetch("http://localhost:5000/api/calculate-team-scores", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(campData)
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch team scores");
+        }
+
+        const scores = await response.json();
+        return scores;
+    } catch (error) {
+        console.error("Error fetching team scores:", error);
+        return null;
+    }
+}
+
+export const addGameTypes = async (campName) => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/add-game-types/${campName}`, {
+            method: "POST",
+        });
+
+        if (!response.ok) {
+            throw new Error("Faild to create gameTypes.");
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("addGameTypes API error:", error);
+    }
+};

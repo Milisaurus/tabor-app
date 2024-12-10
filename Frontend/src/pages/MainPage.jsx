@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCamp } from "../api";
+import { getCamp, fetchTeamScores} from "../api";
 
 // COMPONENT IMPORT
 import Heading from "../components/Heading/Heading";
@@ -27,69 +27,33 @@ const MainPage = () => {
         setSelectedDay(campDays[todayIndex]);
     }, []);
 
-    // Executures when entering this page (this component)
     useEffect(() => {
-        // Fetch the camp data 
         const fetchCampData = async () => {
             try {
                 const data = await getCamp();
-                // Success, update camp data and calculate team score
                 if (data) {
                     setCampData(data);
-                    calculateTeamScores(data);
+    
+                    // Fetch team scores from server
+                    const scores = await fetchTeamScores(data);
+                    if (scores) {
+                        setTeamScores(scores);
+                    } else {
+                        setError("Failed to calculate team scores.");
+                    }
                 } else {
                     setError("Camp data not found.");
                 }
-            } catch (err) {
+            } 
+            catch (err) {
                 setError("Error loading camp data: " + err.message);
-            } finally {
+            } 
+            finally {
                 setLoading(false);
             }
         };
         fetchCampData();
     }, []);
-
-    // Calculate team score based on given data (parses the input file)
-    const calculateTeamScores = (data) => {
-        const scores = {};
-
-        // Initialize empty score structure
-        data.teams.forEach((team) => {
-            // reduce - for every item, do an operation
-            scores[team.name] = campDays.reduce((teamScores, day) => {
-                teamScores[day] = 0; // for every day, team starts with 0
-                return teamScores;
-            }, {});
-        });
-
-        // Calculate scores based on individualActivities
-        data.individualActivities.forEach((activity) => {
-            const { day, points, participants } = activity;
-
-            participants.forEach((participant) => {
-                // Find the team of the participant and add points
-                data.teams.forEach((team) => {
-                    if (team.children.includes(participant)) {
-                        scores[team.name][day] += points;
-                    }
-                });
-            });
-        });
-
-        // Calculate scores based on teamGames
-        data.teamGames.forEach((game) => {
-            const { day, results } = game;
-            
-            results.forEach((result) => {
-                const team = result.team_name;
-                if (scores[team]) {
-                    scores[team][day] += result.points_awarded; 
-                }
-            });
-        });
-
-        setTeamScores(scores);
-    };
 
     // Rendering, says if something went wrong
     if (loading) return <div>Loading...</div>;
