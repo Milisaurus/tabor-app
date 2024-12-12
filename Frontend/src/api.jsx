@@ -150,3 +150,15 @@ export const addGameTypes = async (campName) => {
         console.error("addGameTypes API error:", error);
     }
 };
+
+export const fetchFilteredActivities = async (campName, day, gameType) => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/get-filtered-activities/${campName}?day=${day}&game_type=${gameType}`);
+        if (response.ok) {
+            return await response.json();
+        }
+        throw new Error("Error fetching filtered activities.");
+    } catch (error) {
+        throw error;
+    }
+};

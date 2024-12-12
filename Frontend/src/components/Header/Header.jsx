@@ -8,7 +8,7 @@ const Header = ({ goBackLink, editLink1, editLink2,
         <header className="header">
             {/* Show icons only if showIcons === true */}
             {showIconsLeft ? (
-                <div className="left-icon">
+                <div className="left-icon" title="Zpět na úvodní stránku">
                     <Link to={goBackLink} className="icon-button left-icon">
                         <img src="/back-button.png" alt="Zpět" />
                     </Link>
@@ -19,17 +19,17 @@ const Header = ({ goBackLink, editLink1, editLink2,
                 </div>
             )}
 
-            <Link to="/main-page">
+            <Link to="/main-page" title="Zpět na hlavní stránku">
                 <h1 className="app-name">tabor.app</h1>
             </Link>
 
             {showIconsRight ? (
                 <div className="right-icons">
                     <Link to={editLink1}>
-                        <img src="/edit-teams-button.png" alt="Editovat týmy" />
+                        <img src="/edit-teams-button.png" alt="Editovat týmy" title="Klikněte pro úpravu týmů"/>
                     </Link>
                     <Link to={editLink2}>
-                        <img src="/edit-points-button.png" alt="Editovat typ bodování her" />
+                        <img src="/edit-points-button.png" alt="Editovat typ bodování her" title="Klikněte editaci typu bodování her"/>
                     </Link>
                 </div>
             ) : (

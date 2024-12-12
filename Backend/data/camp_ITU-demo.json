@@ -151,11 +151,19 @@
         },
         {
             "day": "Pondělí",
-            "reason": "Test",
-            "points": 5,
             "participants": [
                 "Martin",
                 "Josef"
+            ],
+            "points": 5,
+            "reason": "Test"
+        },
+        {
+            "day": "Čtvrtek",
+            "reason": "FFFF",
+            "points": 5,
+            "participants": [
+                "Eliška"
             ]
         }
     ],

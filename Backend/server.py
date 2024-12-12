@@ -107,7 +107,7 @@ def update_camp(camp_name):
 @app.route("/api/calculate-team-scores/<camp_name>", methods=["GET"])
 def calculate_team_scores(camp_name):
     try:
-        camp_file = os.path.join(CAMPS_DIR, f"camp_{camp_name}.json")
+        camp_file = os.path.join(CAMPS_DIR, f"{camp_name}.json")
         if not os.path.exists(camp_file):
             return jsonify({"error": f"Camp file '{camp_name}' not found"}), 404
 
@@ -176,6 +176,46 @@ def add_game_types(camp_name):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@app.route("/api/get-filtered-activities/<campName>", methods=["GET"])
+def get_filtered_activities(campName):
+    day = request.args.get('day')
+    game_type = request.args.get('game_type')
+
+    if not day:
+        return jsonify({"error": "Day parameter is required"}), 400
+
+    camp_file_path = os.path.join(CAMPS_DIR, f"{campName}.json")
+    if not os.path.exists(camp_file_path):
+        return jsonify({"message": f"Camp file for '{campName}' not found."}), 404
+
+    with open(camp_file_path, "r", encoding="utf-8") as f:
+        camp_data = json.load(f)
+
+    # Filter games based on day and game type
+    filtered_games = []
+
+    if game_type == "individual":
+        filtered_games = [
+            game for game in camp_data.get("individualActivities", [])
+            if game["day"] == day
+        ]
+    elif game_type == "team":
+        filtered_games = [
+            game for game in camp_data.get("teamGames", [])
+            if game["day"] == day
+        ]
+    else:
+        # If no game_type is provided, return both individual and team games
+        filtered_games = [
+            game for game in camp_data.get("individualActivities", [])
+            if game["day"] == day
+        ] + [
+            game for game in camp_data.get("teamGames", [])
+            if game["day"] == day
+        ]
+
+    return jsonify(filtered_games)
 
 ############################################ APIs #############################################
 

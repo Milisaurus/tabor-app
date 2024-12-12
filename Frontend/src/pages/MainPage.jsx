@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCamp, fetchTeamScores} from "../api";
+import { getCamp, fetchFilteredActivities, fetchTeamScores } from "../api";
 
 // COMPONENT IMPORT
 import Heading from "../components/Heading/Heading";
@@ -14,27 +14,26 @@ const MainPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [teamScores, setTeamScores] = useState({});
+    const [filteredGames, setFilteredGames] = useState([]); // Holds filtered games based on API call
     const [selectedDay, setSelectedDay] = useState("");
     const [selectedGameType, setSelectedGameType] = useState("");
-    const [selectedActivity, setSelectedActivity] = useState(null); // State for selected activity
-                                                                    // Modal window pop-up
+    const [selectedActivity, setSelectedActivity] = useState(null);
 
     const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
 
-    // Set day drop-down menu to today
     useEffect(() => {
         const todayIndex = new Date().getDay();
-        setSelectedDay(campDays[todayIndex]);
+        setSelectedDay(campDays[todayIndex + 1]);
     }, []);
 
+    // Fetch initial camp data
     useEffect(() => {
         const fetchCampData = async () => {
             try {
                 const data = await getCamp();
                 if (data) {
                     setCampData(data);
-    
-                    const scores = await fetchTeamScores(data.campName);
+                    const scores = await fetchTeamScores(sessionStorage.getItem('camp_name'));
                     if (scores) {
                         setTeamScores(scores);
                     } else {
@@ -43,32 +42,33 @@ const MainPage = () => {
                 } else {
                     setError("Camp data not found.");
                 }
-            } 
-            catch (err) {
+            } catch (err) {
                 setError("Error loading camp data: " + err.message);
-            } 
-            finally {
+            } finally {
                 setLoading(false);
             }
         };
         fetchCampData();
     }, []);
 
-    // Rendering, says if something went wrong
+    // Fetch filtered games whenever filters change
+    useEffect(() => {
+        const fetchFilteredData = async () => {
+            if (campData) {
+                try {
+                    const games = await fetchFilteredActivities(sessionStorage.getItem('camp_name'), selectedDay, selectedGameType);
+                    setFilteredGames(games);
+                } catch (err) {
+                    setError("Error fetching filtered activities: " + err.message);
+                }
+            }
+        };
+        fetchFilteredData();
+    }, [campData, selectedDay, selectedGameType]);
+
     if (loading) return <div>Loading...</div>;
-
     if (error) return <div>Error: {error}</div>;
-
     if (!campData) return <div>No camp data available.</div>;
-
-    // Filter games based on selected day and game type
-    const filteredGames = selectedGameType
-        ? (selectedGameType === "individual"
-            ? campData?.individualActivities
-            : campData?.teamGames
-        ).filter(game => game.day === selectedDay)
-        : [...campData?.individualActivities, ...campData?.teamGames].filter(game => game.day === selectedDay);
-
 
     const handleGameClick = (game) => {
         setSelectedActivity(game);
@@ -76,7 +76,7 @@ const MainPage = () => {
 
     const closeModal = () => {
         setSelectedActivity(null);
-    }
+    };
 
     const gameTypeMapping = {
         1: "Méně bodovaná",
@@ -84,10 +84,10 @@ const MainPage = () => {
         3: "Velmi bodovaná",
         4: "Vlastní",
     };
-    
+
     return (
         <div className="main-page-container">
-            <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"}/>
+            <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />
             <NavbarButtons />
             <div>
                 <Heading text="Sledování bodového postupu" level={1} className="nadpish1" />
@@ -119,9 +119,8 @@ const MainPage = () => {
                                 <td><strong>Celkem</strong></td>
                                 {campData.teams.map((team, teamIndex) => (
                                     <td key={teamIndex}>
-                                        {/* Calculate the sum, take values for every day and sum it */}
-                                        {Object.values(teamScores[team.name]).reduce((sum, score) => 
-                                            sum + score, 0)}
+                                         {/* Calculate the sum, take values for every day and sum it */}
+                                        {Object.values(teamScores[team.name]).reduce((sum, score) => sum + score, 0)}
                                     </td>
                                 ))}
                             </tr>
@@ -158,9 +157,7 @@ const MainPage = () => {
                         value={selectedGameType}
                         onChange={(e) => setSelectedGameType(e.target.value)}
                     >
-                        <option value="" disabled hidden>
-                            Typ hry
-                        </option>
+                        <option value="">Vše</option>
                         <option value="individual">Individuální</option>
                         <option value="team">Týmová</option>
                     </select>
