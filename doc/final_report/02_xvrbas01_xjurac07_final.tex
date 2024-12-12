@@ -58,6 +58,40 @@ backendové straně aplikace, což umožní snadné sdílení těchto informací
 
 \section{Rozdělení práce v týmu}
 
+Na výsledné implementaci frontendové části projektu jsme se podíleli dva, Milan Vrbas a 
+Jan Juračka. Naše práce byla rozdělena tak, aby zajistila efektivní, ale zároveň nezávislou 
+spolupráci na projektu, přičemž jednotlivé úkoly byly rozděleny následovně:
+
+\subsubsection*{Milan Vrbas}
+\begin{itemize}
+    \item \textbf{Úvodní stránka} \texttt{StartPage.jsx} -- obsahuje možnosti vytvoření nového 
+        tábora nebo načtení existujícího.
+    \item \textbf{Vytváření tábora/týmů} \texttt{CreateCamp.jsx} -- formulářová stránka pro 
+        zadávání informací o týmech a tvorba tábora
+    \item \textbf{Editování týmů} \texttt{EditTeam.jsx} -- zahrnuje načtení stávajících dat 
+        týmu do formuláře, jejich úpravu a následné uložení změn
+    \item \textbf{Hlavní stránka aplikace} \texttt{MainPage.jsx} -- obsahuje:
+    \begin{itemize}
+        \item \textbf{Tabulka bodování} -- přehled bodů získaných jednotlivými týmy za každý 
+            den tábora
+        \item \textbf{Historie aktivit} -- zobrazení her a aktivit pořádaných v průběhu tábora
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Jan Juračka}
+\begin{itemize}
+    \item \textbf{Přidávání individuálních aktivit} \texttt{IndividualPointsPage.jsx} -- 
+        zadání bodů za konkrétní aktivity jednotlivcům
+    \item \textbf{Přidávání týmových her} \texttt{TeamPointsPage.jsx} -- zadání bodového 
+        ohodnocení za odehrané hry jednotlivým týmům
+    \item \textbf{Správu her} \texttt{TODO.jsx} -- umožňuje mazání či úpravu jednotlivých her 
+        či aktivit.
+    \item \textbf{Úprava bodování her} \texttt{TODO.jsx} -- umožnuje upravit bodování týmových her
+\end{itemize}
+Podrobnější informace o rozdělení práce a jednotlivých součástech projektu jsou uvedeny v 
+souboru \texttt{readme.txt} v kořenovém adresáři projektu.
+
+
 \section{Připomínky z kontrolní prezentace}
 
 Během kontrolní prezentace jsme obdrželi užitečnou připomínku, kterou jsme následně 
