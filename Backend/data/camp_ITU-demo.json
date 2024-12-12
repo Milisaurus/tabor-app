@@ -33,53 +33,53 @@
     ],
     "teamGames": [
         {
-            "name": "Honěná",
             "day": "Středa",
             "gameTypeId": 1,
+            "name": "Honěná",
             "results": [
                 {
-                    "team_name": "Opičáci",
+                    "points_awarded": 6,
                     "position": 1,
-                    "points_awarded": 6
+                    "team_name": "Opičáci"
                 },
                 {
-                    "team_name": "Kočičky",
+                    "points_awarded": 4,
                     "position": 2,
-                    "points_awarded": 4
+                    "team_name": "Kočičky"
                 }
             ]
         },
         {
-            "name": "Lišky",
             "day": "Středa",
             "gameTypeId": 2,
+            "name": "Lišky",
             "results": [
                 {
-                    "team_name": "Opičáci",
+                    "points_awarded": 6,
                     "position": 1,
-                    "points_awarded": 6
+                    "team_name": "Opičáci"
                 },
                 {
-                    "team_name": "Kočičky",
+                    "points_awarded": 4,
                     "position": 2,
-                    "points_awarded": 4
+                    "team_name": "Kočičky"
                 }
             ]
         },
         {
-            "name": "HraHra",
             "day": "Sobota",
             "gameTypeId": 3,
+            "name": "HraHra",
             "results": [
                 {
-                    "team_name": "Opičáci",
+                    "points_awarded": 2,
                     "position": 1,
-                    "points_awarded": 2
+                    "team_name": "Opičáci"
                 },
                 {
-                    "team_name": "Kočičky",
+                    "points_awarded": 1,
                     "position": 2,
-                    "points_awarded": 1
+                    "team_name": "Kočičky"
                 }
             ]
         }
@@ -148,34 +148,43 @@
             ],
             "points": 1,
             "reason": "fkldůalkfds"
+        },
+        {
+            "day": "Pondělí",
+            "reason": "Test",
+            "points": 5,
+            "participants": [
+                "Martin",
+                "Josef"
+            ]
         }
     ],
     "gameTypes": [
         {
+            "everyone_else": 0,
             "point_scheme": [
                 3,
                 2,
                 1
             ],
-            "everyone_else": 0,
             "type": "Méně bodovaná"
         },
         {
+            "everyone_else": 0,
             "point_scheme": [
                 4,
                 2,
                 1
             ],
-            "everyone_else": 0,
             "type": "Více bodovaná"
         },
         {
+            "everyone_else": 0,
             "point_scheme": [
                 6,
                 3,
                 2
             ],
-            "everyone_else": 0,
             "type": "Velmi bodovaná"
         }
     ]

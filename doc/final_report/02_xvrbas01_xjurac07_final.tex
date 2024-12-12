@@ -1,0 +1,86 @@
+% Autor: Milan Vrbas <xvrbas01>
+%        Jan Juračka <xrujac07>
+
+\documentclass[a4paper, 12pt]{article} % definice třídy dokumentu a nastavení vlastností
+
+% Packages
+\usepackage[utf8]{inputenc} % nastavení kódování
+\usepackage{graphicx} % obrázky
+\usepackage{times} % font
+\usepackage[czech]{babel} % čeština
+\usepackage[T1]{fontenc} % nastavení kódování fontů
+\usepackage[left=2cm, text={17cm, 24cm}, top=3cm]{geometry} % nastavení rozměrů stránky
+\usepackage[unicode]{hyperref} % odkazy
+\usepackage{fancyhdr} % zkrášlení stránky
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage} % čára na začátku stránky
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \scalebox{0.15}{\includegraphics{../pictures/FIT_logo.png}} \\
+        \vspace{\stretch{0.382}}
+        \Huge{Závěrečný report} \\
+        \Large{\textbf{Organizátor táborových bodů}} \\
+        \large{ITU – Tvorba uživatelských rozhrání }
+        \vspace{\stretch{0.618}}
+    \end{center}
+
+    {\large \today \hfill
+        \large
+        \begin{tabular}{l l}
+        \textbf{Milan Vrbas} & \quad \textbf{xvrbas01}\\
+        Jan Juračka           & \quad xjurac07      \\
+        \end{tabular}
+        }
+\end{titlepage}
+
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+\section{Zadání}
+Úkolem je vytvořit webovou aplikaci, která bude sloužit vedoucím na letním táboře v 
+Líseckém táboře na Vysočině k organizaci her a jejich bodování. Aplikace bude poskytovat 
+přehledné zobrazení denních a celkových statistik pro jednotlivé týmy. \\
+Aplikace umožní správu týmů, včetně jejich vytváření, mazání a úpravy. Každý tým bude mít 
+přiřazený název, barvu, velitele a členy. Týmy budou sbírat body v táborových hrách, přičemž 
+bodování bude podle tří předdefinovaných pravidel: Méně bodovaná, Více bodovaná a Velmi bodovaná. 
+Uživatel bude mít také možnost vytvářet vlastní pravidla bodování pro specifické hry. \\
+Informace o jednotlivých hrách a jejich výsledcích si budou uživatelé moci zobrazit v 
+historii aktivit. Všechna táborová data (informace o týmech, jednotlivcích, 
+hrách, výsledcích, historii her a nastavení bodování) budou uložena ve formátu JSON na 
+backendové straně aplikace, což umožní snadné sdílení těchto informací s ostatními vedoucími.
+
+\subsection{Odchylky od původního zadání}
+
+\section{Rozdělení práce v týmu}
+
+\section{Připomínky z kontrolní prezentace}
+
+Během kontrolní prezentace jsme obdrželi užitečnou připomínku, kterou jsme následně 
+zapracovali do našeho projektu. Tato připomínka se týkala zlepšení způsobu vytváření datového 
+JSON souboru při zakládání nového tábora. 
+
+Původní implementace vytvářela JSON soubor až ve chvíli, kdy uživatel dokončil vyplňování 
+formulářů jednotlivých týmů a zvolil název tábora. Tento přístup však nebyl optimální, jak 
+zdůraznil pan docent Vítězslav Beran, na kontrolní prezentaci. Navrhl, aby byl 
+inicializační JSON soubor vytvořen ihned při zahájení procesu zakládání nového tábora. 
+Tento soubor by obsahoval základní informace, jako je název tábora a prázdnou strukturu 
+pro týmy, a následně by se doplnil o zbylá data po vyplnění a potvrzení formulářů.
+
+Tento návrh jsme zapracovali následujícím způsobem:
+- Při kliknutí na tlačítko *"Vytvořit nový"* se nyní okamžitě vytvoří
+JSON soubor, který obsahuje inicializační strukturu dat a po vyplnění formulářů týmů a 
+potvrzení vytvoření tábora se tato data zapíší do již existujícího JSON souboru.
+
+Tato změna výrazně zjednodušila proces zpracování dat na backendu a umožnila nám lépe oddělit fázi inicializace od fáze úpravy dat. Díky tomu je nyní možné například uložit proces vytváření tábora, aniž by uživatel musel vyplnit všechny formuláře najednou.
+
+Tento přístup rovněž přispívá k větší modularitě aplikace a usnadňuje práci s daty v dalších částech projektu, například při načítání nebo editaci tábora.
+
+
+\section{Výsledky testování}
+
+\end{document}
