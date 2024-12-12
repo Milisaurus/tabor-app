@@ -112,14 +112,13 @@ export async function updateTeam(teamIndex, updatedTeam, updatedCampData) {
     }
 }
 
-export async function fetchTeamScores(campData) {
+export async function fetchTeamScores(campName) {
     try {
-        const response = await fetch("http://localhost:5000/api/calculate-team-scores", {
-            method: "POST",
+        const response = await fetch(`http://localhost:5000/api/calculate-team-scores/${campName}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify(campData)
+            }
         });
 
         if (!response.ok) {
@@ -133,6 +132,7 @@ export async function fetchTeamScores(campData) {
         return null;
     }
 }
+
 
 export const addGameTypes = async (campName) => {
     try {

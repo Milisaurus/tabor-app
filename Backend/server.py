@@ -75,6 +75,7 @@ def get_camps():
 
 @app.route("/api/get-camp-data/<camp_name>", methods=["GET"])
 def get_camp_data(camp_name):
+    print(camp_name)
     camp_file_path = os.path.join(CAMPS_DIR, f"{camp_name}.json")
     if not os.path.exists(camp_file_path):
         return jsonify({"message": f"Camp file for '{camp_name}' not found."}), 404
@@ -103,16 +104,20 @@ def update_camp(camp_name):
 
     return jsonify({"message": f"Camp '{camp_name}' was updated successfully"}), 200
 
-@app.route("/api/calculate-team-scores", methods=["POST"])
-def calculate_team_scores():
+@app.route("/api/calculate-team-scores/<camp_name>", methods=["GET"])
+def calculate_team_scores(camp_name):
     try:
-        data = request.json
+        camp_file = os.path.join(CAMPS_DIR, f"camp_{camp_name}.json")
+        if not os.path.exists(camp_file):
+            return jsonify({"error": f"Camp file '{camp_name}' not found"}), 404
+
+        with open(camp_file, "r", encoding="utf-8") as file:
+            data = json.load(file)
+
         camp_days = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
 
-        # Initialize empty score structure
         scores = {team["name"]: {day: 0 for day in camp_days} for team in data["teams"]}
 
-        # Calculate scores based on individualActivities
         for activity in data.get("individualActivities", []):
             day = activity["day"]
             points = activity["points"]
@@ -123,7 +128,6 @@ def calculate_team_scores():
                     if participant in team["children"]:
                         scores[team["name"]][day] += points
 
-        # Calculate scores based on teamGames
         for game in data.get("teamGames", []):
             day = game["day"]
             results = game["results"]
@@ -136,6 +140,7 @@ def calculate_team_scores():
         return jsonify(scores), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 @app.route('/api/add-game-types/<camp_name>', methods=['POST'])
 def add_game_types(camp_name):

@@ -34,8 +34,7 @@ const MainPage = () => {
                 if (data) {
                     setCampData(data);
     
-                    // Fetch team scores from server
-                    const scores = await fetchTeamScores(data);
+                    const scores = await fetchTeamScores(data.campName);
                     if (scores) {
                         setTeamScores(scores);
                     } else {
