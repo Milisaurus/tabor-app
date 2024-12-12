@@ -1,3 +1,5 @@
+// Author Milan Vrbas <xvrbas01>
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createCamp, fetchCamps } from "../api";
@@ -9,12 +11,13 @@ import Heading from "../components/Heading/Heading";
 import "../css/StartPage.css";
 
 const StartPage = () => {
-    const [existingCamps, setExistingCamps] = useState([]);
-    const [showNewCampModal, setShowNewCampModal] = useState(false);
-    const [newCampName, setNewCampName] = useState("");
-    const [showModal, setShowModal] = useState(false);
+    const [existingCamps, setExistingCamps] = useState([]); // List of existing camps
+    const [showNewCampModal, setShowNewCampModal] = useState(false); // State to toggle the "Create new camp" modal
+    const [newCampName, setNewCampName] = useState(""); // Store the new camp name
+    const [showModal, setShowModal] = useState(false); // State to toggle the modal displaying existing camps
     const navigate = useNavigate();
 
+    // Fetch existing camps from the API
     const handleFetchCamps = async () => {
         try {
             const data = await fetchCamps();
@@ -25,22 +28,25 @@ const StartPage = () => {
         }
     };
 
+    // Create a new camp
     const handleCreateNewCamp = async () => {
         if (!newCampName) {
-            alert("Zadejte název tábora!");
+            alert("Zadejte název tábora!"); // Alert if camp name is empty
             return;
         }
 
         try {
-            const result = await createCamp(newCampName);
-            sessionStorage.setItem("camp_name", newCampName);
+            await createCamp(newCampName); // Call the API to create the new camp
+            sessionStorage.setItem("camp_name", newCampName); // Store the camp name in session storage
             navigate("/create-camp");
             setShowNewCampModal(false);
-        } catch (error) {
+        } 
+        catch (error) {
             alert(error.message);
         }
     };
 
+     // Close the "Create new camp" modal
     const closeNewCampModal = () => {
         setShowNewCampModal(false);
         setNewCampName("");
@@ -49,14 +55,15 @@ const StartPage = () => {
     return (
         <div className="start-page">
             <Header goBackLink="/" editLink1={"#"} editLink2={"#"} showIconsLeft={false} showIconsRight={false} />
-
             <Heading text="Vítejte v táborovém organizátoru bodů!" level={1} className="nadpish1" />
 
             <div className="background-wrapper">
                 <p>Nejprve potřebujeme získat soubor s daty tábora:</p>
+                {/* Button to show modal for creating a new camp */}
                 <button className="linkbutton" onClick={() => setShowNewCampModal(true)}>
                     Vytvořit nový tábor
                 </button>
+                {/* Button to fetch and select an existing camp */}
                 <button className="linkbutton" onClick={handleFetchCamps}>
                     Vybrat existující
                 </button>
@@ -92,8 +99,10 @@ const StartPage = () => {
                     <div className="modal-content">
                         <h3>Vyberte existující tábor</h3>
                         <ul>
+                            {/* List existing camps, click to select */}
                             {existingCamps.map((camp, index) => (
                                 <li key={index} onClick={() => {
+                                    // Store the selected camp name
                                     sessionStorage.setItem("camp_name", camp.campName);
                                     navigate("/main-page");
                                 }}>

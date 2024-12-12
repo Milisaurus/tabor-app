@@ -1,164 +1,197 @@
+// API
+// Authors: Milan Vrbas <xvrbas01>, Jan Juračka <xjurac07>
+
+// API to create a new camp
 export const createCamp = async (campName) => {
     try {
-        const response = await fetch("http://localhost:5000/api/create-camp", {
-            method: "POST",
+        const response = await fetch(`http://localhost:5000/api/create-camp/${campName}`, {
+            method: "GET",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ campName }),
         });
 
         if (!response.ok) {
             throw new Error("Couldn't create camp");
         }
 
-        const data = await response.json();
-        return data;
-    } catch (error) {
+        // Return the response data
+        return await response.json();
+    } 
+    catch (error) {
         console.error("Backend error:", error);
         throw error;
     }
 };
 
+// API to fetch the list of camps
 export const fetchCamps = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/get-camps");
+        const response = await fetch("http://localhost:5000/api/get-camps", {
+            method: "GET",
+            headers: {"Content-Type": "application/json",},
+        });
+
         if (!response.ok) {
             throw new Error("Error while loading camps.");
         }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error loading camp names:", error);
+
+        // Return the response data
+        return await response.json();
+    } 
+    catch (error) {
+        console.error("Error:", error);
         throw error;
     }
 };
 
-export async function getCamp() {
+// API to fetch camp data
+export const getCamp = async () => {
     const campName = sessionStorage.getItem('camp_name');
+
+    // Check if the campName is found in sessionStorage
     if (!campName) {
         console.log("No camp found in sessionStorage.");
         return null;
     }
-    console.log("getCamp: Fetching camp ", campName);
 
     try {
-        const response = await fetch(`http://localhost:5000/api/get-camp-data/${campName}`,{
-            method: "GET"    
+        const response = await fetch(`http://localhost:5000/api/get-camp-data/${campName}`, {
+            method: "GET",
+            headers: {"Content-Type": "application/json",},
         });
 
         if (!response.ok) {
             console.log("Error getCamp:", response.message);
             return null;
         }
-        const result = await response.json();
-        return result;
 
-    } catch (error) {
+        // Return the response data
+        return await response.json();
+    } 
+    catch (error) {
         console.error("Error:", error);
         return null;
     }
-}
+};
 
-export async function updateCamp(data) {
+// API to update camp data
+export const updateCamp = async (data) => {
     const campName = sessionStorage.getItem('camp_name');
+
+    // Check if the campName is found in sessionStorage
     if (!campName) {
         console.log("No camp found in sessionStorage.");
         return null;
     }
-    console.log("Updating camp file with name:", campName);
-    
+
     try {
         const response = await fetch(`http://localhost:5000/api/update-camp/${campName}`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: data
+            headers: { "Content-Type": "application/json" },
+            body: data,
         });
 
         if (!response.ok) {
-            console.log("Error updateCamp:", response.message);
+            throw new Error("Error updating camp data.");
         }
 
         const result = await response.json();
         console.log(result.message);
 
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("Error:", error);
         return null;
     }
-}
+};
 
-export async function getTeams() {
-    const campData = await getCamp();
-    if (campData) {
-        return campData.teams;
-    }
-    return [];
-}
-
-export async function updateTeam(teamIndex, updatedTeam, updatedCampData) {
+// API to fetch teams from the current camp data
+export const getTeams = async () => {
+    // Fetch the current camp data
     const campData = await getCamp();
 
+    // If camp data is found, return the teams array; otherwise, return an empty array
+    return campData ? campData.teams : [];
+};
+
+// API to update a specific team's data
+export const updateTeam = async (teamIndex, updatedTeam, updatedCampData) => {
+    // Fetch the current camp data
+    const campData = await getCamp();
+
     if (campData) {
+        // Create a copy of the teams array and update the team at the specified index
         const updatedTeams = [...campData.teams];
         updatedTeams[teamIndex] = updatedTeam;
 
+        // Create an updated camp data object with the modified teams array
         const updatedCampDataWithTeams = {
             ...updatedCampData,
             teams: updatedTeams,
         };
 
+        // Update the camp with the modified data
         await updateCamp(JSON.stringify(updatedCampDataWithTeams));
     }
-}
+};
 
-export async function fetchTeamScores(campName) {
+// API to fetch the team scores for a specific camp
+export const fetchTeamScores = async (campName) => {
     try {
         const response = await fetch(`http://localhost:5000/api/calculate-team-scores/${campName}`, {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: { "Content-Type": "application/json" },
         });
 
         if (!response.ok) {
             throw new Error("Failed to fetch team scores");
         }
 
-        const scores = await response.json();
-        return scores;
-    } catch (error) {
+        // Return the team scores
+        return await response.json();
+    } 
+    catch (error) {
         console.error("Error fetching team scores:", error);
         return null;
     }
-}
+};
 
-
+// API to add game types to a specific camp
 export const addGameTypes = async (campName) => {
     try {
         const response = await fetch(`http://localhost:5000/api/add-game-types/${campName}`, {
             method: "POST",
+            headers: {"Content-Type": "application/json",},
         });
 
         if (!response.ok) {
-            throw new Error("Faild to create gameTypes.");
+            throw new Error("Failed to create gameTypes.");
         }
 
-        const data = await response.json();
-        return data;
-    } catch (error) {
+        // Return the team scores
+        return await response.json();
+    } 
+    catch (error) {
         console.error("addGameTypes API error:", error);
     }
 };
 
+// API to fetch filtered activities based on day and game type
 export const fetchFilteredActivities = async (campName, day, gameType) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/get-filtered-activities/${campName}?day=${day}&game_type=${gameType}`);
-        if (response.ok) {
-            return await response.json();
+        const response = await fetch(`http://localhost:5000/api/get-filtered-activities/${campName}?day=${day}&game_type=${gameType}`, {
+            method: "GET",
+            headers: {"Content-Type": "application/json",},
+        });
+
+        if (!response.ok) {
+            throw new Error("Error fetching filtered activities.");
         }
-        throw new Error("Error fetching filtered activities.");
-    } catch (error) {
+
+        // Return the filtered activities
+        return await response.json();
+    } 
+    catch (error) {
+        console.error("Error fetching filtered activities:", error);
         throw error;
     }
 };

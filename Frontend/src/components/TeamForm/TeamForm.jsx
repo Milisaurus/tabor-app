@@ -1,3 +1,5 @@
+// Author Milan Vrbas <xvrbas01>
+
 import React from "react";
 import "./TeamForm.css"
 
@@ -5,6 +7,7 @@ const TeamForm = ({ index, team, currentChildIndex, handleTeamChange, handleChil
     return (
         <div className="team-form">
             <h3>Tým {index + 1}</h3>
+            {/* Team name */}
             <div>
                 <label htmlFor={`teamName-${index}`}>Název týmu:</label>
                 <input

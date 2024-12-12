@@ -1,16 +1,19 @@
+// Author Milan Vrbas <xvrbas01>
+
 import React from "react";
 import { Link } from "react-router-dom";
 
 const ActivityHistory = ({ selectedActivity, campData, closeModal }) => {
-
     return (
         <div className="game-detail-modal">
             <div className="modal-content">
                 <div className="modal-header">
+                    {/* Edit button */}
                     <Link to="#">
                         <img src="/edit-points-button.png" alt="Edit" className="modal-icon-left" />
                     </Link>
                     <h2 className="detail-hry">Detail hry</h2>
+                    {/* Delete button */}
                     <Link to="#">
                         <img src="/recycle-bin.png" alt="Delete" className="modal-icon-right" />
                     </Link>
@@ -76,6 +79,7 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal }) => {
                     </>
                 )}
 
+                 {/* Close modal button */}
                 <button className="close-modal" onClick={closeModal}>Zavřít</button>
             </div>
         </div>

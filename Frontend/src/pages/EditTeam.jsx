@@ -1,3 +1,5 @@
+// Author Milan Vrbas <xvrbas01>
+
 import React, { useState, useEffect } from "react";
 import { getCamp, updateTeam } from "../api";
 import { useNavigate } from "react-router-dom";
@@ -9,37 +11,41 @@ import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 
 const EditTeam = () => {
-    const [teams, setTeams] = useState([]);
-    const [selectedTeamIndex, setSelectedTeamIndex] = useState(null);
-    const [editedTeam, setEditedTeam] = useState(null);
-    const [campData, setCampData] = useState(null);
+    const [teams, setTeams] = useState([]); // Store the list of teams
+    const [selectedTeamIndex, setSelectedTeamIndex] = useState(null); // Store the index of the selected team
+    const [editedTeam, setEditedTeam] = useState(null); // Store the data of the team being edited
+    const [campData, setCampData] = useState(null); // Store the camp data
     const navigate = useNavigate();
 
+    // Fetch camp data
     useEffect(() => {
         const fetchCampData = async () => {
             const campData = await getCamp();
-            setTeams(campData.teams); 
-            setCampData(campData); 
+            setTeams(campData.teams); // Set teams in state
+            setCampData(campData); // Set entire camp data in state
         };
         fetchCampData();
     }, []);
 
+    // Handle team selection from the dropdown
     const handleTeamSelect = (index) => {
         setSelectedTeamIndex(index);
-        setEditedTeam({ ...teams[index] });
+        setEditedTeam({ ...teams[index] }); // Set the selected team data for editing
     };
 
+    // Handle changes in team data (e.g., name, leader)
     const handleTeamChange = (index, e) => {
         const { name, value } = e.target;
-        setEditedTeam((prev) => ({ ...prev, [name]: value }));
+        setEditedTeam((prev) => ({ ...prev, [name]: value })); // Update the team data
     };
 
+    // Handle changes in individual child data
     const handleChildChange = (childIndex, e) => {
-        const oldName = editedTeam.children[childIndex];
-        const newName = e.target.value;
+        const oldName = editedTeam.children[childIndex]; // Get the old child name
+        const newName = e.target.value; // Get the new child name
     
         const updatedChildren = [...editedTeam.children];
-        updatedChildren[childIndex] = newName;
+        updatedChildren[childIndex] = newName; // Update the child's name
 
         // Update editedTeam with the new children list
         setEditedTeam((prev) => ({ ...prev, children: updatedChildren }));
@@ -57,11 +63,13 @@ const EditTeam = () => {
             ...campData,
             individualActivities: updatedActivities,
         };
-        setCampData(updatedCampData);
+        setCampData(updatedCampData); // Update camp data
     };
 
+    // Handle removal of a child from the team
     const handleRemoveChild = (childIndex) => {
-        const removedChild = editedTeam.children[childIndex];
+        const removedChild = editedTeam.children[childIndex]; // Get the child to remove
+        // Remove the child from the list
         const updatedChildren = editedTeam.children.filter((_, index) => index !== childIndex);
 
         // Remove the child from the editedTeam state
@@ -78,30 +86,36 @@ const EditTeam = () => {
             ...campData,
             individualActivities: updatedActivities,
         };
-        setCampData(updatedCampData);
+        setCampData(updatedCampData); // Update camp data
     };
 
+    // Handle adding a new child to the team
     const handleAddChild = () => {
         setEditedTeam((prev) => ({
             ...prev,
-            children: [...prev.children, `Dítě ${prev.children.length + 1}`],
+            children: [...prev.children, `Dítě ${prev.children.length + 1}`], // Add a new child with default name
         }));
     };
 
+    // Save the changes to the team and update the camp data
     const handleSave = async () => {
         if (editedTeam && selectedTeamIndex !== null) {
-            const originalTeam = teams[selectedTeamIndex];
+            const originalTeam = teams[selectedTeamIndex]; // Get the original team data
     
+            // Create updated team data
             const updatedTeamData = { ...editedTeam, children: editedTeam.children };
     
+            // Replace the old team data with the updated team data
             const updatedTeams = teams.map((team, index) =>
                 index === selectedTeamIndex ? updatedTeamData : team
             );
     
+            // Get the removed children
             const removedChildren = originalTeam.children.filter(
                 (child) => !editedTeam.children.includes(child)
             );
     
+            // Remove the participants who were removed from the team (individualActivities)
             const updatedActivities = campData.individualActivities.map((activity) => ({
                 ...activity,
                 participants: activity.participants.filter(
@@ -115,9 +129,7 @@ const EditTeam = () => {
                 individualActivities: updatedActivities,
             };
     
-            console.log("Updated Camp Data: ", updatedCampData);
-    
-            // Uložte data
+            // Save the updated data
             await updateTeam(selectedTeamIndex, updatedTeamData, updatedCampData);
             navigate("/main-page");
         }

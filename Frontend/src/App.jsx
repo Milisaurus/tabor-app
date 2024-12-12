@@ -12,6 +12,7 @@ import EditTeams from "./pages/EditTeam";
 
 function App() {
     return (
+        // Wrapping the application in Router for routing functionality
         <Router>
             <Routes>
                 <Route path="/" element={<StartPage />} />

@@ -1,3 +1,4 @@
+// Author Milan Vrbas <xvrbas01>
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
@@ -23,6 +24,7 @@ const Header = ({ goBackLink, editLink1, editLink2,
                 <h1 className="app-name">tabor.app</h1>
             </Link>
 
+            {/* Show the right icons only if showIconsRight is true */}
             {showIconsRight ? (
                 <div className="right-icons">
                     <Link to={editLink1}>
