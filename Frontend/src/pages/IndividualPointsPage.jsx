@@ -21,7 +21,6 @@ const IndividualPoints = () => {
     const [participants, setParticipants] = useState([]);
     const navigate = useNavigate();
 
-    // synchronize component
     useEffect(() => {
         const fetchCampData = async () => {
             try {
@@ -42,19 +41,7 @@ const IndividualPoints = () => {
         }
         fetchCampData();
     }, []);
-
-    if (loading) {
-        return <h1>Načítání...</h1>;
-    }
-
-    if (error) {
-        return <h1>Error: {error}</h1>;
-    }
-
-    if (!campData) {
-        return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
-    }
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         const newIndividualActivity = {
@@ -63,12 +50,12 @@ const IndividualPoints = () => {
             points: parseInt(points),
             participants
         }
-
-
+        
+        
         campData['individualActivities'].push(newIndividualActivity);
         const updatedCampDataJson = JSON.stringify(campData);
-
-
+        
+        
         try {
             await updateCamp(updatedCampDataJson);
         } catch (error){
@@ -76,8 +63,12 @@ const IndividualPoints = () => {
             console.log(updatedCampData);
         }
         navigate("/main-page");
-
+        
     };
+    
+        if (loading) return <h1>Načítání...</h1>;
+        if (error) return <h1>Error: {error}</h1>;
+        if (!campData) return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
 
     return(
         <div className="individual-points-page">
@@ -97,13 +88,13 @@ const IndividualPoints = () => {
                 {/* Select Day of the Week */}
                 <SelectDay selectedDay={day} onDayChange={setDay}/>
 
-                <SelectCampMembers campData={campData} onSelectionChange={setParticipants} />
-
                 {/* Number of points */}
-                <div>
+                <div className="number-of-points">
                     <label>Počet udělených bodů</label>
                     <input type="number" value={points} onChange={(e) => {setPoints(e.target.value)}} min={0} required placeholder="Počet bodů"/>
                 </div>
+
+                <SelectCampMembers campData={campData} onSelectionChange={setParticipants} />
 
                 {/* Submit Button */}
                 <button className="submitbutton" type="submit">Potvrdit</button>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { getCamp, updateCamp } from "../api";
 import Header from "../components/Header/Header";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Heading from "../components/Heading/Heading";
 import SelectDay from "../components/selectDay/selectDay";
 
-import "../css/TeamPointsPage.css"
+import "../css/TeamPointsPage.css";
 
 const TeamPoints = () => {
     const [campData, setCampData] = useState(null);
@@ -13,27 +14,29 @@ const TeamPoints = () => {
     const [error, setError] = useState(null);
     const [day, setDay] = useState("Pondělí");
     const [gameName, setGameName] = useState("");
-    const [gameType, setGameType] = useState("Vlastní");
+    const [gameTypeId, setGameTypeId] = useState(0);
     const [teams, setTeams] = useState([]);
+    const navigate = useNavigate();
 
     const handleGameTypeChange = (e) => {
-        const selectedType = e.target.value;
-        setGameType(selectedType);
-        const gameTypeData = campData.gameTypes.find((type) => type.type === selectedType);
-        if (gameTypeData) {
-            const { point_scheme } = gameTypeData;
-            updateTeamPointsBasedOnPositions(point_scheme);
+        const selectedTypeId = parseInt(e.target.value, 10);
+        setGameTypeId(selectedTypeId);
+
+        if (!isNaN(selectedTypeId)) {
+            updateTeamPointsBasedOnPositions(selectedTypeId);
         }
     };
 
-    const updateTeamPointsBasedOnPositions = (pointScheme) => {
+    const updateTeamPointsBasedOnPositions = (gameTypeId) => {
+        const gameTypeData = campData.gameTypes[gameTypeId];
+        if (!gameTypeData) return;
+
+        const { point_scheme, everyone_else } = gameTypeData;
         const updatedTeams = teams.map((team, index) => {
-            let points = 0;
-            if (index < pointScheme.length) {
-                points = pointScheme[index];
-            }
-            return { ...team, points: points };
+            const points = index < point_scheme.length ? point_scheme[index] : everyone_else;
+            return { ...team, points };
         });
+
         setTeams(updatedTeams);
     };
 
@@ -53,35 +56,36 @@ const TeamPoints = () => {
         });
 
         setTeams(updatedTeams);
-        updateTeamPointsBasedOnPositions(point_scheme);
     };
 
     const handleManualPointChange = (teamIndex, newPoints) => {
         const updatedTeams = [...teams];
         updatedTeams[teamIndex].points = newPoints;
         setTeams(updatedTeams);
-        setGameType("Vlastní");
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const gameData = {
+        const newTeamGame = {
             day,
-            gameName,
-            gameType,
+            gameTypeId: gameTypeId + 1,
+            name: gameName,
             results: teams.map((team) => ({
-                name: team.name,
-                points: team.points,
+                points_awarded: team.points,
+                position: team.position,
+                team_name: team.name,
             })),
         };
+        campData["teamGames"].push(newTeamGame);
+        const updatedCampDataJson = JSON.stringify(campData);
 
         try {
-            await updateCamp({ ...campData, games: [...campData.games, gameData] });
-            alert("Game results saved!");
+            await updateCamp(updatedCampDataJson);
         } catch (err) {
             console.error("Error saving game data:", err);
-            alert("Failed to save game results.");
+            console.log(updatedCampData);
         }
+        navigate("/main-page");
     };
 
     useEffect(() => {
@@ -117,52 +121,66 @@ const TeamPoints = () => {
             <NavbarButtons />
             <Heading text="Vložení týmových bodů" level={1} className="nadpish1" />
 
-            <form onSubmit={handleSubmit} className="create-camp-container">
+            <form onSubmit={handleSubmit} className="team-points-form">
                 <div>
-                    <label>Typ hry</label>
-                    <input type="text" value={gameName} onChange={(e) => setGameName(e.target.value)} required placeholder="Název hry"/>
+                    <input type="text" value={gameName} onChange={(e) => setGameName(e.target.value)} required placeholder="Název hry" />
                 </div>
 
                 <SelectDay selectedDay={day} onDayChange={setDay} />
 
                 <div>
                     <label>Typ hry</label>
-                    <select value={gameType} onChange={handleGameTypeChange}>
-                        <option value="Vlastní">Vlastní</option>
+                    <select value={gameTypeId !== null ? gameTypeId : ""} onChange={handleGameTypeChange}>
                         {campData.gameTypes.map((type, index) => (
-                            <option key={index} value={type.type}>{type.type}</option>
-                        ))
-                        }
+                            <option key={index} value={index}>
+                                {type.type}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
-                <div className="team-list">
-                    {teams.map((team, index) => (
-                        <div
-                            key={team.name}
-                            className="team-header"
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, index)}
-                            onDragOver={(e) => e.preventDefault()}
-                            onDrop={(e) => handleDrop(e, index)}
-                        >
-                            <div className="team-position" style={{ backgroundColor: team.color }}>
-                                {team.position}
-                            </div>
-                            <div className="team-name">{team.name}</div>
-                            <div
-                                className="team-points"
-                                contentEditable
-                                suppressContentEditableWarning
-                                onBlur={(e) => handleManualPointChange(index, parseInt(e.target.textContent, 10))}
+                {/* Table Structure for Teams */}
+                <label>Upravte pozice týmů přetažením</label>
+                <table className="team-table">
+                    <thead>
+                        <tr>
+                            <th>Umístění</th>
+                            <th>Tým</th>
+                            <th>Body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {teams.map((team, index) => (
+                            <tr
+                                key={team.name}
+                                draggable
+                                onDragStart={(e) => handleDragStart(e, index)}
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) => handleDrop(e, index)}
                             >
-                                {team.points}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                                <td className="team-position">{team.position}</td>
+                                <td className="team-info">
+                                    <div className="team-name" style={{ backgroundColor: team.color }}>
+                                        <span className="name">{team.name}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        className="points-input"
+                                        value={team.points}
+                                        onChange={(e) => handleManualPointChange(index, parseFloat(e.target.value) || 0)}
+                                        min={0}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
-                <button className="submitbutton" type="submit">Potvrdit</button>
+                <button className="submitbutton" type="submit">
+                    Potvrdit
+                </button>
             </form>
         </div>
     );

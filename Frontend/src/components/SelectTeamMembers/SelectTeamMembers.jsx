@@ -39,28 +39,32 @@ const SelectCampMembers = ({ campData, onSelectionChange }) => {
                 const allTeamSelected = team.children.every((child) =>
                     selectedChildren.includes(child)
                 );
+                const isExpanded = expandedTeams[team.name]; // Check if team is expanded
                 return (
                     <div key={team.name} className="team-container">
                         {/* Team Header */}
                         <div
                             onClick={() => toggleTeam(team.name)}
                             className="team-header"
-                            style={{ backgroundColor: team.color }}
+                            style={{
+                                borderBottomLeftRadius: !isExpanded ? "8px" : "0px",
+                                borderBottomRightRadius: !isExpanded ? "8px" : "0px"
+                            }}
                         >
                             <span>{team.name}</span>
                             <label>
-                                Select all
+                                Vybrat všechny
                                 <input type="checkbox" checked={allTeamSelected}
                                     onChange={(e) =>
                                         handleSelectAll(team.children, e.target.checked)
                                     }
-                                    onClick={(e) => e.stopPropagation()} // Prevent toggle on checkbox click
+                                    onClick={(e) => e.stopPropagation()}
                                 />
                             </label>
                         </div>
 
                         {/* Expandable Content */}
-                        {expandedTeams[team.name] && (
+                        {isExpanded && (
                             <div className="team-content">
                                 {team.children.map((child) => (
                                     <div key={child} className="child-item">
