@@ -207,7 +207,8 @@ const MainPage = () => {
                 <ActivityHistory 
                     selectedActivity={selectedActivity} 
                     campData={campData} 
-                    closeModal={closeModal} 
+                    closeModal={closeModal}
+                    setCampData={setCampData}
                 />
             )}
 

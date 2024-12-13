@@ -142,14 +142,6 @@
             "reason": "fjkdlaůlk"
         },
         {
-            "day": "Pátek",
-            "participants": [
-                "Ondřej"
-            ],
-            "points": 1,
-            "reason": "fkldůalkfds"
-        },
-        {
             "day": "Pondělí",
             "participants": [
                 "Martin",
@@ -160,11 +152,11 @@
         },
         {
             "day": "Čtvrtek",
-            "reason": "FFFF",
-            "points": 5,
             "participants": [
                 "Eliška"
-            ]
+            ],
+            "points": 5,
+            "reason": "FFFF"
         }
     ],
     "gameTypes": [

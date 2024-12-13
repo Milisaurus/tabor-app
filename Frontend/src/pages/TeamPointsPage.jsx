@@ -117,7 +117,7 @@ const TeamPoints = () => {
 
     return (
         <div className="team-points-page">
-            <Header goBackLink="/main-page" editLink1="#" editLink2="#" showIcons="true" />
+            <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2="#" showIcons="true" />
             <NavbarButtons />
             <Heading text="Vložení týmových bodů" level={1} className="nadpish1" />
 

@@ -73,7 +73,7 @@ const IndividualPoints = () => {
     return(
         <div className="individual-points-page">
             {/* Navigation bars */}
-            <Header goBackLink="/main-page" editLink1="#" editLink2="#" showIcons="true"/>  
+            <Header goBackLink="/main-page"  editLink1={"/edit-teams"} editLink2="#" showIcons="true"/>  
             <NavbarButtons/>
             <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
 

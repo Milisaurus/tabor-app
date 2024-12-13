@@ -2,8 +2,31 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { updateCamp } from "../../api.jsx"
 
-const ActivityHistory = ({ selectedActivity, campData, closeModal }) => {
+const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData }) => {
+
+    const handleDelete = async () => {
+        const updatedCampData = { ...campData };
+        if (selectedActivity.participants) {
+            updatedCampData.individualActivities = updatedCampData.individualActivities.filter((activity) => activity.reason !== selectedActivity.reason);
+        } else {
+            updatedCampData.teamGames = updatedCampData.teamGames.filter((game) => game.name !== selectedActivity.name);
+        }
+
+        setCampData(updatedCampData);
+        const campDataJSON = JSON.stringify(updatedCampData);
+        // Delete activity from server
+        try {
+            await updateCamp(campDataJSON);
+        } catch (err) {
+            console.error("Error saving game data:", err);
+            console.log(updatedCampData);
+            alert("Smazání aktivity se nezdařilo")
+        }
+        closeModal();
+    };
+
     return (
         <div className="game-detail-modal">
             <div className="modal-content">
@@ -14,7 +37,7 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal }) => {
                     </Link>
                     <h2 className="detail-hry">Detail hry</h2>
                     {/* Delete button */}
-                    <Link to="#">
+                    <Link to="#" onClick={handleDelete}>
                         <img src="/recycle-bin.png" alt="Delete" className="modal-icon-right" />
                     </Link>
                 </div>
