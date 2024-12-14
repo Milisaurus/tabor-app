@@ -5,6 +5,9 @@ import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Heading from "../components/Heading/Heading";
 import { getCamp, updateCamp } from "../api";
 import SelectDay from "../components/selectDay/selectDay";
+import TeamPointsTable from "../components/TeamPointsTable/TeamPointsTable";
+
+import "../css/EditGame.css"
 
 const EditTeamGame = () => {
     const [campData, setCampData] = useState();
@@ -84,7 +87,18 @@ const EditTeamGame = () => {
 
                 <SelectDay selectedDay={editedGame.day} onDayChange={(newDay) => handleChange("day", newDay)}/>
 
-                <button className="submitbutton" type="submit">Potvrdit</button>
+                <div style={{width: "100%"}}>
+                    <TeamPointsTable 
+                        campData={campData} 
+                        results={editedGame.results} 
+                        setResults={(newTeams) => handleChange("results", newTeams)} 
+                        gameTypeId={editedGame.gameTypeId} 
+                        setGameTypeId={(newId) => handleChange("gameTypeId", newId)}/>
+                </div>
+
+                <div>
+                    <button className="submitbutton" type="submit">Potvrdit</button>
+                </div>
 
             </form>
         </div>

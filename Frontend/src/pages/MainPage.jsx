@@ -8,6 +8,7 @@ import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Header from "../components/Header/Header";
 import ActivityHistory from '../components/ActivityHistory/ActivityHistory';
+import { Navigate, useNavigate } from "react-router-dom";
 
 import '../css/MainPage.css';
 
@@ -21,6 +22,7 @@ const MainPage = () => {
     const [selectedDay, setSelectedDay] = useState(""); // Selected day for filtering activities
     const [selectedGameType, setSelectedGameType] = useState(""); // Selected game type for filtering activities
     const [selectedActivity, setSelectedActivity] = useState(null); // Holds selected activity details for modal
+    const navigate = useNavigate();
 
     // Array representing the days of the camp week
     const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
@@ -56,6 +58,9 @@ const MainPage = () => {
                 setLoading(false);
             }
         };
+        if (!sessionStorage.getItem("camp_name")) {
+            navigate("/");
+        }
         fetchCampData();
     }, []);
 
@@ -92,10 +97,10 @@ const MainPage = () => {
 
     // Mapping for game types to display the corresponding name
     const gameTypeMapping = {
+        0: "Vlastní",
         1: "Méně bodovaná",
         2: "Více bodovaná",
-        3: "Velmi bodovaná",
-        4: "Vlastní",
+        3: "Velmi bodovaná"
     };
 
     return (

@@ -8,8 +8,8 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange }) => {
     );
 
     useEffect(() => {
-        onSelectionChange(selectedChildren);
-    }, [selectedChildren, onSelectionChange]);
+        onSelectionChange(participants);
+    }, [selectedChildren]);
 
     const toggleTeam = (teamName) => {
         setExpandedTeams((prev) => ({

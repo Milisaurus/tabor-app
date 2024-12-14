@@ -1,11 +1,7 @@
-.team-points-page {
+.edit-tem-games-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-}
-
-.team-points-form {
-    width: 80%;
 }

@@ -24,6 +24,9 @@ const EditTeam = () => {
             setTeams(campData.teams); // Set teams in state
             setCampData(campData); // Set entire camp data in state
         };
+        if (!sessionStorage.getItem("camp_name")) {
+            navigate("/");
+        }
         fetchCampData();
     }, []);
 

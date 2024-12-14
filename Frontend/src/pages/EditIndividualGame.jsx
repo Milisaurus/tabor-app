@@ -65,6 +65,9 @@ const EditIndividualActivity = () => {
     };
 
     const handleChange = (field, value) => {
+        if (field === "points") {
+            value = parseInt(value) || 0;
+        }
         setEditedActivity((prev) => ({
             ...prev,
             [field]: value,
@@ -94,7 +97,7 @@ const EditIndividualActivity = () => {
                     <input type="number" value={editedActivity.points} onChange={(e) => handleChange("points", e.target.value)} min={0} required placeholder="Počet bodů"/>
                 </div>
 
-                <SelectCampMembers campData={campData} participants={editedActivity.participants} onSelectionChange={(newParticipants) => handleChange(newParticipants)} />
+                <SelectCampMembers campData={campData} participants={editedActivity.participants} onSelectionChange={(newParticipants) => handleChange("participants", newParticipants)} />
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
 
