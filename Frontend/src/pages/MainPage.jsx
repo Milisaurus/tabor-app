@@ -1,7 +1,7 @@
 // Author Milan Vrbas <xvrbas01>
 
 import React, { useEffect, useState } from "react";
-import { getCamp, fetchFilteredActivities, fetchTeamScores } from "../api";
+import { getCamp, fetchFilteredActivities, fetchTeamScores, updateCamp } from "../api";
 
 // COMPONENT IMPORT
 import Heading from "../components/Heading/Heading";
@@ -35,6 +35,15 @@ const MainPage = () => {
                 const data = await getCamp(); // Fetch the camp data
                 if (data) {
                     setCampData(data); // Store the camp data in state
+                    
+                    // Fetch filtered games after entering page
+                    const games = await fetchFilteredActivities(
+                        sessionStorage.getItem("camp_name"),
+                        selectedDay,
+                        selectedGameType
+                    );
+                    setFilteredGames(games);
+                    
                     // Fetch the team scores
                     const scores = await fetchTeamScores(sessionStorage.getItem('camp_name'));
                     if (scores) {
@@ -65,7 +74,11 @@ const MainPage = () => {
             if (campData) {
                 try {
                     // Fetch filtered games
-                    const games = await fetchFilteredActivities(sessionStorage.getItem('camp_name'), selectedDay, selectedGameType);
+                    const games = await fetchFilteredActivities(
+                        sessionStorage.getItem('camp_name'), 
+                        selectedDay, 
+                        selectedGameType
+                    );
                     setFilteredGames(games); // Store the filtered games in state
                 } catch (err) {
                     setError("Error fetching filtered activities: " + err.message);
@@ -73,7 +86,7 @@ const MainPage = () => {
             }
         };
         fetchFilteredData();
-    }, [campData, selectedDay, selectedGameType]);
+    }, [selectedDay, selectedGameType]);
 
     // Error handling
     if (loading) return <div>Loading...</div>;
@@ -96,6 +109,47 @@ const MainPage = () => {
         1: "Méně bodovaná",
         2: "Více bodovaná",
         3: "Velmi bodovaná"
+    };
+
+    // Delete individual activity or team game and update points and filtered games
+    const handleDelete = async () => {
+        const updatedCampData = { ...campData };
+
+        // Remove selected individual activity or team game
+        if (selectedActivity.participants) {
+            updatedCampData.individualActivities = updatedCampData.individualActivities.filter((activity) => activity.reason !== selectedActivity.reason);
+        } 
+        else {
+            updatedCampData.teamGames = updatedCampData.teamGames.filter((game) => game.name !== selectedActivity.name);
+        }
+
+        // Update the camp data
+        setCampData(updatedCampData);
+        const campDataJSON = JSON.stringify(updatedCampData);
+
+        try {
+            // Update the camp first
+            await updateCamp(campDataJSON);
+
+            // Fetch the filtered activities after update completion
+            const games = await fetchFilteredActivities(sessionStorage.getItem('camp_name'), selectedDay, selectedGameType);
+            setFilteredGames(games);
+
+            // Fetch the updated scores after activity removal
+            const scores = await fetchTeamScores(sessionStorage.getItem('camp_name'));
+            if (scores) {
+                setTeamScores(scores);
+            } 
+            else {
+                setError("Failed to calculate team scores.");
+            }
+        } 
+        catch (err) {
+            console.error("Error while deleting and updating the activity:", err);
+            alert("Smazání aktivity se nezdařilo.");
+        }
+
+        closeModal(); // Close the modal once the update and fetch processes are completed
     };
 
     return (
@@ -209,6 +263,7 @@ const MainPage = () => {
                     campData={campData} 
                     closeModal={closeModal}
                     setCampData={setCampData}
+                    handleDelete={handleDelete}
                 />
             )}
 

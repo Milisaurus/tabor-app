@@ -4,30 +4,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { updateCamp } from "../../api.jsx"
 
-const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData }) => {
+const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData, handleDelete }) => {
     const navigate = useNavigate();
-
-    const handleDelete = async () => {
-        const updatedCampData = { ...campData };
-        if (selectedActivity.participants) {
-            updatedCampData.individualActivities = updatedCampData.individualActivities.filter((activity) => activity.reason !== selectedActivity.reason);
-        } else {
-            updatedCampData.teamGames = updatedCampData.teamGames.filter((game) => game.name !== selectedActivity.name);
-        }
-
-        setCampData(updatedCampData);
-        const campDataJSON = JSON.stringify(updatedCampData);
-        // Delete activity from server
-        try {
-            await updateCamp(campDataJSON);
-        } catch (err) {
-            console.error("Error saving game data:", err);
-            console.log(updatedCampData);
-            alert("Smazání aktivity se nezdařilo")
-        }
-
-        closeModal();
-    };
 
     return (
         <div className="game-detail-modal">

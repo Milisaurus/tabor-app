@@ -147,6 +147,7 @@ export const fetchTeamScores = async (campName) => {
             throw new Error("Failed to fetch team scores");
         }
 
+        console.log("Scores received successfully");
         // Return the team scores
         return await response.json();
     } 
