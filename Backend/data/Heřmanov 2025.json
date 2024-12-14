@@ -88,33 +88,33 @@
         {
             "type": "Méně bodovaná",
             "point_scheme": [
-                1,
-                2,
-                3,
+                5,
                 4,
-                5
+                3,
+                2,
+                1
             ],
             "everyone_else": 0
         },
         {
             "type": "Více bodovaná",
             "point_scheme": [
-                2,
-                4,
-                6,
+                10,
                 8,
-                10
+                6,
+                4,
+                2
             ],
             "everyone_else": 0
         },
         {
             "type": "Velmi bodovaná",
             "point_scheme": [
-                3,
-                6,
-                9,
+                15,
                 12,
-                15
+                9,
+                6,
+                3
             ],
             "everyone_else": 0
         }
