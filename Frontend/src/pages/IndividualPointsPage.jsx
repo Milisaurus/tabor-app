@@ -15,7 +15,8 @@ const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Pondělí");
+    const weekDays = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    const [day, setDay] = useState(weekDays[new Date().getDay()]);
     const [reason, setReason] = useState("");
     const [points, setPoints] = useState("");
     const [participants, setParticipants] = useState([]);

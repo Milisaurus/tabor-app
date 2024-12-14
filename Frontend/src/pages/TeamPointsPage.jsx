@@ -13,7 +13,8 @@ const TeamPoints = () => {
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Pondělí");
+    const weekDays = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    const [day, setDay] = useState(weekDays[new Date().getDay()]);
     const [gameName, setGameName] = useState("");
     const [gameTypeId, setGameTypeId] = useState(0);
     const [results, setResults] = useState([]);
@@ -85,6 +86,7 @@ const TeamPoints = () => {
 
             <form onSubmit={handleSubmit} className="team-points-form">
                 <div>
+                <label>Název hry</label>
                     <input
                         type="text"
                         value={gameName}
