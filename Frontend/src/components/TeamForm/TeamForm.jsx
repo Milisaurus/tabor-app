@@ -73,7 +73,6 @@ const TeamForm = ({ index, team, currentChildIndex, handleTeamChange, handleChil
                     required
                 >
                     <option value="" disabled hidden>Počet dětí</option>
-                    <option value="1">DEBUG ONLY 1</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
                     <option value="6">6</option>

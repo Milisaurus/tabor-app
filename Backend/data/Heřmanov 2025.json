@@ -1,0 +1,122 @@
+{
+    "campName": "Heřmanov 2025",
+    "teamCount": 5,
+    "teams": [
+        {
+            "name": "Trpaslíci",
+            "color": "#FF0000",
+            "leader1": "Tomáš",
+            "leader2": "Kuba",
+            "childrenCount": "6",
+            "children": [
+                "Honza Houdek",
+                "Lucie Šafránková",
+                "Jolana Kubíková",
+                "Alice Pokorná",
+                "Vojta Pražák",
+                "Eliška Velenová"
+            ]
+        },
+        {
+            "name": "Rohan",
+            "color": "#FFFF00",
+            "leader1": "Laduška",
+            "leader2": "Monička",
+            "childrenCount": "7",
+            "children": [
+                "Vojta Klusák",
+                "Bára Chroustová",
+                "Veronika Špačková",
+                "Tereza Mitášová",
+                "Martin Čížek",
+                "Anna Jindrová",
+                "Tomáš Kubík"
+            ]
+        },
+        {
+            "name": "Hobiti",
+            "color": "#008000",
+            "leader1": "David",
+            "leader2": "Anička",
+            "childrenCount": "7",
+            "children": [
+                "Tomáš Skryja",
+                "Adéla Klusáková",
+                "Zuzana Houdková",
+                "Daniela Koutníková",
+                "Eliška Mitášová",
+                "Jindra Jacháček",
+                "Adéla Brablecová"
+            ]
+        },
+        {
+            "name": "Gondor",
+            "color": "#8B4513",
+            "leader1": "Lucka",
+            "leader2": "Ondra",
+            "childrenCount": "7",
+            "children": [
+                "Karina Vášová",
+                "Klára Lichtágová",
+                "Iveta Jacháčková",
+                "Libor Havel",
+                "Nikola Chroustová",
+                "Marek Houdek",
+                "Lucie Čížková"
+            ]
+        },
+        {
+            "name": "Elfové",
+            "color": "#0000FF",
+            "leader1": "Milan",
+            "leader2": "Honza",
+            "childrenCount": "7",
+            "children": [
+                "Eliška Vášová",
+                "Ester Pokorná",
+                "Tereza Koutníková",
+                "Daniel Chládek",
+                "Lucie Brablecová",
+                "Kamila Kubíková",
+                "Adam Šejnoha"
+            ]
+        }
+    ],
+    "teamGames": [],
+    "individualActivities": [],
+    "gameTypes": [
+        {
+            "type": "Méně bodovaná",
+            "point_scheme": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "everyone_else": 0
+        },
+        {
+            "type": "Více bodovaná",
+            "point_scheme": [
+                2,
+                4,
+                6,
+                8,
+                10
+            ],
+            "everyone_else": 0
+        },
+        {
+            "type": "Velmi bodovaná",
+            "point_scheme": [
+                3,
+                6,
+                9,
+                12,
+                15
+            ],
+            "everyone_else": 0
+        }
+    ]
+}
