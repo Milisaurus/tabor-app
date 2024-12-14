@@ -18,7 +18,7 @@ const TeamPoints = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const weekDays = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
-    const [day, setDay] = useState("Pondělí")  = useState(weekDays[new Date().getDay()]);       // holds selected day
+    const [day, setDay]  = useState(weekDays[new Date().getDay()]);       // holds selected day
     const [gameName, setGameName] = useState("");    // holds name of the game
     const [gameTypeId, setGameTypeId] = useState(0); // holds type of the game, this is used for assigning points
     const [results, setResults] = useState([]);      // holds results of the game

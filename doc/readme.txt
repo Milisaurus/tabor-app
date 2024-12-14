@@ -42,15 +42,24 @@ Adresářová struktura:
             - ./TeamFormEdit - Formulář pro úpravu týmů. (autor: xvrbas01)
                 - TeamFormEdit.css
                 - TeamFormEdit.jsx
+            - ./TeamPointsTable - Interaktivní tabulka pro bodování týmových her. (autor: xjurac07)
+                - TeamPointsTable.jsx
+                - TeamPointsTable.css
+
         - ./css - Stylování jednotlivých stránek aplikace.
             - CreateCamp.css  (autor: xvrbas01)
+            - EditActivity.css (autor: xjurac07)
+            - EditGame.css (autor: xjurac07)
             - IndividualPointsPage.css (autor: xjurac07)
             - MainPage.css (autor: xvrbas01)
             - StartPage.css (autor: xvrbas01)
             - TeamPointsPage.css (autor: xjurac07)
+
         - ./pages - Jednotlivé stránky aplikace.
             - CreateCamp.jsx - Stránka pro vytvoření nového tábora. (autor: xvrbas01)
+            - EditIndividualGame - Stránka úpravu již vytvořených individuálních aktivit. (autor: xjurac07)
             - EditTeam.jsx - Stránka pro úpravu týmů. (autor: xvrbas01)
+            - EditTeamGame - Stránka pro úpravu týmových her. (autor: xjurac07)
             - IndividualPointsPage.jsx - Stránka pro zadávání individuálních bodů. (autor: xjurac07)
             - MainPage.jsx - Hlavní stránka aplikace obsahující tabulku s body a historii aktivit. (autor: xvrbas01)
             - StartPage.jsx - Úvodní stránka aplikace. (autor: xvrbas01)
