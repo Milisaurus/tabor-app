@@ -30,9 +30,9 @@ const Header = ({ goBackLink, editLink1, editLink2,
                     <Link to={editLink1}>
                         <img src="/edit-teams-button.png" alt="Editovat týmy" title="Klikněte pro úpravu týmů"/>
                     </Link>
-                    <Link to={editLink2}>
+                    {/* <Link to={editLink2}>
                         <img src="/edit-points-button.png" alt="Editovat typ bodování her" title="Klikněte editaci typu bodování her"/>
-                    </Link>
+                    </Link> */}
                 </div>
             ) : (
                 <div className="right-icons" style={{ visibility: 'hidden' }}>
