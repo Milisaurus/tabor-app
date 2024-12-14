@@ -17,7 +17,8 @@ const TeamPoints = () => {
     const [campData, setCampData] = useState(null);  // camp data
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Pondělí");       // holds selected day
+    const weekDays = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    const [day, setDay] = useState("Pondělí")  = useState(weekDays[new Date().getDay()]);       // holds selected day
     const [gameName, setGameName] = useState("");    // holds name of the game
     const [gameTypeId, setGameTypeId] = useState(0); // holds type of the game, this is used for assigning points
     const [results, setResults] = useState([]);      // holds results of the game
@@ -92,6 +93,7 @@ const TeamPoints = () => {
 
             <form onSubmit={handleSubmit} className="team-points-form">
                 <div>
+                <label>Název hry</label>
                     <input
                         type="text"
                         value={gameName}

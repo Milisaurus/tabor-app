@@ -18,10 +18,11 @@ const IndividualPoints = () => {
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Pondělí");  // holds selected day
-    const [reason, setReason] = useState("");   // reason of activity
-    const [points, setPoints] = useState("");   // number of points for activity
-    const [participants, setParticipants] = useState([]);   // list of participants in activity
+    const weekDays = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    const [day, setDay] = useState(weekDays[new Date().getDay()]);
+    const [reason, setReason] = useState("");               // Name of the activity
+    const [points, setPoints] = useState("");               // Points to participants
+    const [participants, setParticipants] = useState([]);   // Holds names of participants
     const navigate = useNavigate();
 
     // fetch camp data from server
@@ -81,7 +82,7 @@ const IndividualPoints = () => {
             <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="points-form">
-                
+
                 <div>
                     <label>Název aktivity</label>
                     <input type="text" value={reason} onChange={(e) => {setReason(e.target.value)}} required placeholder="Název" />

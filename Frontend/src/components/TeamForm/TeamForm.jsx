@@ -52,7 +52,8 @@ const TeamForm = ({ index, team, currentChildIndex, handleTeamChange, handleChil
             {/* Team color */}
             <label htmlFor="teamColor">Barva týmu:</label>
             <div className="color-picker">
-                {["#FF0000", "#0000FF", "#008000", "#FFFF00", "#000000", "#8B4513", "#FFA500", "#800080"].map((color) => (
+                {/* Červená,   Modrá,     Zelená,    Zlatá,      Černá,     Hnědá,     Oranžová,  Fialová. */}
+                {["#FF0000", "#0000FF", "#008000", "#FFCC00",, "#000000", "#8B4513", "#FFA500", "#800080"].map((color) => (
                     <div
                         key={color}
                         className={`current-color ${team.color === color ? "selected" : ""}`}
