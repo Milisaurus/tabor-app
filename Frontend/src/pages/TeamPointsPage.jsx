@@ -1,5 +1,9 @@
+// Author Jan Juračka <xjurac07>
+
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+// COMPONENT IMPORT
 import { getCamp, updateCamp } from "../api";
 import Header from "../components/Header/Header";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
@@ -10,40 +14,16 @@ import TeamPointsTable from "../components/TeamPointsTable/TeamPointsTable";
 import "../css/TeamPointsPage.css";
 
 const TeamPoints = () => {
-    const [campData, setCampData] = useState(null);
+    const [campData, setCampData] = useState(null);  // camp data
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Pondělí");
-    const [gameName, setGameName] = useState("");
-    const [gameTypeId, setGameTypeId] = useState(0);
-    const [results, setResults] = useState([]);
+    const [day, setDay] = useState("Pondělí");       // holds selected day
+    const [gameName, setGameName] = useState("");    // holds name of the game
+    const [gameTypeId, setGameTypeId] = useState(0); // holds type of the game, this is used for assigning points
+    const [results, setResults] = useState([]);      // holds results of the game
     const navigate = useNavigate();
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const newTeamGame = {
-            day,
-            gameTypeId: gameTypeId,
-            name: gameName,
-            results: results.map((result) => ({
-                points_awarded: result.points_awarded,
-                position: result.position,
-                team_name: result.team_name,
-            })),
-        };
-        campData["teamGames"].push(newTeamGame);
-        const updatedCampDataJson = JSON.stringify(campData);
-
-        try {
-            await updateCamp(updatedCampDataJson);
-        } catch (err) {
-            console.error("Error saving game data:", err);
-            console.log(updatedCampDataJson);
-        }
-        navigate("/main-page");
-    };
-
+    // fetch camp data
     useEffect(() => {
         const fetchCampData = async () => {
             try {
@@ -55,7 +35,7 @@ const TeamPoints = () => {
                         position: index + 1,
                         team_name: team.name,
                     }));
-                    setResults(initialResults);  // Set the results state
+                    setResults(initialResults); // sets initial positions and points to teams
 
                 } else {
                     setError("Camp data not found.");
@@ -66,12 +46,39 @@ const TeamPoints = () => {
                 setLoading(false);
             }
         };
-
+        
         if (!sessionStorage.getItem("camp_name")) {
             navigate("/");
         }
         fetchCampData();
-    }, [navigate]);
+    }, []);
+    
+    // Handles submit, sends data to server
+    const handleSubmit = async (e) => {
+        // prevent default values
+        e.preventDefault();
+        // wrap new game into object
+        const newTeamGame = {
+            day,
+            gameTypeId: gameTypeId,
+            name: gameName,
+            results: results.map((result) => ({
+                points_awarded: result.points_awarded,
+                position: result.position,
+                team_name: result.team_name,
+            })),
+        };
+        // add new game into camp data
+        campData["teamGames"].push(newTeamGame);
+        // send JSON string to server
+        try {
+            await updateCamp(JSON.stringify(campData));
+        } catch (err) {
+            console.error("Error saving game data:", err);
+            console.log(updatedCampDataJson);
+        }
+        navigate("/main-page");
+    };
 
     if (loading) return <h1>Načítání...</h1>;
     if (error) return <h1>Error: {error}</h1>;

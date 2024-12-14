@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import "./TeamPointsTable.css"
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
+    // Give each team number of points acording to points scheme of selected game type
     useEffect(() => {
+        // unless it's set to "Vlastní"
         if (gameTypeId === 0) return;
 
         const updateResultsBasedOnPositions = (gameTypeId) => {
@@ -23,10 +25,12 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }
     }, [gameTypeId]);
 
+    // Handle the Drag
     const handleDragStart = (e, index) => {
         e.dataTransfer.setData("dragIndex", index);
     };
 
+    // Handle Drop
     const handleDrop = (e, dropIndex) => {
         const dragIndex = parseInt(e.dataTransfer.getData("dragIndex"), 10);
         const updatedResults = [...results];
@@ -39,16 +43,20 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         });
 
         setResults(updatedResults);
+        // set point scheme to "Vlastní"
         setGameTypeId(0);
     };
 
+    // Handle manual change of the points by user
     const handleManualPointChange = (resultIndex, newPoints) => {
         const updatedResults = [...results];
         updatedResults[resultIndex].points_awarded = newPoints;
         setResults(updatedResults);
+        // set point scheme to "Vlastní"
         setGameTypeId(0);
     };
 
+    // Get color of the team from camp data
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
         return team ? team.color : '';
@@ -56,6 +64,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
     return (
         <div className='team-table-container'>
+            {/* Game type select */}
             <div className='select-game-type'>
                 <label>Typ hry</label>
                 <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
@@ -66,6 +75,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                 </select>
             </div>
 
+            {/* Team Points Table */}
             <label>Upravte pozice týmů přetažením</label>
             <table className="team-table">
                 <thead>
@@ -77,6 +87,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                 </thead>
                 <tbody>
                     {results.map((result, index) => (
+                        // Row
                         <tr
                             key={result.team_name}
                             draggable
@@ -84,12 +95,15 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                             onDragOver={(e) => e.preventDefault()}
                             onDrop={(e) => handleDrop(e, index)}
                         >
+                            {/* Position */}
                             <td className="team-position">{result.position}</td>
+                            {/* Name of the team with its colour as background */}
                             <td className="team-info" >
                                 <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
                                     <span className="name">{result.team_name}</span>
                                 </div>
                             </td>
+                            {/* Points */}
                             <td>
                                 <input
                                     type="number"

@@ -1,3 +1,5 @@
+// Author Jan Juračka <xjurac07>
+
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -10,18 +12,27 @@ import TeamPointsTable from "../components/TeamPointsTable/TeamPointsTable";
 import "../css/EditGame.css"
 
 const EditTeamGame = () => {
-    const [campData, setCampData] = useState();
+    const [campData, setCampData] = useState();     // camp data
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);    
-    const [selectedGame, setSelectedGame] = useState();
-    const [editedGame, setEditedGame] =useState();
-
+    const [selectedGame, setSelectedGame] = useState(); // game selected for editing
+    const [editedGame, setEditedGame] =useState();      // edited version of selected game
     const navigate = useNavigate();
     const location = useLocation();
 
+    // get name of edited game form URL querry
     const queryParams = new URLSearchParams(location.search);
     const gameNameFromUrl = queryParams.get("name");
 
+    // Handle editing game
+    const handleChange = (field, value) => {
+        setEditedGame((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
+
+    // fetch camp data
     useEffect(() => {
             const fetchCampData = async () => {
                 try {
@@ -51,24 +62,20 @@ const EditTeamGame = () => {
             fetchCampData();
     }, []);
 
+    // Handles submit, send data to server
     const handleSubmit = async (e) => {
+        // prevent default values
         e.preventDefault();
+        // switch selected game for edited version
         const updatedGames = campData.teamGames.map((game) => game.name === selectedGame.name ? editedGame : game);
         const updatedCampData = {...campData,teamGames: updatedGames,};
-
+        // send JSON string to server
         try {
             await updateCamp(JSON.stringify(updatedCampData));
             navigate("/main-page");
         } catch (err) {
             console.error("Error updating game data:", err);
         }
-    };
-
-    const handleChange = (field, value) => {
-        setEditedGame((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
     };
 
     if (loading) return <h1>Načítání...</h1>;
@@ -96,9 +103,7 @@ const EditTeamGame = () => {
                         setGameTypeId={(newId) => handleChange("gameTypeId", newId)}/>
                 </div>
 
-                <div>
-                    <button className="submitbutton" type="submit">Potvrdit</button>
-                </div>
+                <button className="submitbutton" type="submit">Potvrdit</button>
 
             </form>
             <img src="/wave.svg" alt="Wave" className="wave-svg" />

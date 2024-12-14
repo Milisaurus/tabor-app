@@ -1,3 +1,5 @@
+// Author Jan Juračka <xjurac07>
+
 import React from "react";
 import "./selectDay.css"
 

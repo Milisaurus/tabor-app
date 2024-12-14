@@ -1,5 +1,7 @@
+// Author Jan Juračka <xjurac07>
+
 import React, { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {getCamp, updateCamp} from "../api"
 
 // COMPONENT IMPORT
@@ -12,15 +14,17 @@ import SelectCampMembers from "../components/SelectTeamMembers/SelectTeamMembers
 import "../css/IndividualPointsPage.css"
 
 const IndividualPoints = () => {
+    // States definition
     const [campData, setCampData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [day, setDay] = useState("Pondělí");
-    const [reason, setReason] = useState("");
-    const [points, setPoints] = useState("");
-    const [participants, setParticipants] = useState([]);
+    const [day, setDay] = useState("Pondělí");  // holds selected day
+    const [reason, setReason] = useState("");   // reason of activity
+    const [points, setPoints] = useState("");   // number of points for activity
+    const [participants, setParticipants] = useState([]);   // list of participants in activity
     const navigate = useNavigate();
 
+    // fetch camp data from server
     useEffect(() => {
         const fetchCampData = async () => {
             try {
@@ -42,33 +46,33 @@ const IndividualPoints = () => {
         fetchCampData();
     }, []);
     
+    // Handles submit, sends new data to server
     const handleSubmit = async (event) => {
+        // prevent default values
         event.preventDefault();
+        // wrap new activity into object
         const newIndividualActivity = {
             day,
             reason,
             points: parseInt(points),
             participants
         }
-        
-        
+        // add new activity to camp data
         campData['individualActivities'].push(newIndividualActivity);
-        const updatedCampDataJson = JSON.stringify(campData);
-        
-        
+        // send JSON string to server
         try {
-            await updateCamp(updatedCampDataJson);
+            await updateCamp(JSON.stringify(campData));
         } catch (error){
             console.error("Failed to update camp data:", error);
             console.log(updatedCampData);
-        }
+            alert("Nepodařilo se odeslat požadavek");
+        }        
         navigate("/main-page");
-        
     };
     
-        if (loading) return <h1>Načítání...</h1>;
-        if (error) return <h1>Error: {error}</h1>;
-        if (!campData) return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
+    if (loading) return <h1>Načítání...</h1>;
+    if (error) return <h1>Error: {error}</h1>;
+    if (!campData) return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
 
     return(
         <div className="individual-points-page">
@@ -77,7 +81,7 @@ const IndividualPoints = () => {
             <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="points-form">
-
+                
                 <div>
                     <label>Název aktivity</label>
                     <input type="text" value={reason} onChange={(e) => {setReason(e.target.value)}} required placeholder="Název" />

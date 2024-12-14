@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./SelectTeamMembers.css";
 
 const SelectCampMembers = ({ campData, participants, onSelectionChange }) => {
-    const [selectedChildren, setSelectedChildren] = useState(participants || []);
-    const [expandedTeams, setExpandedTeams] = useState(
+    const [selectedChildren, setSelectedChildren] = useState(participants || []);   // Holds names of selected participants
+    const [expandedTeams, setExpandedTeams] = useState(     // List of expanded content
         Object.fromEntries(campData.teams.map((team) => [team.name, true]))
     );
 
+    //
     useEffect(() => {
         onSelectionChange(participants);
     }, [selectedChildren]);
 
+    // Expand team content / Hide teams expanded content 
     const toggleTeam = (teamName) => {
         setExpandedTeams((prev) => ({
             ...prev,
@@ -18,6 +20,7 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange }) => {
         }));
     };
 
+    // Handle change of participants
     const handleChange = (event) => {
         const { value, checked } = event.target;
         const updatedSelection = checked
@@ -28,6 +31,7 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange }) => {
         onSelectionChange(updatedSelection);
     };
 
+    // Handle select all check box in team header
     const handleSelectAll = (teamChildren, isChecked) => {
         const updatedSelection = isChecked
             ? [...new Set([...selectedChildren, ...teamChildren])]
@@ -51,6 +55,7 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange }) => {
                             onClick={() => toggleTeam(team.name)}
                             className="team-header"
                             style={{
+                                // Effect of rounded corners on bottom of not-expanded team headers
                                 borderBottomLeftRadius: !isExpanded ? "8px" : "0px",
                                 borderBottomRightRadius: !isExpanded ? "8px" : "0px"
                             }}
