@@ -64,17 +64,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
     return (
         <div className='team-table-container'>
-            {/* Game type select */}
-            <div className='select-game-type'>
-                <label>Typ hry</label>
-                <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
-                    <option value={0}>Vlastní</option>
-                    {campData.gameTypes.map((type, index) => (
-                        <option key={index} value={index + 1}>{type.type}</option>
-                    ))}
-                </select>
-            </div>
-
             {/* Team Points Table */}
             <label>Upravte pozice týmů přetažením</label>
             <table className="team-table">
@@ -117,6 +106,18 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     ))}
                 </tbody>
             </table>
+
+            {/* Game type select */}
+            <div className='select-game-type'>
+                <label>Typ hry</label>
+                <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
+                    <option value={0}>Vlastní</option>
+                    {campData.gameTypes.map((type, index) => (
+                        <option key={index} value={index + 1}>{type.type}</option>
+                    ))}
+                </select>
+            </div>
+            
         </div>
     );
 };
