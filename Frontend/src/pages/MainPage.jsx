@@ -19,19 +19,14 @@ const MainPage = () => {
     const [error, setError] = useState(null);
     const [teamScores, setTeamScores] = useState({});
     const [filteredGames, setFilteredGames] = useState([]); // Holds filtered games based on API call
-    const [selectedDay, setSelectedDay] = useState(""); // Selected day for filtering activities
+    const weekDays = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"]; // Array for init the selectedDay
+    const [selectedDay, setSelectedDay] = useState(weekDays[new Date().getDay()]); // Selected day for filtering activities
     const [selectedGameType, setSelectedGameType] = useState(""); // Selected game type for filtering activities
     const [selectedActivity, setSelectedActivity] = useState(null); // Holds selected activity details for modal
     const navigate = useNavigate();
 
     // Array representing the days of the camp week
     const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
-
-    // Set the default selected day based on today's day
-    useEffect(() => {
-        const todayIndex = new Date().getDay();
-        setSelectedDay(campDays[todayIndex + 1]);
-    }, []);
 
     // Fetch camp data and team scores
     useEffect(() => {
