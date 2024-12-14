@@ -1,10 +1,11 @@
 // Author Milan Vrbas <xvrbas01>
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { updateCamp } from "../../api.jsx"
 
 const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData }) => {
+    const navigate = useNavigate();
 
     const handleDelete = async () => {
         const updatedCampData = { ...campData };
@@ -24,6 +25,7 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData }
             console.log(updatedCampData);
             alert("Smazání aktivity se nezdařilo")
         }
+
         closeModal();
     };
 
@@ -32,9 +34,15 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData }
             <div className="modal-content">
                 <div className="modal-header">
                     {/* Edit button */}
-                    <Link to="#">
-                        <img src="/edit-points-button.png" alt="Edit" className="modal-icon-left" />
-                    </Link>
+                    {selectedActivity.participants ? (
+                        <Link to={`/edit-individual-activity?reason=${selectedActivity.reason}`}>
+                            <img src="/edit-points-button.png" alt="Edit" className="modal-icon-left" />
+                        </Link>
+                    ) : (
+                        <Link to={`/edit-team-game?name=${selectedActivity.name}`}>
+                            <img src="/edit-points-button.png" alt="Edit" className="modal-icon-left" />
+                        </Link>
+                    )}
                     <h2 className="detail-hry">Detail hry</h2>
                     {/* Delete button */}
                     <Link to="#" onClick={handleDelete}>

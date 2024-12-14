@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SelectTeamMembers.css";
 
-const SelectCampMembers = ({ campData, onSelectionChange }) => {
-    const [selectedChildren, setSelectedChildren] = useState([]);
+const SelectCampMembers = ({ campData, participants, onSelectionChange }) => {
+    const [selectedChildren, setSelectedChildren] = useState(participants || []);
     const [expandedTeams, setExpandedTeams] = useState(
         Object.fromEntries(campData.teams.map((team) => [team.name, true]))
     );
+
+    useEffect(() => {
+        onSelectionChange(selectedChildren);
+    }, [selectedChildren, onSelectionChange]);
 
     const toggleTeam = (teamName) => {
         setExpandedTeams((prev) => ({

@@ -72,31 +72,26 @@ const IndividualPoints = () => {
 
     return(
         <div className="individual-points-page">
-            {/* Navigation bars */}
             <Header goBackLink="/main-page"  editLink1={"/edit-teams"} editLink2="#" showIcons="true"/>  
             <NavbarButtons/>
             <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="points-form">
 
-                {/* Activity Name */}
                 <div>
                     <label>Název aktivity</label>
                     <input type="text" value={reason} onChange={(e) => {setReason(e.target.value)}} required placeholder="Název" />
                 </div>
 
-                {/* Select Day of the Week */}
                 <SelectDay selectedDay={day} onDayChange={setDay}/>
 
-                {/* Number of points */}
                 <div className="number-of-points">
                     <label>Počet udělených bodů</label>
                     <input type="number" value={points} onChange={(e) => {setPoints(e.target.value)}} min={0} required placeholder="Počet bodů"/>
                 </div>
 
-                <SelectCampMembers campData={campData} onSelectionChange={setParticipants} />
+                <SelectCampMembers campData={campData} participants={participants} onSelectionChange={setParticipants} />
 
-                {/* Submit Button */}
                 <button className="submitbutton" type="submit">Potvrdit</button>
 
             </form>

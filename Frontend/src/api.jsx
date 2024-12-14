@@ -65,6 +65,7 @@ export const getCamp = async () => {
         }
 
         // Return the response data
+        console.log("Camp data received successfully");
         return await response.json();
     } 
     catch (error) {
@@ -188,6 +189,7 @@ export const fetchFilteredActivities = async (campName, day, gameType) => {
         }
 
         // Return the filtered activities
+        console.log("Filtered camp games received successfully");
         return await response.json();
     } 
     catch (error) {

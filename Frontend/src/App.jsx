@@ -9,6 +9,8 @@ import MainPage from "./pages/MainPage";
 import TeamPoints from "./pages/TeamPointsPage";
 import IndividualPoints from "./pages/IndividualPointsPage";
 import EditTeams from "./pages/EditTeam";
+import EditTeamGame from "./pages/EditTeamGame";
+import EditIndividualActivity from "./pages/EditIndividualGame";
 
 function App() {
     return (
@@ -21,6 +23,8 @@ function App() {
                 <Route path="/team-points" element={<TeamPoints/>} />
                 <Route path="/individual-points" element={<IndividualPoints/>} />
                 <Route path="/edit-teams" element={<EditTeams />} />
+                <Route path="edit-team-game" element={<EditTeamGame/>} />
+                <Route path="edit-individual-activity" element={<EditIndividualActivity/>}/>
             </Routes>
         </Router>
     );

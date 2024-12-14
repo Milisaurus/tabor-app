@@ -1,0 +1,11 @@
+.edit-individual-activity-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.number-of-points {
+    width: 40%;
+}
