@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./TeamPointsTable.css"
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [dropCount, setDropCount] = useState(0);
+    const [dropCount, setDropCount] = useState(0); // Count to refresh the table
 
     // Give each team number of points acording to points scheme of selected game type
     useEffect(() => {
@@ -25,7 +25,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         if (gameTypeId !== null && gameTypeId !== 0) {
             updateResultsBasedOnPositions(gameTypeId);
         }
-    }, [gameTypeId, dropCount]);
+    }, [gameTypeId, dropCount]); // Refresh the table with gameType changed or after team drag
 
     // Handle the Drag
     const handleDragStart = (e, index) => {
@@ -46,6 +46,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
         setResults(updatedResults);
 
+        // Refresh the table
         setDropCount(dropCount + 1);
     };
 
