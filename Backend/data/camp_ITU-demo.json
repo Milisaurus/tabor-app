@@ -82,6 +82,23 @@
                     "team_name": "Kočičky"
                 }
             ]
+        },
+        {
+            "day": "Sobota",
+            "gameTypeId": 1,
+            "name": "Něco",
+            "results": [
+                {
+                    "points_awarded": 3,
+                    "position": 1,
+                    "team_name": "Opičáci"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 2,
+                    "team_name": "Kočičky"
+                }
+            ]
         }
     ],
     "individualActivities": [

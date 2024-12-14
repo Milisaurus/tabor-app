@@ -45,15 +45,15 @@ def calculate_points(number_of_teams, game_type):
 
     # Last team gets 1 point and every other gets +1 based on it's position
     if game_type == "méně bodovaná":
-        return [i + 1 for i in range(number_of_teams)]
+        return [number_of_teams - i for i in range(number_of_teams)]
 
     # Last team gets 2 points and every other gets +2 based on it's position
     elif game_type == "více bodovaná":
-        return [2 * (i + 1) for i in range(number_of_teams)]
+        return [2 * (number_of_teams - i) for i in range(number_of_teams)]
 
     # Last team gets 3 points and every other gets +3 based on it's position
     elif game_type == "velmi bodovaná":
-        return [3 * (i + 1) for i in range(number_of_teams)]
+        return [3 * (number_of_teams - i) for i in range(number_of_teams)]
 
 ############################################ APIs #############################################
 
@@ -187,11 +187,11 @@ def add_game_types(camp_name):
      # Define the game types and calculate the corresponding point schemes
     game_types = [
         {"type": "Méně bodovaná", 
-            "point_scheme": calculate_points(number_of_teams, "méně bodovaná"), "everyone_else": 0,},
+            "point_scheme": calculate_points(number_of_teams, "méně bodovaná"),},
         {"type": "Více bodovaná", 
-            "point_scheme": calculate_points(number_of_teams, "více bodovaná"), "everyone_else": 0,},
+            "point_scheme": calculate_points(number_of_teams, "více bodovaná"),},
         {"type": "Velmi bodovaná", 
-            "point_scheme": calculate_points(number_of_teams, "velmi bodovaná"), "everyone_else": 0,}
+            "point_scheme": calculate_points(number_of_teams, "velmi bodovaná"),}
     ]
 
     # Add the calculated game types to the camp data

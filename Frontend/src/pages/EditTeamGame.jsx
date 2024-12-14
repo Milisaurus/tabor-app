@@ -101,6 +101,7 @@ const EditTeamGame = () => {
                 </div>
 
             </form>
+            <img src="/wave.svg" alt="Wave" className="wave-svg" />
         </div>
     )
 }

@@ -93,8 +93,7 @@
                 3,
                 2,
                 1
-            ],
-            "everyone_else": 0
+            ]
         },
         {
             "type": "Více bodovaná",
@@ -104,8 +103,7 @@
                 6,
                 4,
                 2
-            ],
-            "everyone_else": 0
+            ]
         },
         {
             "type": "Velmi bodovaná",
@@ -115,8 +113,7 @@
                 9,
                 6,
                 3
-            ],
-            "everyone_else": 0
+            ]
         }
     ]
 }

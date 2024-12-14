@@ -102,6 +102,7 @@ const EditIndividualActivity = () => {
                 <button className="submitbutton" type="submit">Potvrdit</button>
 
             </form>
+            <img src="/wave.svg" alt="Wave" className="wave-svg" />
         </div>
     )
 }
