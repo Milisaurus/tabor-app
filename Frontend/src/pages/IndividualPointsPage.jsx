@@ -51,6 +51,12 @@ const IndividualPoints = () => {
     const handleSubmit = async (event) => {
         // prevent default values
         event.preventDefault();
+        // Check if the activity reason already exists in campData.teamGames
+        const isDuplicateReason = campData.individualActivities.some((activity) => activity.reason === reason);
+        if (isDuplicateReason) {
+            alert("Název aktivity již existuje! Vyberte prosím jiný název.");
+            return; // Stop the submission
+        }
         // wrap new activity into object
         const newIndividualActivity = {
             day,

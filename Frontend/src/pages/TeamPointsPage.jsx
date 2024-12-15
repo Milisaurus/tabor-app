@@ -58,6 +58,12 @@ const TeamPoints = () => {
     const handleSubmit = async (e) => {
         // prevent default values
         e.preventDefault();
+        // Check if the game name already exists in campData.teamGames
+        const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
+        if (isDuplicateName) {
+            alert("Název hry již existuje! Vyberte prosím jiný název.");
+            return; // Stop the submission
+        }
         // wrap new game into object
         const newTeamGame = {
             day,
@@ -94,25 +100,13 @@ const TeamPoints = () => {
             <form onSubmit={handleSubmit} className="team-points-form">
                 <div>
                 <label>Název hry</label>
-                    <input
-                        type="text"
-                        value={gameName}
-                        onChange={(e) => setGameName(e.target.value)}
-                        required
-                        placeholder="Název hry"
-                    />
+                    <input type="text" value={gameName} onChange={(e) => setGameName(e.target.value)} required placeholder="Název hry" />
                 </div>
 
                 <SelectDay selectedDay={day} onDayChange={setDay} />
 
                 <div style={{width: "100%"}}>
-                    <TeamPointsTable
-                        campData={campData}
-                        results={results}
-                        setResults={setResults}
-                        gameTypeId={gameTypeId}
-                        setGameTypeId={setGameTypeId}
-                    />
+                    <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
                 </div>
 
                 <button className="submitbutton" type="submit">Potvrdit</button>

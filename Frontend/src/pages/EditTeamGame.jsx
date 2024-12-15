@@ -66,6 +66,12 @@ const EditTeamGame = () => {
     const handleSubmit = async (e) => {
         // prevent default values
         e.preventDefault();
+        // Validate that the new game name does not conflict with other games (except the current one being edited)
+        const isDuplicateName = campData.teamGames.some((game) => game.name === editedGame.name && game.name !== selectedGame.name);
+        if (isDuplicateName) {
+            alert("Název hry již existuje! Vyberte prosím jiný název.");
+            return; // Stop the submission if duplicate name is found
+        }        
         // switch selected game for edited version
         const updatedGames = campData.teamGames.map((game) => game.name === selectedGame.name ? editedGame : game);
         const updatedCampData = {...campData,teamGames: updatedGames,};

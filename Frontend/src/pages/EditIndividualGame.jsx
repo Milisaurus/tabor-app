@@ -69,6 +69,12 @@ const EditIndividualActivity = () => {
     const handleSubmit = async (e) => {
         // prevent default values
         e.preventDefault();
+        // Validate that the new activity reason does not conflict with other activities (except the current one being edited)
+        const isDuplicateReason = campData.individualActivities.some((activity) => activity.reason === editedActivity.reason && activity.reason !== selectedActivity.reason);
+        if (isDuplicateReason) {
+            alert("Název aktivity již existuje! Vyberte prosím jiný název.");
+            return; // Stop the submission
+        }
         // switch selected activity for edited veersion
         const updatedActivities = campData.individualActivities.map((activity) => activity.reason === selectedActivity.reason ? editedActivity : activity);
         const updatedCampData = {...campData, individualActivities: updatedActivities,};
