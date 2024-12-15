@@ -8,12 +8,7 @@ Adresářová struktura:
         - camp_ITU-demo.json
 
 ./Frontend
-    - eslint.config.js - Konfigurace ESLint pro statickou analýzu kódu.
     - index.html - Základní HTML šablona projektu.
-    - package-lock.json - Automaticky generovaný zámek závislostí NPM.
-    - package.json - Definice závislostí a skriptů frontendového projektu.
-    - vite.config.js - Konfigurace balíčku Vite.
-    
     - ./public - Obsahuje použité ikony.
     - ./src
         - api.jsx - API metody pro komunikaci mezi frontendem a backendem.

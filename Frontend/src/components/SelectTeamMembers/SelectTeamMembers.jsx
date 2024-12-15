@@ -1,3 +1,5 @@
+// Author Jan Juračka <xjurac07>
+
 import React, { useState, useEffect } from "react";
 import "./SelectTeamMembers.css";
 

@@ -99,23 +99,6 @@
                     "team_name": "Kočičky"
                 }
             ]
-        },
-        {
-            "day": "Neděle",
-            "gameTypeId": 0,
-            "name": "fdsafdsa",
-            "results": [
-                {
-                    "points_awarded": 4,
-                    "position": 1,
-                    "team_name": "Opičáci"
-                },
-                {
-                    "points_awarded": 3,
-                    "position": 2,
-                    "team_name": "Kočičky"
-                }
-            ]
         }
     ],
     "individualActivities": [
