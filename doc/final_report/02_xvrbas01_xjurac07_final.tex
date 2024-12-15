@@ -24,7 +24,7 @@
         \vspace{\stretch{0.382}}
         \Huge{Závěrečný report} \\
         \Large{\textbf{Organizátor táborových bodů}} \\
-        \large{ITU – Tvorba uživatelských rozhrání }
+        \large{ITU – Tvorba uživatelských rozhraní }
         \vspace{\stretch{0.618}}
     \end{center}
 
@@ -55,7 +55,27 @@ hrách, výsledcích, historii her a nastavení bodování) budou uložena ve fo
 backendové straně aplikace, což umožní snadné sdílení těchto informací s ostatními vedoucími.
 
 \subsection{Odchylky od původního zadání}
-
+\begin{itemize}
+    \item Stránka vytvoření tábora
+    \item Hlavní stránka
+    \item Historie aktivit
+    \item Vložení a úprava týmové hry
+    \begin{itemize}
+        \item Uživatel nyní vidí kolik přesně bodů každý tým dostal.
+        \item Uživatel upravuje pozici týmů a body v tabulce, místo na slideru.
+        \item Úprava pozic nyní probíhá přetažením kolonky týmu na požadovanou pozici.
+    \end{itemize}
+    \item Vložení a úprava individuální aktivity
+    \begin{itemize}
+        \item Uživatel nyní zaškrtává políčka u dětí, které chce ohodnotit, místo toho aby vypisoval jméno každého dítěte zvlášť.
+        \item Jména dětí jsou řazena do seznamů podle toho, do jakého týmu patří.
+        \item Přidána možnost ohodnotit všechny děti v jednom týmu pomocí zaškrtnutí políčka "Vybrat všechny".
+    \end{itemize}
+    \item Vytváření a úprava typů bodování
+    \begin{itemize}
+        \item Tato funkce byla zrušena.
+    \end{itemize}        
+\end{itemize}
 \section{Rozdělení práce v týmu}
 
 Na výsledné implementaci frontendové části projektu jsme se podíleli dva, Milan Vrbas a 
@@ -84,9 +104,8 @@ spolupráci na projektu, přičemž jednotlivé úkoly byly rozděleny následov
         zadání bodů za konkrétní aktivity jednotlivcům
     \item \textbf{Přidávání týmových her} \texttt{TeamPointsPage.jsx} -- zadání bodového 
         ohodnocení za odehrané hry jednotlivým týmům
-    \item \textbf{Správu her} \texttt{TODO.jsx} -- umožňuje mazání či úpravu jednotlivých her 
-        či aktivit.
-    \item \textbf{Úprava bodování her} \texttt{TODO.jsx} -- umožnuje upravit bodování týmových her
+    \item \textbf{Úprava týmových her} \texttt{EditTeamGame.jsx} -- umožňuje úpravu jednotlivých her, změnu názvu, dne, pořadí týmů a hodnocení.
+    \item \textbf{Úprava individuálních aktivit} \texttt{EditIndividualActivity.jsx} -- umožňuje upravit bodování individuálních aktivit, změnu názvu, dne, hodnocení a seznam ohodnocených táborníků.
 \end{itemize}
 Podrobnější informace o rozdělení práce a jednotlivých součástech projektu jsou uvedeny v 
 souboru \texttt{readme.txt} v kořenovém adresáři projektu.
@@ -116,5 +135,37 @@ Tento přístup rovněž přispívá k větší modularitě aplikace a usnadňuj
 
 
 \section{Výsledky testování}
+Pro potřeby testování jsme každý ukázali naši aplikaci vybranému uživateli a zaznamenali jeho připomínky.
+
+\subsection{Rozhovor Jan Juračka}
+\par Dotazovaným uživatelem byla moje sestra.
+Patří do věkové skupiny 18-20 let, studuje střední školu, je jedním z vedoucích na místním středisku Českých skautů v Bystřici nad Pernštejnem. Pravidelně se účastní organizace letních táborů v okolí. Disponuje pokročilou znalostní práce s počítačem a ostatními, široce dostupnými technologiemi.
+
+Požádal jsem svoji sestru aby se připojila ze svého osobního notebooku na webovou adresu kterou jsem jí dal, na které běžela naše aplikace. Dostala následující úkoly:
+\begin{enumerate}
+    \item Připojit se a vytvořit nový tábor s alespoň čtyřmi týmy a deseti dětmi.
+    \item Vymyslet a zadat do aplikace alespoň tři týmové hry.
+    \item Vymyslet a zadat do systému alespoň tři individuální aktivity.
+    \item Vyčíst z hlavní stránky aplikace informace o jedné z týmových her.
+    \item Vyčíst z hlavní stránky aplikace informace o jedné z individuálních aktivit.
+    \item Upravit jednu týmovou hru.
+    \item Upravit jednu individuální aktivitu.
+    \item Upravit informace o jednom týmu v editoru týmů.
+    \item Po celou dobu rozhovoru nahlas komentovat své dojmy a připomínky mě.
+\end{enumerate}
+Hned při vytváření týmů na úvodní stránce poznamenala, že jde o hodně dlouhý proces ručního zadávání na klávesnici, ale uznala že nejspíše neexistuje jiný, pohodlnější způsob, který by netrpěl jinými problémy.
+Požádala mě ale, jestli by nemohla při zadávání dětí do týmů vidět seznam všech dětí v táboře - například na liště vlevo. Bohužel to možné nebylo.
+Ještě než dokončila nový tábor, dodala že to samé by se jí hodilo i pro vedoucí.
+
+Druhý úkol na stránce pro zadávání týmových her jí nedělal potíže, dokud jsem jí nepožádal aby prohodila pozice dvou týmů v tabulce pořadí. Když se mě zeptala jak to má udělat, musel jsem jí napovědět aby je přetáhla myší. Trochu mě to zklamalo, protože jsem doufal, že účel tohoto prvku bude od pohledu intuitivní. S úkolem zadat individuální aktivity naštěstí neměla žádný problém.
+
+V čem by ale ocenila jiný přístup bylo hledat na hlavní stránce detailní informace o hrách. Chyběla jí možnost vidět seznam všech her za celý týden a vyhledávat hry podle názvu. Taky navrhla, že by bylo vhodné vědět, který vedoucí hru vedl, a že v některých případech vede hru hned několik vedoucích najednou.
+
+Na hlavní stránce se jí líbila přehledná tabulka ale nebyla spokojená s tím, že v ní vidí výsledky her a aktivit dohromady, nezná datum ale jen den v týdnu kdy hra proběhla a nemůže s aplikací organizovat tábor na více než jeden týden. Taky by podle svého názoru zvýraznila sloupeček týmu, který je právě ve vedení. K úpravě hry ani aktivity neměla žádné připomínky.
+
+Na závěr už jen dodala, že o takovou aplikaci by mohl být u jejího skautského oddílu zájem, což mě potěšilo a potvrdilo mi že aplikace má svůj potenciál.
+
+\subsection{Závěry rozhovoru}
+Aplikace musí zapracovat na uživatelské přívětivosti. Přestože plní své základní poslání, je ještě mnoho směrů, ve kterých se může zlepšit. Zásadním zlepšením by pro ni byla verze pro mobilní telefony. 
 
 \end{document}
