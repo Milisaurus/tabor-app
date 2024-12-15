@@ -99,6 +99,23 @@
                     "team_name": "Kočičky"
                 }
             ]
+        },
+        {
+            "day": "Neděle",
+            "gameTypeId": 0,
+            "name": "fdsafdsa",
+            "results": [
+                {
+                    "points_awarded": 4,
+                    "position": 1,
+                    "team_name": "Opičáci"
+                },
+                {
+                    "points_awarded": 3,
+                    "position": 2,
+                    "team_name": "Kočičky"
+                }
+            ]
         }
     ],
     "individualActivities": [
@@ -134,21 +151,6 @@
             "reason": "Něco"
         },
         {
-            "day": "Pondělí",
-            "participants": [
-                "Eliška",
-                "Josef",
-                "Anička",
-                "Ondřej",
-                "Jan",
-                "Pepa",
-                "Tereza",
-                "Adéla"
-            ],
-            "points": 5,
-            "reason": "Hledání vajíček"
-        },
-        {
             "day": "Středa",
             "participants": [
                 "Eliška",
@@ -157,15 +159,6 @@
             ],
             "points": 5,
             "reason": "fjkdlaůlk"
-        },
-        {
-            "day": "Pondělí",
-            "participants": [
-                "Martin",
-                "Josef"
-            ],
-            "points": 5,
-            "reason": "Test"
         },
         {
             "day": "Čtvrtek",

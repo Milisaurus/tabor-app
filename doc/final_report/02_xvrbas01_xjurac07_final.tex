@@ -47,8 +47,7 @@ Líseckém táboře na Vysočině k organizaci her a jejich bodování. Aplikace
 přehledné zobrazení denních a celkových statistik pro jednotlivé týmy. \\
 Aplikace umožní správu týmů, včetně jejich vytváření, mazání a úpravy. Každý tým bude mít 
 přiřazený název, barvu, velitele a členy. Týmy budou sbírat body v táborových hrách, přičemž 
-bodování bude podle tří předdefinovaných pravidel: Méně bodovaná, Více bodovaná a Velmi bodovaná. 
-Uživatel bude mít také možnost vytvářet vlastní pravidla bodování pro specifické hry. \\
+bodování bude podle tří předdefinovaných pravidel: Méně bodovaná, Více bodovaná a Velmi bodovaná. \\
 Informace o jednotlivých hrách a jejich výsledcích si budou uživatelé moci zobrazit v 
 historii aktivit. Všechna táborová data (informace o týmech, jednotlivcích, 
 hrách, výsledcích, historii her a nastavení bodování) budou uložena ve formátu JSON na 
@@ -56,24 +55,37 @@ backendové straně aplikace, což umožní snadné sdílení těchto informací
 
 \subsection{Odchylky od původního zadání}
 \begin{itemize}
-    \item Stránka vytvoření tábora
-    \item Hlavní stránka
-    \item Historie aktivit
-    \item Vložení a úprava týmové hry
+    \item \textbf{Vytváření tábora a týmů}
+    \begin{itemize}
+        \item Formuláře pro jednotlivé týmy dostaly nový design, například uživatel si nyní může
+        kliknout na požadovanou barvu týmu místo toho, aby musel zadávat její název a zároveň se 
+        formuláře negenerují vedle sebe, ale pod sebe. 
+        \item Při kliknutí na ``Vytvořit nový`` se aplikace nejprve zeptá uživatele na název 
+        tábora a až pak jej to přesune na tvorbu týmů.
+    \end{itemize}
+    \item \textbf{Bodovací tabulka + Historie aktivit}
+    \begin{itemize}
+        \item Tyto dvě části byly spojeny do jedné stránky, aby uživatel nemusel překlikávat 
+        a měl vše na jednom místě.
+    \end{itemize}
+    \item \textbf{Vložení a úprava týmové hry}
     \begin{itemize}
         \item Uživatel nyní vidí kolik přesně bodů každý tým dostal.
         \item Uživatel upravuje pozici týmů a body v tabulce, místo na slideru.
         \item Úprava pozic nyní probíhá přetažením kolonky týmu na požadovanou pozici.
     \end{itemize}
-    \item Vložení a úprava individuální aktivity
+    \item \textbf{Vložení a úprava individuální aktivity}
     \begin{itemize}
-        \item Uživatel nyní zaškrtává políčka u dětí, které chce ohodnotit, místo toho aby vypisoval jméno každého dítěte zvlášť.
+        \item Uživatel nyní zaškrtává políčka u dětí, které chce ohodnotit, místo toho aby 
+        vypisoval jméno každého dítěte zvlášť.
         \item Jména dětí jsou řazena do seznamů podle toho, do jakého týmu patří.
-        \item Přidána možnost ohodnotit všechny děti v jednom týmu pomocí zaškrtnutí políčka "Vybrat všechny".
+        \item Přidána možnost ohodnotit všechny děti v jednom týmu pomocí zaškrtnutí políčka 
+        "Vybrat všechny".
     \end{itemize}
-    \item Vytváření a úprava typů bodování
+    \item \textbf{Vytváření a úprava typů bodování}
     \begin{itemize}
-        \item Tato funkce byla zrušena.
+        \item Tato funkce byla zrušena. Uživatel může přímo při vytváření týmové hry změnit 
+        počet získaných bodů.
     \end{itemize}        
 \end{itemize}
 \section{Rozdělení práce v týmu}
@@ -133,7 +145,6 @@ Tato změna výrazně zjednodušila proces zpracování dat na backendu a umožn
 
 Tento přístup rovněž přispívá k větší modularitě aplikace a usnadňuje práci s daty v dalších částech projektu, například při načítání nebo editaci tábora.
 
-
 \section{Výsledky testování}
 Pro potřeby testování jsme každý ukázali naši aplikaci vybranému uživateli a zaznamenali jeho připomínky.
 
@@ -165,7 +176,43 @@ Na hlavní stránce se jí líbila přehledná tabulka ale nebyla spokojená s t
 
 Na závěr už jen dodala, že o takovou aplikaci by mohl být u jejího skautského oddílu zájem, což mě potěšilo a potvrdilo mi že aplikace má svůj potenciál.
 
-\subsection{Závěry rozhovoru}
+\subsection*{Závěry rozhovoru}
 Aplikace musí zapracovat na uživatelské přívětivosti. Přestože plní své základní poslání, je ještě mnoho směrů, ve kterých se může zlepšit. Zásadním zlepšením by pro ni byla verze pro mobilní telefony. 
+
+\subsection{Rozhovor Milan Vrbas}
+Testování jsem prováděl na kamarádovi, kterému je 23 let (můj vrstevník), studuje Fakultu 
+elektrotechniky a komunikačních technologií (FEKT) na magisterské úrovni a v dětství jezdil 
+na tábory. \\
+Aplikaci jsem mu představil na svém počítači a dostal podobné úkoly jako představil Jan Juračka
+ve svém rozhovoru. Testování probíhalo následovně:
+\begin{enumerate}
+    \item Nejprve si vytvořil vlastní tábor. Proces vytváření tábora hodnotil jako přehledný 
+    a intuitivní a zároveň komentoval, že je rád, že ho aplikace upozorňuje na nesprávné 
+    zadání informací.
+    \item Na hlavní stránce ho zaujala tabulka, která přehledně zobrazovala počet bodů pro 
+    jednotlivé týmy ovšem dodal, že by byl rád, kdyby se jednotlivé týmy řadily podle 
+    současného umístění.
+    \item Při vytváření individuální aktivity ocenil, že děti není nutné zadávat ručně, ale 
+    lze je vybrat z nabídky.
+    \item Pokusil se vytvořit týmovou hru. Princip přetahování týmů rychle pochopil. Měl však 
+    připomínku k poli pro zadání vlastních bodů, kde musel nejprve odstranit původní hodnotu 
+    (0) a až poté mohl zadat své číslo.
+    \item Úpravy týmů komentoval podobně jako proces jejich vytváření.
+    \item Při zobrazování zadaných her zmínil, že by ocenil možnost zobrazit všechny hry bez 
+    nutnosti vybírat konkrétní den.
+    \item Zobrazování detailů her pomocí modálního okna hodnotil kladně, protože v něm našel 
+    potřebné informace a okno mohl snadno zavřít a přejít hned na jinou aktivitu.
+    \item Při zobrazení individuální hry ocenil, že použitím barev lze snadno identifikovat, 
+    které dítě patří do jakého týmu.
+    \item Když mazal nebo upravoval aktivity, zmínil, že je rád, že změny se projevují okamžitě.
+\end{enumerate}
+
+\subsection*{Závěry rozhovoru}
+Testovaný uživatel celkově hodnotil aplikaci pozitivně a zmínil, že by se mohla využít v 
+praxi při počítání bodů na táborech, čímž by eliminovala ruční vedení poznámek.
+Rád by si ovšem chtěl zobrazit všechny hry bez nutnosti vybírat konkrétní den a upravit 
+pole pro zadávání týmových bodů tak, aby nebylo nutné mazat výchozí hodnotu. Dále také podotknul
+pár možných rozšíření, co by rád viděl v této aplikaci, jako je například přehledné ohodnocení týmů 
+pomocí grafu.
 
 \end{document}

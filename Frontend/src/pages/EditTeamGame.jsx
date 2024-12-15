@@ -112,7 +112,7 @@ const EditTeamGame = () => {
                 <button className="submitbutton" type="submit">Potvrdit</button>
 
             </form>
-            <img src="/wave.svg" alt="Wave" className="wave-svg" />
+            <img src="/wave.svg" alt="Wave" />
         </div>
     )
 }

@@ -15,8 +15,20 @@ const CreateCamp = () => {
     const [teamCount, setTeamCount] = useState(""); // Store the number of teams
     const [teams, setTeams] = useState([]); // Store the teams data
     const [currentChildIndexes, setCurrentChildIndexes] = useState([]); // Store current child index for each team
+    const [errorMessage, setErrorMessage] = useState(""); // Store error
+    // List of all available colors
+    const colorNames = {
+        "#FF0000": "červená",
+        "#0000FF": "modrá",
+        "#008000": "zelená",
+        "#FFCC00": "žlutá",
+        "#000000": "černá",
+        "#8B4513": "hnědá",
+        "#FFA500": "oranžová",
+        "#800080": "fialová",
+    };
     const navigate = useNavigate();
-
+    
     // Check if camp name is available in session storage
     useEffect(() => {
         const storedCampName = sessionStorage.getItem("camp_name");
@@ -28,6 +40,24 @@ const CreateCamp = () => {
     // Handle form submission to update the camp and add game types
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if team colors are unique
+        const colorSet = new Set();
+        for (let i = 0; i < teams.length; i++) {
+            if (colorSet.has(teams[i].color)) {
+                // Translate hex color represation to color name
+                const colorName = colorNames[teams[i].color] || teams[i].color;
+                setErrorMessage(
+                    `Barva týmu "${teams[i].name}" (${colorName}) už je použita. Zvolte jinou barvu.`
+                );
+                return; // Alert user and do nothing
+            }
+            colorSet.add(teams[i].color);
+        }
+        // Clear error message
+        setErrorMessage("");
+
+        // Store camp data
         const allData = {
             campName: sessionStorage.getItem("camp_name"),
             teamCount,
@@ -68,6 +98,7 @@ const CreateCamp = () => {
     const handleTeamChange = (index, e) => {
         const { name, value } = e.target;
         const updatedTeams = [...teams];
+        
         updatedTeams[index][name] = value;
 
          // If children count changes, adjust the children array
@@ -143,6 +174,12 @@ const CreateCamp = () => {
                 ))}
                 <button className="linkbutton" type="submit">Vytvořit</button>
             </form>
+            {errorMessage && (
+    <div style={{ color: "red", marginTop: "10px" }}>
+        {errorMessage}
+    </div>
+)}
+
             <img src="/wave.svg" alt="Wave" className="wave-svg" />
         </div>
     );

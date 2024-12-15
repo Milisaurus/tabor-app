@@ -3,26 +3,20 @@
     "teamCount": 5,
     "teams": [
         {
-            "name": "Trpaslíci",
-            "color": "#FF0000",
-            "leader1": "Tomáš",
-            "leader2": "Kuba",
-            "childrenCount": "6",
             "children": [
-                "Honza Houdek",
                 "Lucie Šafránková",
                 "Jolana Kubíková",
                 "Alice Pokorná",
                 "Vojta Pražák",
                 "Eliška Velenová"
-            ]
+            ],
+            "childrenCount": "6",
+            "color": "#FF0000",
+            "leader1": "Tomáš",
+            "leader2": "Kuba",
+            "name": "Trpaslíci"
         },
         {
-            "name": "Rohan",
-            "color": "#FFCC00",
-            "leader1": "Laduška",
-            "leader2": "Monička",
-            "childrenCount": "7",
             "children": [
                 "Vojta Klusák",
                 "Bára Chroustová",
@@ -31,14 +25,14 @@
                 "Martin Čížek",
                 "Anna Jindrová",
                 "Tomáš Kubík"
-            ]
+            ],
+            "childrenCount": "7",
+            "color": "#FFCC00",
+            "leader1": "Laduška",
+            "leader2": "Monička",
+            "name": "Rohan"
         },
         {
-            "name": "Hobiti",
-            "color": "#008000",
-            "leader1": "David",
-            "leader2": "Anička",
-            "childrenCount": "7",
             "children": [
                 "Tomáš Skryja",
                 "Adéla Klusáková",
@@ -47,14 +41,14 @@
                 "Eliška Mitášová",
                 "Jindra Jacháček",
                 "Adéla Brablecová"
-            ]
+            ],
+            "childrenCount": "7",
+            "color": "#008000",
+            "leader1": "David",
+            "leader2": "Anička",
+            "name": "Hobiti"
         },
         {
-            "name": "Gondor",
-            "color": "#8B4513",
-            "leader1": "Lucka",
-            "leader2": "Ondra",
-            "childrenCount": "7",
             "children": [
                 "Karina Vášová",
                 "Klára Lichtágová",
@@ -63,14 +57,14 @@
                 "Nikola Chroustová",
                 "Marek Houdek",
                 "Lucie Čížková"
-            ]
+            ],
+            "childrenCount": "7",
+            "color": "#8B4513",
+            "leader1": "Lucka",
+            "leader2": "Ondra",
+            "name": "Gondor"
         },
         {
-            "name": "Elfové",
-            "color": "#0000FF",
-            "leader1": "Milan",
-            "leader2": "Honza",
-            "childrenCount": "7",
             "children": [
                 "Eliška Vášová",
                 "Ester Pokorná",
@@ -79,41 +73,53 @@
                 "Lucie Brablecová",
                 "Kamila Kubíková",
                 "Adam Šejnoha"
-            ]
+            ],
+            "childrenCount": "7",
+            "color": "#0000FF",
+            "leader1": "Milan",
+            "leader2": "Honza",
+            "name": "Elfové"
         }
     ],
     "teamGames": [],
-    "individualActivities": [],
+    "individualActivities": [
+        {
+            "day": "Pátek",
+            "participants": [],
+            "points": 5,
+            "reason": "Prodej dětí"
+        }
+    ],
     "gameTypes": [
         {
-            "type": "Méně bodovaná",
             "point_scheme": [
                 5,
                 4,
                 3,
                 2,
                 1
-            ]
+            ],
+            "type": "Méně bodovaná"
         },
         {
-            "type": "Více bodovaná",
             "point_scheme": [
                 10,
                 8,
                 6,
                 4,
                 2
-            ]
+            ],
+            "type": "Více bodovaná"
         },
         {
-            "type": "Velmi bodovaná",
             "point_scheme": [
                 15,
                 12,
                 9,
                 6,
                 3
-            ]
+            ],
+            "type": "Velmi bodovaná"
         }
     ]
 }

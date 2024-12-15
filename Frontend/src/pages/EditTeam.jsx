@@ -151,7 +151,7 @@ const EditTeam = () => {
                     value={selectedTeamIndex || ""}
                     onChange={(e) => handleTeamSelect(e.target.value)}
                 >
-                    <option value="">Vyberte tým</option>
+                    <option value="" disabled hidden>Vyberte tým</option>
                     {teams.map((team, index) => (
                         <option key={index} value={index}>
                             {team.name}
