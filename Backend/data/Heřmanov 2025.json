@@ -4,7 +4,8 @@
     "teams": [
         {
             "children": [
-                "Lucie Šafránková",
+                "Honza Houdek",
+                "Lucie Šafránkováa",
                 "Jolana Kubíková",
                 "Alice Pokorná",
                 "Vojta Pražák",
@@ -82,14 +83,7 @@
         }
     ],
     "teamGames": [],
-    "individualActivities": [
-        {
-            "day": "Pátek",
-            "participants": [],
-            "points": 5,
-            "reason": "Prodej dětí"
-        }
-    ],
+    "individualActivities": [],
     "gameTypes": [
         {
             "point_scheme": [
