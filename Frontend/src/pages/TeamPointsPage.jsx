@@ -111,7 +111,6 @@ const TeamPoints = () => {
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
             </form>
-            <img src="/wave.svg" alt="Wave" />
         </div>
     );
 };

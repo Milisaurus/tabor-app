@@ -101,12 +101,10 @@ const IndividualPoints = () => {
                     <input type="number" value={points} onChange={(e) => {setPoints(e.target.value)}} min={0} required placeholder="Počet bodů"/>
                 </div>
 
-                <SelectCampMembers campData={campData} participants={participants} onSelectionChange={setParticipants} />
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
 
             </form>
-            <img src="/wave.svg" alt="Wave" />
         </div>
     );
 }
