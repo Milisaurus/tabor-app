@@ -215,3 +215,11 @@
     opacity: 90%;
     transform: scale(1.05); 
 }
+
+.camp-results-table-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto; /* Umožní horizontální posouvání */
+}
+
+
