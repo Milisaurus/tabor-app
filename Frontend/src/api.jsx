@@ -25,7 +25,7 @@ export const createCamp = async (campName) => {
 // API to fetch the list of camps
 export const fetchCamps = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/get-camps", {
+        const response = await fetch("https://Milisaurus.pythonanywhere.com/api/get-camps", {
             method: "GET",
             headers: {"Content-Type": "application/json",},
         });
@@ -54,7 +54,7 @@ export const getCamp = async () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/get-camp-data/${campName}`, {
+        const response = await fetch(`https://Milisaurus.pythonanywhere.com/api/get-camp-data/${campName}`, {
             method: "GET",
             headers: {"Content-Type": "application/json",},
         });
@@ -85,7 +85,7 @@ export const updateCamp = async (data) => {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/update-camp/${campName}`, {
+        const response = await fetch(`https://Milisaurus.pythonanywhere.com/api/update-camp/${campName}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: data,
@@ -138,7 +138,7 @@ export const updateTeam = async (teamIndex, updatedTeam, updatedCampData) => {
 // API to fetch the team scores for a specific camp
 export const fetchTeamScores = async (campName) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/calculate-team-scores/${campName}`, {
+        const response = await fetch(`https://Milisaurus.pythonanywhere.com/api/calculate-team-scores/${campName}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -160,7 +160,7 @@ export const fetchTeamScores = async (campName) => {
 // API to add game types to a specific camp
 export const addGameTypes = async (campName) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/add-game-types/${campName}`, {
+        const response = await fetch(`https://Milisaurus.pythonanywhere.com/api/add-game-types/${campName}`, {
             method: "POST",
             headers: {"Content-Type": "application/json",},
         });
@@ -180,7 +180,7 @@ export const addGameTypes = async (campName) => {
 // API to fetch filtered activities based on day and game type
 export const fetchFilteredActivities = async (campName, day, gameType) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/get-filtered-activities/${campName}?day=${day}&game_type=${gameType}`, {
+        const response = await fetch(`https://Milisaurus.pythonanywhere.com/api/get-filtered-activities/${campName}?day=${day}&game_type=${gameType}`, {
             method: "GET",
             headers: {"Content-Type": "application/json",},
         });
