@@ -1,6 +1,10 @@
+body {
+    overflow-x: hidden;  /* Zabraňuje horizontálnímu rolování */
+}
+
 /* Container for the entire component */
 .member_selector {
-    width: 80%;
+    width: 90%;
     margin: 20px auto;
     border-radius: 8px;
     box-sizing: border-box;
@@ -29,8 +33,13 @@
     transition: background-color 0.3s ease;
 }
 
+
 .team-header label{
     font-size: 12px;
+}
+
+.team-header input {
+    margin-left: 10px;
 }
 
 .team-header label input {
