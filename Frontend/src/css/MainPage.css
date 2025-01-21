@@ -49,6 +49,7 @@
     font-weight: bold;
 }
 
+
 .total-row {
     background-color: #f0f0f0;
     font-weight: bold;
@@ -222,4 +223,13 @@
     overflow-x: auto; /* Umožní horizontální posouvání */
 }
 
+@media (max-width: 480px) {
+    .camp-results-table {
+        width: 50%; /* Tabulka zabírá 100% šířky obrazovky */
+    }
 
+    .camp-results-table th,
+    .camp-results-table td {
+        padding: 8px 5px; /* Zmenší padding */
+    }
+}
