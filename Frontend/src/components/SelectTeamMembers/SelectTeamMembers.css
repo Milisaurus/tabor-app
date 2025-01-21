@@ -3,6 +3,7 @@
     width: 80%;
     margin: 20px auto;
     border-radius: 8px;
+    box-sizing: border-box;
 }
 
 /* Container for each team */
