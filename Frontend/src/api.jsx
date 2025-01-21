@@ -4,7 +4,7 @@
 // API to create a new camp
 export const createCamp = async (campName) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/create-camp/${campName}`, {
+        const response = await fetch(`http://Milisaurus.pythonanywhere.com/api/create-camp/${campName}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
