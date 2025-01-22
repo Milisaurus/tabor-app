@@ -215,35 +215,3 @@
     opacity: 90%;
     transform: scale(1.05); 
 }
-
-
-@media (max-width: 480px) {
-  body {
-    font-size: 14px; /* Menší písmo pro malé displeje */
-    padding: 0;
-    margin: 0;
-  }
-
-  #root {
-    padding: 10px; /* Zajistěte dostatečný prostor okrajů */
-  }
-
-  .waves {
-    height: 200px; /* Snižte výšku vlny */
-  }
-
-  .footer {
-    height: 200px; /* Zmenšíme footer pro lepší zobrazení */
-  }
-
-  .some-element { /* Nahraďte vlastním selektorem */
-    flex-direction: column; /* Pokud máte horizontální prvky, změňte je na vertikální uspořádání */
-    text-align: center;
-  }
-
-  table { 
-    font-size: 12px; /* Menší písmo pro tabulky */
-    width: 100%; /* Tabulka se roztáhne do plné šířky */
-    overflow-x: auto; /* Umožní horizontální posouvání na mobilu, pokud obsah přesahuje */
-  }
-}
