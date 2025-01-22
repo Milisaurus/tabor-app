@@ -99,7 +99,7 @@ const TeamPoints = () => {
             <Heading text="Vložení týmových bodů" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="team-points-form">
-                <div>
+                <div className="game-name-input">
                 <label>Název hry</label>
                     <input type="text" value={gameName} onChange={(e) => setGameName(e.target.value)} required placeholder="Název hry" />
                 </div>

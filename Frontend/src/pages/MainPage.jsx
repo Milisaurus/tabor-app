@@ -69,6 +69,25 @@ const MainPage = () => {
         fetchCampData();
     }, []);
 
+    useEffect(() => {
+        const resizeHandler = () => {
+            const container = document.querySelector('.camp-results-table-container');
+            if (container) {
+                const containerWidth = container.offsetWidth;
+                const table = container.querySelector('.camp-results-table');
+                if (table.offsetWidth > containerWidth) {
+                    container.scrollLeft = 0; // Resetuje scroll v případě přetékání
+                }
+            }
+        };
+    
+        window.addEventListener('resize', resizeHandler);
+        resizeHandler();
+    
+        return () => window.removeEventListener('resize', resizeHandler);
+    }, []);
+    
+
     // Fetch filtered games whenever filters change
     useEffect(() => {
         const fetchFilteredData = async () => {
