@@ -1,14 +1,13 @@
 // Author Jan Juračka <xjurac07>
 
 import React, { useEffect, useState } from 'react';
-import "./TeamPointsTable.css"
+import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [dropCount, setDropCount] = useState(0); // Count to refresh the table
+    const [dropCount, setDropCount] = useState(0);
 
-    // Give each team number of points acording to points scheme of selected game type
+    // Update results based on game type
     useEffect(() => {
-        // unless it's set to "Vlastní"
         if (gameTypeId === 0) return;
 
         const updateResultsBasedOnPositions = (gameTypeId) => {
@@ -27,14 +26,13 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         if (gameTypeId !== null && gameTypeId !== 0) {
             updateResultsBasedOnPositions(gameTypeId);
         }
-    }, [gameTypeId, dropCount]); // Refresh the table with gameType changed or after team drag
+    }, [gameTypeId, dropCount]);
 
-    // Handle the Drag
+    // Drag-and-drop handlers
     const handleDragStart = (e, index) => {
         e.dataTransfer.setData("dragIndex", index);
     };
 
-    // Handle Drop
     const handleDrop = (e, dropIndex) => {
         const dragIndex = parseInt(e.dataTransfer.getData("dragIndex"), 10);
         const updatedResults = [...results];
@@ -47,30 +45,24 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         });
 
         setResults(updatedResults);
-
-        // Refresh the table
         setDropCount(dropCount + 1);
     };
 
-    // Handle manual change of the points by user
     const handleManualPointChange = (resultIndex, newPoints) => {
         const updatedResults = [...results];
         updatedResults[resultIndex].points_awarded = newPoints;
         setResults(updatedResults);
-        // set point scheme to "Vlastní"
         setGameTypeId(0);
     };
 
-    // Get color of the team from camp data
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
         return team ? team.color : '';
     };
 
     return (
-        <div className='team-table-container'>
-            {/* Game type select */}
-            <div className='select-game-type'>
+        <div className="team-list-container">
+            <div className="select-game-type">
                 <label>Typ hry</label>
                 <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
                     <option value={0}>Vlastní</option>
@@ -80,48 +72,35 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                 </select>
             </div>
 
-            {/* Team Points Table */}
-            <label>Upravte pozice týmů přetažením</label>
-            <table className="team-table">
-                <thead>
-                    <tr>
-                        <th>Umístění</th>
-                        <th>Tým</th>
-                        <th>Body</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {results.map((result, index) => (
-                        // Row
-                        <tr
-                            key={result.team_name}
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, index)}
-                            onDragOver={(e) => e.preventDefault()}
-                            onDrop={(e) => handleDrop(e, index)}
-                        >
-                            {/* Position */}
-                            <td className="team-position">{result.position}</td>
-                            {/* Name of the team with its colour as background */}
-                            <td className="team-info" >
-                                <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
-                                    <span className="name">{result.team_name}</span>
-                                </div>
-                            </td>
-                            {/* Points */}
-                            <td>
-                                <input
-                                    type="number"
-                                    className="points-input"
-                                    value={result.points_awarded}
-                                    onChange={(e) => handleManualPointChange(index, parseFloat(e.target.value) || 0)}
-                                    min={0}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <label>Upravte pořadí týmů přetažením</label>
+
+            {/* Drag-and-drop list */}
+            <ul className="team-list">
+                {results.map((result, index) => (
+                    <li
+                        key={result.team_name}
+                        className="team-list-item"
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, index)}
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => handleDrop(e, index)}
+                    >
+                        <div className="team-info">
+                            <span className="team-position">{result.position}.</span>
+                            <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
+                                {result.team_name}
+                            </div>
+                        </div>
+                        <input
+                            type="number"
+                            className="points-input"
+                            value={result.points_awarded}
+                            onChange={(e) => handleManualPointChange(index, parseFloat(e.target.value) || 0)}
+                            min={0}
+                        />
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
