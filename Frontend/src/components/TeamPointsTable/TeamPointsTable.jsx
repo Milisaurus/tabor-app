@@ -1,12 +1,8 @@
-// Author Jan Juračka <xjurac07>
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [dropCount, setDropCount] = useState(0);
-
-    // Update results based on game type
     useEffect(() => {
         if (gameTypeId === 0) return;
 
@@ -26,38 +22,32 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         if (gameTypeId !== null && gameTypeId !== 0) {
             updateResultsBasedOnPositions(gameTypeId);
         }
-    }, [gameTypeId, dropCount]);
+    }, [gameTypeId]);
 
-    // Drag-and-drop handlers
-    const handleDragStart = (e, index) => {
-        e.dataTransfer.setData("dragIndex", index);
-    };
+    const handleDragEnd = (result) => {
+        if (!result.destination) return;
 
-    const handleDrop = (e, dropIndex) => {
-        const dragIndex = parseInt(e.dataTransfer.getData("dragIndex"), 10);
-        const updatedResults = [...results];
-        const draggedResult = updatedResults[dragIndex];
-        updatedResults.splice(dragIndex, 1);
-        updatedResults.splice(dropIndex, 0, draggedResult);
+        const updatedResults = Array.from(results);
+        const [movedItem] = updatedResults.splice(result.source.index, 1);
+        updatedResults.splice(result.destination.index, 0, movedItem);
 
-        updatedResults.forEach((result, idx) => {
-            result.position = idx + 1;
+        updatedResults.forEach((item, index) => {
+            item.position = index + 1;
         });
 
         setResults(updatedResults);
-        setDropCount(dropCount + 1);
     };
 
-    const handleManualPointChange = (resultIndex, newPoints) => {
+    const handleManualPointChange = (index, newPoints) => {
         const updatedResults = [...results];
-        updatedResults[resultIndex].points_awarded = newPoints;
+        updatedResults[index].points_awarded = newPoints;
         setResults(updatedResults);
         setGameTypeId(0);
     };
 
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
-        return team ? team.color : '';
+        return team ? team.color : "";
     };
 
     return (
@@ -67,40 +57,55 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                 <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
                     <option value={0}>Vlastní</option>
                     {campData.gameTypes.map((type, index) => (
-                        <option key={index} value={index + 1}>{type.type}</option>
+                        <option key={index} value={index + 1}>
+                            {type.type}
+                        </option>
                     ))}
                 </select>
             </div>
 
             <label>Upravte pořadí týmů přetažením</label>
 
-            {/* Drag-and-drop list */}
-            <ul className="team-list">
-                {results.map((result, index) => (
-                    <li
-                        key={result.team_name}
-                        className="team-list-item"
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, index)}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={(e) => handleDrop(e, index)}
-                    >
-                        <div className="team-info">
-                            <span className="team-position">{result.position}.</span>
-                            <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
-                                {result.team_name}
-                            </div>
-                        </div>
-                        <input
-                            type="number"
-                            className="points-input"
-                            value={result.points_awarded}
-                            onChange={(e) => handleManualPointChange(index, parseFloat(e.target.value) || 0)}
-                            min={0}
-                        />
-                    </li>
-                ))}
-            </ul>
+            <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="teamList">
+                    {(provided) => (
+                        <ul className="team-list" {...provided.droppableProps} ref={provided.innerRef}>
+                            {results.map((result, index) => (
+                                <Draggable key={result.team_name} draggableId={result.team_name} index={index}>
+                                    {(provided) => (
+                                        <li
+                                            className="team-list-item"
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                        >
+                                            <div className="team-info">
+                                                <span className="team-position">{result.position}.</span>
+                                                <div
+                                                    className="team-name"
+                                                    style={{ backgroundColor: getTeamColor(result.team_name) }}
+                                                >
+                                                    {result.team_name}
+                                                </div>
+                                            </div>
+                                            <input
+                                                type="number"
+                                                className="points-input"
+                                                value={result.points_awarded}
+                                                onChange={(e) =>
+                                                    handleManualPointChange(index, parseFloat(e.target.value) || 0)
+                                                }
+                                                min={0}
+                                            />
+                                        </li>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </ul>
+                    )}
+                </Droppable>
+            </DragDropContext>
         </div>
     );
 };

@@ -1,28 +1,3 @@
-.team-list-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-.select-game-type {
-    width: 55%;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 200px;
-}
-
-.team-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    max-width: 800px;
-}
-
 .team-list-item {
     display: flex;
     align-items: center;
@@ -37,36 +12,11 @@
 }
 
 .team-list-item:active {
-    cursor: grabbing;
     background-color: #e0e0e0;
 }
 
-.team-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.team-position {
-    font-weight: bold;
-    font-size: 16px;
-    margin-right: 10px;
-}
-
-.team-name {
-    padding: 5px 10px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-}
-
-.points-input {
-    width: 60px;
-    text-align: center;
-    font-size: 14px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+.team-list-item.dragging {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
