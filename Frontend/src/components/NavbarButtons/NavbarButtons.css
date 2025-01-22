@@ -28,12 +28,9 @@
 }
 
 @media (max-width: 530px) {
-
-
     .navbar-buttons .nav-button {
-        font-size: 16px; /* Menší text */
-        padding: 13px 17px; /* Menší vnitřní odsazení */
+        font-size: 16px;
+        padding: 13px 17px; 
         margin-bottom: 10px;
-
     }
 }
