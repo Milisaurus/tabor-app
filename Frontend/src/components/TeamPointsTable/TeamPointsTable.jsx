@@ -67,51 +67,49 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
             <label>Upravte pořadí týmů přetažením</label>
 
             <DragDropContext onDragEnd={handleDragEnd}>
-    <table className="team-table">
-        <thead>
-            <tr>
-                <th>Umístění</th>
-                <th>Tým</th>
-                <th>Body</th>
-            </tr>
-        </thead>
-        <Droppable droppableId="teamList">
-            {(provided) => (
-                <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                    {results.map((result, index) => (
-                        <Draggable key={result.team_name} draggableId={result.team_name} index={index}>
-                            {(provided) => (
-                                <tr
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    style={{
-                                        backgroundColor: getTeamColor(result.team_name),
-                                    }}
+    <div className="team-list-header">
+        <span>Umístění</span>
+        <span>Tým</span>
+        <span>Body</span>
+    </div>
+    <Droppable droppableId="teamList">
+        {(provided) => (
+            <ul className="team-list" {...provided.droppableProps} ref={provided.innerRef}>
+                {results.map((result, index) => (
+                    <Draggable key={result.team_name} draggableId={result.team_name} index={index}>
+                        {(provided) => (
+                            <li
+                                className="team-list-item"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                            >
+                                <span className="team-position">{result.position}.</span>
+                                <div
+                                    className="team-name"
+                                    style={{ backgroundColor: getTeamColor(result.team_name) }}
                                 >
-                                    <td className="team-position">{result.position}.</td>
-                                    <td className="team-name">{result.team_name}</td>
-                                    <td>
-                                        <input
-                                            type="number"
-                                            className="points-input"
-                                            value={result.points_awarded}
-                                            onChange={(e) =>
-                                                handleManualPointChange(index, parseFloat(e.target.value) || 0)
-                                            }
-                                            min={0}
-                                        />
-                                    </td>
-                                </tr>
-                            )}
-                        </Draggable>
-                    ))}
-                    {provided.placeholder}
-                </tbody>
-            )}
-        </Droppable>
-    </table>
+                                    {result.team_name}
+                                </div>
+                                <input
+                                    type="number"
+                                    className="points-input"
+                                    value={result.points_awarded}
+                                    onChange={(e) =>
+                                        handleManualPointChange(index, parseFloat(e.target.value) || 0)
+                                    }
+                                    min={0}
+                                />
+                            </li>
+                        )}
+                    </Draggable>
+                ))}
+                {provided.placeholder}
+            </ul>
+        )}
+    </Droppable>
 </DragDropContext>
+
 
 
         </div>
