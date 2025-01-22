@@ -24,6 +24,7 @@ const MainPage = () => {
     const [selectedDay, setSelectedDay] = useState(weekDays[new Date().getDay()]); // Selected day for filtering activities
     const [selectedGameType, setSelectedGameType] = useState(""); // Selected game type for filtering activities
     const [selectedActivity, setSelectedActivity] = useState(null); // Holds selected activity details for modal
+    const [isFetching, setIsFetching] = useState(false);
     const navigate = useNavigate();
 
     // Array representing the days of the camp week
@@ -87,26 +88,27 @@ const MainPage = () => {
         return () => window.removeEventListener('resize', resizeHandler);
     }, []);
     
-
-    // Fetch filtered games whenever filters change
     useEffect(() => {
         const fetchFilteredData = async () => {
             if (campData) {
+                setIsFetching(true);
                 try {
-                    // Fetch filtered games
                     const games = await fetchFilteredActivities(
-                        sessionStorage.getItem('camp_name'), 
-                        selectedDay, 
+                        sessionStorage.getItem("camp_name"),
+                        selectedDay,
                         selectedGameType
                     );
-                    setFilteredGames(games); // Store the filtered games in state
+                    setFilteredGames(games);
                 } catch (err) {
                     setError("Error fetching filtered activities: " + err.message);
+                } finally {
+                    setIsFetching(false);
                 }
             }
         };
         fetchFilteredData();
     }, [selectedDay, selectedGameType]);
+    
 
     if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
@@ -171,6 +173,12 @@ const MainPage = () => {
         closeModal(); // Close the modal once the update and fetch processes are completed
     };
 
+    const getParticipantLabel = (count) => {
+        if (count === 1) return "osoba";
+        if (count >= 2 && count <= 4) return "osoby";
+        return "osob";
+    };    
+
     return (
         <div className="main-page-container">
             <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />
@@ -221,58 +229,56 @@ const MainPage = () => {
 
             <Heading text="Historie aktivit" level={1} className="nadpish1" />
             
-            <div className="selectors-container">
-                {/* Day selection dropdown */}
-                <form>
-                    <label htmlFor="day-select">Vyberte den:</label>
-                    <select
-                        id="day-select"
-                        name="day"
-                        value={selectedDay}
-                        onChange={(e) => setSelectedDay(e.target.value)} // Update selected day
-                    >
-                        {campDays.map((day, index) => (
-                            <option key={index} value={day}>
-                                {day}
-                            </option>
-                        ))}
-                    </select>
-                </form>
+            <div>
+                <div className="selectors-container">
+                    <form>
+                        <label htmlFor="day-select">Vyberte den:</label>
+                        <select
+                            id="day-select"
+                            value={selectedDay}
+                            onChange={(e) => setSelectedDay(e.target.value)}
+                        >
+                            {campDays.map((day, index) => (
+                                <option key={index} value={day}>{day}</option>
+                            ))}
+                        </select>
+                    </form>
+                    <form>
+                        <label htmlFor="game-type-select">Vyberte typ hry:</label>
+                        <select
+                            id="game-type-select"
+                            value={selectedGameType}
+                            onChange={(e) => setSelectedGameType(e.target.value)}
+                        >
+                            <option value="">Vše</option>
+                            <option value="individual">Individuální</option>
+                            <option value="team">Týmová</option>
+                        </select>
+                    </form>
+                </div>
                 
-                {/* Game type selection dropdown */}
-                <form>
-                    <label htmlFor="game-type-select">Vyberte typ hry:</label>
-                    <select
-                        id="game-type-select"
-                        name="game-type"
-                        value={selectedGameType}
-                        onChange={(e) => setSelectedGameType(e.target.value)} // Update selected game type
-                    >
-                        <option value="">Vše</option>
-                        <option value="individual">Individuální</option>
-                        <option value="team">Týmová</option>
-                    </select>
-                </form>
-            </div>
-
-            <div className="games-list">
-                {filteredGames.map((game, index) => (
-                    <div 
-                        key={index} 
-                        className="game-item" 
-                        onClick={() => handleGameClick(game)}
-                    >
-                        <span className="game-name">
-                            {game.reason || game.name} {/* Display the game name */}
-                        </span>
-                        <span className="participant-count">
-                            {game.participants ? 
-                            `${game.participants.length} osob` // Display participant count
-                            : 
-                            gameTypeMapping[game.gameTypeId]} {/* Display game type if no participants */}
-                        </span>
+                {isFetching ? (
+                    <div className="spinner"></div>
+                ) : (
+                    <div className={`games-list ${isFetching ? 'loading' : ''}`}>
+                        {filteredGames.map((game, index) => (
+                            <div
+                                key={index}
+                                className="game-item"
+                                onClick={() => handleGameClick(game)}
+                            >
+                                <span className="game-name">
+                                    {game.reason || game.name}
+                                </span>
+                                <span className="participant-count">
+                                    {game.participants 
+                                        ? `${game.participants.length} ${getParticipantLabel(game.participants.length)}`
+                                        : gameTypeMapping[game.gameTypeId]}
+                                </span>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                )}
             </div>
 
             {/* Render modal with activity details if an activity is selected */}

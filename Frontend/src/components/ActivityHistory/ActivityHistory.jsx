@@ -28,7 +28,7 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData, 
                     </Link>
                 </div>
                 <h3 className="game-type">{selectedActivity.reason || selectedActivity.name} 
-                    ({selectedActivity.participants ? "Individuální" : "Týmová"})
+                    {" "}({selectedActivity.participants ? "Individuální" : "Týmová"})
                 </h3>
                 <p className="detail-hry">{selectedActivity.day}</p>
                 <hr />
