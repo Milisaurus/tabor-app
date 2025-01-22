@@ -36,6 +36,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         });
 
         setResults(updatedResults);
+        if (gameTypeId !== null && gameTypeId !== 0) {
+            updateResultsBasedOnPositions(gameTypeId);
+        }
     };
 
     const handleManualPointChange = (index, newPoints) => {
@@ -51,7 +54,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     };
 
     return (
-        <div className="team-list-container">
+        <div className="team-table-container">
             <div className="select-game-type">
                 <label>Typ hry</label>
                 <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
@@ -63,55 +66,54 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     ))}
                 </select>
             </div>
-
+            
+            <div className="team-drag-label">
             <label>Upravte pořadí týmů přetažením</label>
 
+            </div>
+
             <DragDropContext onDragEnd={handleDragEnd}>
-    <div className="team-list-header">
-        <span>Umístění</span>
-        <span>Tým</span>
-        <span>Body</span>
-    </div>
-    <Droppable droppableId="teamList">
-        {(provided) => (
-            <ul className="team-list" {...provided.droppableProps} ref={provided.innerRef}>
-                {results.map((result, index) => (
-                    <Draggable key={result.team_name} draggableId={result.team_name} index={index}>
-                        {(provided) => (
-                            <li
-                                className="team-list-item"
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                            >
-                                <span className="team-position">{result.position}.</span>
-                                <div
-                                    className="team-name"
-                                    style={{ backgroundColor: getTeamColor(result.team_name) }}
-                                >
-                                    {result.team_name}
-                                </div>
-                                <input
-                                    type="number"
-                                    className="points-input"
-                                    value={result.points_awarded}
-                                    onChange={(e) =>
-                                        handleManualPointChange(index, parseFloat(e.target.value) || 0)
-                                    }
-                                    min={0}
-                                />
-                            </li>
-                        )}
-                    </Draggable>
-                ))}
-                {provided.placeholder}
-            </ul>
-        )}
-    </Droppable>
-</DragDropContext>
+                <Droppable droppableId="teamList">
+                    {(provided) => (
+                        <ul className="team-list" ref={provided.innerRef} {...provided.droppableProps}>
+                            {results.map((result, index) => (
+                                <Draggable key={result.team_name} draggableId={result.team_name} index={index}>
+                                    {(provided) => (
+                                        <li
+                                            className="team-item"
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                        >
+                                            {/* Umístění */}
+                                            <div className="team-position">{result.position}.</div>
 
+                                            {/* Název týmu s barvou pozadí */}
+                                            <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
+                                                {result.team_name}
+                                            </div>
 
-
+                                            {/* Body */}
+                                            <div>
+                                                <input
+                                                    type="number"
+                                                    className="points-input"
+                                                    value={result.points_awarded}
+                                                    onChange={(e) =>
+                                                        handleManualPointChange(index, parseFloat(e.target.value) || 0)
+                                                    }
+                                                    min={0}
+                                                />
+                                            </div>
+                                        </li>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </ul>
+                    )}
+                </Droppable>
+            </DragDropContext>
         </div>
     );
 };
