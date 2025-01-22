@@ -66,16 +66,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
             <label>Upravte pořadí týmů přetažením</label>
 
-            <DragDropContext
-    onDragStart={(start) => {
-        document.querySelectorAll("tr")[start.source.index + 1]?.classList.add("dragging-row");
-    }}
-    onDragEnd={(result) => {
-        document.querySelectorAll(".dragging-row").forEach((el) => el.classList.remove("dragging-row"));
-        handleDragEnd(result);
-    }}
->
-
+            <DragDropContext onDragEnd={handleDragEnd}>
                 <table className="team-table">
                     <thead>
                         <tr>
