@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
+    const [dropCount, setDropCount] = useState(0); // Count to refresh the table
+
+    // Give each team number of points acording to points scheme of selected game type
     useEffect(() => {
+        // unless it's set to "Vlastní"
         if (gameTypeId === 0) return;
 
         const updateResultsBasedOnPositions = (gameTypeId) => {
@@ -22,8 +26,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         if (gameTypeId !== null && gameTypeId !== 0) {
             updateResultsBasedOnPositions(gameTypeId);
         }
-    }, [gameTypeId]);
+    }, [gameTypeId, dropCount]); // Refresh the table with gameType changed or after team drag
 
+    // Handle the Drag
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
@@ -36,18 +41,21 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         });
 
         setResults(updatedResults);
-        if (gameTypeId !== null && gameTypeId !== 0) {
-            updateResultsBasedOnPositions(gameTypeId);
-        }
+
+        // Refresh the table
+        setDropCount(dropCount + 1);
     };
 
+    // Handle manual change of the points by user
     const handleManualPointChange = (index, newPoints) => {
         const updatedResults = [...results];
         updatedResults[index].points_awarded = newPoints;
         setResults(updatedResults);
+        // set point scheme to "Vlastní"
         setGameTypeId(0);
     };
 
+    // Get color of the team from camp data
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
         return team ? team.color : "";
@@ -69,7 +77,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
             
             <div className="team-drag-label">
             <label>Upravte pořadí týmů přetažením</label>
-
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -85,15 +92,15 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                         >
-                                            {/* Umístění */}
+                                            {/* Position */}
                                             <div className="team-position">{result.position}.</div>
 
-                                            {/* Název týmu s barvou pozadí */}
+                                            {/* Team name */}
                                             <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
                                                 {result.team_name}
                                             </div>
 
-                                            {/* Body */}
+                                            {/* Points */}
                                             <div>
                                                 <input
                                                     type="number"
