@@ -8,7 +8,8 @@ import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Header from "../components/Header/Header";
 import ActivityHistory from '../components/ActivityHistory/ActivityHistory';
-import { Navigate, useNavigate } from "react-router-dom";
+import Loading from '../components/Loading/Loading';
+import { useNavigate } from "react-router-dom";
 
 import '../css/MainPage.css';
 
@@ -88,11 +89,10 @@ const MainPage = () => {
         fetchFilteredData();
     }, [selectedDay, selectedGameType]);
 
-    // Error handling
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
     if (!campData) return <div>No camp data available.</div>;
-
+    
     // Handle click on a game to display its details in a modal
     const handleGameClick = (game) => {
         setSelectedActivity(game);

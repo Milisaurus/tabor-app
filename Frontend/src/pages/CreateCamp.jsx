@@ -8,6 +8,7 @@ import { updateCamp, addGameTypes } from "../api";
 import TeamForm from "../components/TeamForm/TeamForm";
 import Heading from "../components/Heading/Heading";
 import Header from "../components/Header/Header"
+import Loading from '../components/Loading/Loading';
 
 import "../css/CreateCamp.css";
 
@@ -33,7 +34,7 @@ const CreateCamp = () => {
     useEffect(() => {
         const storedCampName = sessionStorage.getItem("camp_name");
         if (!storedCampName) {
-          alert("Nebyly nalezeny informace o táboru.");
+            alert("Nebyly nalezeny informace o táboru.");
         }
       }, []);
 

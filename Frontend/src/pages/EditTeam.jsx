@@ -9,8 +9,11 @@ import TeamFormEdit from "../components/TeamFormEdit/TeamFormEdit";
 import Header from "../components/Header/Header";
 import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
+import Loading from '../components/Loading/Loading';
 
 const EditTeam = () => {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [teams, setTeams] = useState([]); // Store the list of teams
     const [selectedTeamIndex, setSelectedTeamIndex] = useState(null); // Store the index of the selected team
     const [editedTeam, setEditedTeam] = useState(null); // Store the data of the team being edited
@@ -20,15 +23,26 @@ const EditTeam = () => {
     // Fetch camp data
     useEffect(() => {
         const fetchCampData = async () => {
-            const campData = await getCamp();
-            setTeams(campData.teams); // Set teams in state
-            setCampData(campData); // Set entire camp data in state
+            try {
+                const campData = await getCamp();
+                if (campData) {
+                    setTeams(campData.teams); // Set teams in state
+                    setCampData(campData); // Set entire camp data in state
+                } else {
+                    setError("Camp data not found.");
+                }
+             } catch (err) {
+                    setError("Error loading camp data: " + err.message);
+                } finally {
+                    setLoading(false);
+                }
         };
         if (!sessionStorage.getItem("camp_name")) {
             navigate("/");
         }
         fetchCampData();
     }, []);
+
 
     // Handle team selection from the dropdown
     const handleTeamSelect = (index) => {
@@ -138,6 +152,9 @@ const EditTeam = () => {
         }
     };
     
+    if (loading) return <Loading />;
+    if (error) return <h1>Error: {error}</h1>;
+    if (!campData) return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
 
     return (
         <div className="create-camp-container">

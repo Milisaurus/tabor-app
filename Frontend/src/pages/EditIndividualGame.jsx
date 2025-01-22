@@ -8,6 +8,7 @@ import Heading from "../components/Heading/Heading";
 import { getCamp, updateCamp } from "../api";
 import SelectDay from "../components/selectDay/selectDay";
 import SelectCampMembers from "../components/SelectTeamMembers/SelectTeamMembers";
+import Loading from '../components/Loading/Loading';
 
 import "../css/EditActivity.css"
 
@@ -87,7 +88,7 @@ const EditIndividualActivity = () => {
         }
     };
 
-    if (loading) return <h1>Načítání...</h1>;
+    if (loading) return <Loading />;
     if (error) return <h1>Error: {error}</h1>;
     if (!campData) return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
 

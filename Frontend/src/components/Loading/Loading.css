@@ -1,0 +1,29 @@
+.loader-container {
+    display: flex;
+    flex-direction: column; /* Vertikální zarovnání */
+    justify-content: center;
+    align-items: center;
+    height: 69vh;
+    background-color: #F8F9FA;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light gray */
+    border-top: 8px solid #2C2C2C; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 20px; /* Prostor mezi kolečkem a textem */
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    color: #2C2C2C;
+    font-weight: bold;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
