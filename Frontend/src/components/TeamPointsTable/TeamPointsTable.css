@@ -1,32 +1,47 @@
+.team-table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.select-game-type {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 55%;
+    min-width: 200px;
+}
+
 .team-table {
     width: 100%;
-    max-width: 1000px; /* Increased width for a wider table */
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 16px; /* Rounded corners */
-    overflow: hidden;
-    border: 1px solid #ccc;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin: 20px 0;
 }
 
 .team-table thead th {
-    text-align: center;
-    padding: 12px; /* Adjusted padding */
-    font-size: 18px; /* Slightly larger font size */
-    font-weight: bold;
-    background-color: #2C2C2C; /* Updated header background color */
+    background-color: #2C2C2C;
     color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
     border: 1px solid #ccc;
 }
 
 .team-table tbody td {
-    padding: 12px; /* Adjusted padding */
+    text-align: center;
     font-size: 16px;
-    vertical-align: middle;
+    padding: 10px;
     border: 1px solid #ccc;
 }
 
 .team-table tbody tr {
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
     cursor: grab;
 }
 
@@ -35,48 +50,26 @@
     background-color: #f0f0f0;
 }
 
-.team-table td:nth-child(3) {
-    width: 100px; /* Adjusted the width for the points input column */
-    text-align: center;
-}
-
 .team-position {
-    font-size: 16px;
     font-weight: bold;
     text-align: center;
-    color: #000;
-    width: 70px; /* Adjusted width */
-}
-
-.team-info {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    height: 40px;
+    width: 60px;
 }
 
 .team-name {
-    width: 100%;
-    padding: 10px 15px; /* Adjusted padding */
-    border-radius: 12px; /* Rounded corners for team names */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
     color: white;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.team-name .name {
-    text-align: left;
-    flex-grow: 1;
-    font-size: 16px;
+    font-weight: bold;
 }
 
 .points-input {
-    width: 60px; /* Adjusted width */
-    padding: 6px;
-    font-size: 16px;
+    width: 60px;
     text-align: center;
+    padding: 5px;
+    font-size: 16px;
     border: 1px solid #ccc;
-    background-color: #F8F9FA;
+    border-radius: 5px;
+    background-color: #f8f9fa;
 }
