@@ -175,7 +175,6 @@ const EditTeam = () => {
                     </button>
                 </>
             )}
-            <img src="/wave.svg" alt="Wave" className="wave-svg" />
         </div>
     );
 };

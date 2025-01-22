@@ -175,12 +175,10 @@ const CreateCamp = () => {
                 <button className="linkbutton" type="submit">Vytvořit</button>
             </form>
             {errorMessage && (
-    <div style={{ color: "red", marginTop: "10px" }}>
-        {errorMessage}
-    </div>
-)}
-
-            <img src="/wave.svg" alt="Wave" className="wave-svg" />
+            <div style={{ color: "red", marginTop: "10px" }}>
+                {errorMessage}
+            </div>
+            )}
         </div>
     );
 };
