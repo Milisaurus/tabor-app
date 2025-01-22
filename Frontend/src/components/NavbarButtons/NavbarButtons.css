@@ -17,7 +17,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-
 .navbar-buttons {
     margin-top: 20px;
     display: flex;
@@ -28,15 +27,16 @@
     width: 100%;
 }
 
-@media (max-width: 600px) {
-
+@media (max-width: 530px) {
+    /* Pokud je šířka menší než 600px */
     .navbar-buttons {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        flex-direction: row; /* Položení vedle sebe */
+        gap: 5px; /* Menší mezera mezi tlačítky */
     }
 
     .navbar-buttons .nav-button {
-        margin-bottom: 10px; 
+        font-size: 15px; /* Menší text */
+        padding: 10px 15px; /* Menší vnitřní odsazení */
+        min-width: auto; /* Odstranění pevné minimální šířky */
     }
 }

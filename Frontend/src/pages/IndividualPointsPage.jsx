@@ -90,14 +90,14 @@ const IndividualPoints = () => {
 
             <form onSubmit={handleSubmit} className="points-form">
 
-                <div>
+                <div className="activity-name">
                     <label>Název aktivity</label>
                     <input type="text" value={reason} onChange={(e) => {setReason(e.target.value)}} required placeholder="Název" />
                 </div>
 
                 <SelectDay selectedDay={day} onDayChange={setDay}/>
 
-                <div className="number-of-points">
+                <div className="number-of-points-input">
                     <label>Počet udělených bodů</label>
                     <input type="number" value={points} onChange={(e) => {setPoints(e.target.value)}} min={0} required placeholder="Počet bodů"/>
                 </div>
