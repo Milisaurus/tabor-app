@@ -28,15 +28,12 @@
 }
 
 @media (max-width: 530px) {
-    /* Pokud je šířka menší než 600px */
-    .navbar-buttons {
-        flex-direction: row; /* Položení vedle sebe */
-        gap: 5px; /* Menší mezera mezi tlačítky */
-    }
+
 
     .navbar-buttons .nav-button {
-        font-size: 15px; /* Menší text */
-        padding: 10px 15px; /* Menší vnitřní odsazení */
-        min-width: auto; /* Odstranění pevné minimální šířky */
+        font-size: 16px; /* Menší text */
+        padding: 13px 17px; /* Menší vnitřní odsazení */
+        margin-bottom: 10px;
+
     }
 }
