@@ -183,21 +183,43 @@ const MainPage = () => {
 
     const generateGraphData = () => {
         if (!campData) return { labels: [], datasets: [] };
-    
+        
         const teamNames = campData.teams.map((team) => team.name);
     
-        return {
-            labels: selectedDayOption === "Celkový postup" ? campDays : teamNames,
-            datasets: selectedDayOption === "Celkový postup"
-                ? campData.teams.map((team) => ({
+        if (selectedDayOption === "Denní postup") {
+            return {
+                labels: campDays,
+                datasets: campData.teams.map((team) => ({
                     label: team.name,
                     data: campDays.map((day) => teamScores[team.name]?.[day] || 0),
                     borderColor: team.color,
                     backgroundColor: team.color,
                     borderWidth: 2,
                     fill: false,
-                }))
-                : [{
+                })),
+            };
+        } else if (selectedDayOption === "Celkový postup") {
+            return {
+                labels: campDays,
+                datasets: campData.teams.map((team) => {
+                    let cumulativePoints = 0;
+                    return {
+                        label: team.name,
+                        data: campDays.map((day) => {
+                            cumulativePoints += teamScores[team.name]?.[day] || 0;
+                            return cumulativePoints;
+                        }),
+                        borderColor: team.color,
+                        backgroundColor: team.color,
+                        borderWidth: 2,
+                        fill: false,
+                    };
+                }),
+            };
+        } else {
+            return {
+                labels: teamNames,
+                datasets: [{
                     label: selectedDayOption,
                     data: teamNames.map((teamName) =>
                         selectedDayOption === "Všechny dny"
@@ -206,21 +228,35 @@ const MainPage = () => {
                     ),
                     backgroundColor: campData.teams.map((team) => team.color),
                 }],
-        };
-
-        
+            };
+        }
     };
     
-    const chartOptions = {
+    
+    const chartOptionsLine = {
+        scales: {
+            y: {
+                ticks: {
+                    stepSize: 1, // Pouze celá čísla
+                    callback: function(value) {
+                        return Number.isInteger(value) ? value : null;
+                    },
+                },
+            },
+        },
         responsive: true,
         maintainAspectRatio: false, 
+    };
+    
+
+    const chartOptionsBar = {
+        ...chartOptionsLine,
         plugins: {
             legend: {
                 display: false,
             },
         },
     };
-    
 
     return (
         <div className="main-page-container">
@@ -288,6 +324,7 @@ const MainPage = () => {
                             onChange={(e) => setSelectedDayOption(e.target.value)}
                         >
                             <option value="Všechny dny">Všechny dny</option>
+                            <option value="Denní postup">Denní postup</option>
                             <option value="Celkový postup">Celkový postup</option>
                             {campDays.map((day) => (
                                 <option key={day} value={day}>
@@ -296,11 +333,12 @@ const MainPage = () => {
                             ))}
                         </select>
                         <div className="chart">
-                            {selectedDayOption === "Celkový postup" ? (
-                                <Line data={generateGraphData()} />
-                            ) : (
-                                <Bar data={generateGraphData()} options={chartOptions} />
-                            )}
+                        {selectedDayOption === "Denní postup" || selectedDayOption === "Celkový postup" ? (
+                            <Line data={generateGraphData()} options={chartOptionsLine} />
+                        ) : (
+                            <Bar data={generateGraphData()} options={chartOptionsBar} />
+                        )}
+
                         </div>
                         <button className="close-modal-graph" onClick={toggleModal}>
                             Zavřít
