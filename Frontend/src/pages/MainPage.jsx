@@ -181,6 +181,7 @@ const MainPage = () => {
         return "osob";
     };    
 
+    // Genetare graph based on CampData
     const generateGraphData = () => {
         if (!campData) return { labels: [], datasets: [] };
         
@@ -232,7 +233,6 @@ const MainPage = () => {
         }
     };
     
-    
     const chartOptionsLine = {
         scales: {
             y: {
@@ -248,7 +248,6 @@ const MainPage = () => {
         maintainAspectRatio: false, 
     };
     
-
     const chartOptionsBar = {
         ...chartOptionsLine,
         plugins: {
