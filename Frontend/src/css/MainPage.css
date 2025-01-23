@@ -57,13 +57,6 @@
     font-weight: bold;
 }
 
-.wave-svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-  
 .selectors-container {
     display: flex;
     justify-content: center;
@@ -164,47 +157,6 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
-
-
-.game-detail-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    width: 400px;
-    padding: 20px;
-    border-radius: 25px;
-    text-align: center;
-}
-
-.detail-hry {
-    font-size: 16px;
-    color: grey;
-    margin: 0;
-}
-
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.modal-icon-left, .modal-icon-right {
-    width: 30px;
-    height: 30px;
-    margin: 0 10px;
-}
-
 .game-type {
     text-align: center;
     padding-bottom: 10px;
@@ -236,17 +188,95 @@
     border-right: none;
 }
 
-.close-modal {
+/* MODAL WINDOW FOR GRAPHS */
+.modal-graph {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+  
+.modal-content-graph {
+    background-color: white;
+    padding: 20px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.modal-content-graph label {
+    display: block;
+    margin-bottom: -5px;
+}
+  
+.modal-content-graph select {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 50%;
+}
+
+.close-modal-graph {
     background-color: #2C2C2C;
     color: #fff;
     border: none;
     font-size: 18px;
+    padding: 10px 50px;
+    margin-top: 10px;
     border-radius: 25px;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
-  
-.close-modal:hover {
+
+.close-modal-graph:hover {
     opacity: 90%;
     transform: scale(1.05); 
+}
+
+.graph-container {
+    display: flex;
+    justify-content: center; 
+    margin-bottom: 30px;
+}
+
+.graph-button {
+    background-color: #2C2C2C;
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    min-width: 250px;
+    justify-content: center;
+}
+  
+.graph-button:hover {
+    background-color: #3c3c3c;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+  
+@media (max-width: 530px) {
+    .graph-button {
+        font-size: 16px;
+        padding: 13px 17px; 
+        margin-bottom: 10px;
+    }
+}
+
+.chart {
+    width: 100%;
+    height: 250px;
+    position: relative;
 }

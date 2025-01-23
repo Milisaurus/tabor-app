@@ -4,6 +4,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { updateCamp } from "../../api.jsx"
 
+import './ActivityHistory.css';
+
 const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData, handleDelete }) => {
     const navigate = useNavigate();
 

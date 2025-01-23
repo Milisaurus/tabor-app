@@ -13,6 +13,21 @@ import { useNavigate } from "react-router-dom";
 
 import '../css/MainPage.css';
 
+import { Bar, Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement);
+
 const MainPage = () => {
     // State to manage camp data, loading state, error messages, team scores, filtered games, and selected options
     const [campData, setCampData] = useState(null);
@@ -29,6 +44,11 @@ const MainPage = () => {
 
     // Array representing the days of the camp week
     const campDays = ["Sobota", "Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"];
+
+    const [showModal, setShowModal] = useState(false);
+    const [selectedDayOption, setSelectedDayOption] = useState("Všechny dny");
+
+    const toggleModal = () => setShowModal(!showModal);
 
     // Fetch camp data and team scores
     useEffect(() => {
@@ -68,24 +88,6 @@ const MainPage = () => {
             navigate("/");
         }
         fetchCampData();
-    }, []);
-
-    useEffect(() => {
-        const resizeHandler = () => {
-            const container = document.querySelector('.camp-results-table-container');
-            if (container) {
-                const containerWidth = container.offsetWidth;
-                const table = container.querySelector('.camp-results-table');
-                if (table.offsetWidth > containerWidth) {
-                    container.scrollLeft = 0; // Resetuje scroll v případě přetékání
-                }
-            }
-        };
-    
-        window.addEventListener('resize', resizeHandler);
-        resizeHandler();
-    
-        return () => window.removeEventListener('resize', resizeHandler);
     }, []);
     
     useEffect(() => {
@@ -179,6 +181,47 @@ const MainPage = () => {
         return "osob";
     };    
 
+    const generateGraphData = () => {
+        if (!campData) return { labels: [], datasets: [] };
+    
+        const teamNames = campData.teams.map((team) => team.name);
+    
+        return {
+            labels: selectedDayOption === "Celkový postup" ? campDays : teamNames,
+            datasets: selectedDayOption === "Celkový postup"
+                ? campData.teams.map((team) => ({
+                    label: team.name,
+                    data: campDays.map((day) => teamScores[team.name]?.[day] || 0),
+                    borderColor: team.color,
+                    backgroundColor: team.color,
+                    borderWidth: 2,
+                    fill: false,
+                }))
+                : [{
+                    label: selectedDayOption,
+                    data: teamNames.map((teamName) =>
+                        selectedDayOption === "Všechny dny"
+                            ? Object.values(teamScores[teamName] || {}).reduce((sum, score) => sum + score, 0)
+                            : teamScores[teamName]?.[selectedDayOption] || 0
+                    ),
+                    backgroundColor: campData.teams.map((team) => team.color),
+                }],
+        };
+
+        
+    };
+    
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false, 
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+    };
+    
+
     return (
         <div className="main-page-container">
             <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />
@@ -226,6 +269,45 @@ const MainPage = () => {
                 </div>
             </div>
             <br></br>
+
+            <div className="graph-container">
+                <button className="graph-button" onClick={toggleModal}>
+                    Zobrazit grafy
+                </button>
+            </div>
+
+            
+            {showModal && (
+                <div className="modal-graph">
+                    <div className="modal-content-graph">
+                        <h3 className="game-type">Grafové zobrazení bodů</h3>
+                        <label htmlFor="day-select">Vyberte graf</label>
+                        <select
+                            id="day-select"
+                            value={selectedDayOption}
+                            onChange={(e) => setSelectedDayOption(e.target.value)}
+                        >
+                            <option value="Všechny dny">Všechny dny</option>
+                            <option value="Celkový postup">Celkový postup</option>
+                            {campDays.map((day) => (
+                                <option key={day} value={day}>
+                                    {day}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="chart">
+                            {selectedDayOption === "Celkový postup" ? (
+                                <Line data={generateGraphData()} />
+                            ) : (
+                                <Bar data={generateGraphData()} options={chartOptions} />
+                            )}
+                        </div>
+                        <button className="close-modal-graph" onClick={toggleModal}>
+                            Zavřít
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <Heading text="Historie aktivit" level={1} className="nadpish1" />
             
