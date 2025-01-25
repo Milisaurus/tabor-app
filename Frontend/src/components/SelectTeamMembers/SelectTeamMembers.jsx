@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./SelectTeamMembers.css";
 
-const SelectCampMembers = ({ campData, participants, onSelectionChange, sudilichSelection, setSudilichSelection }) => {
+const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenSelection, setoddEvenSelection }) => {
     const [selectedChildren, setSelectedChildren] = useState(participants || []); // Holds names of selected participants
     const [expandedTeams, setExpandedTeams] = useState( // List of expanded content
         Object.fromEntries(campData.teams.map((team) => [team.name, true]))
     );
-    const [showSudilich, setShowSudilich] = useState(true); // Control visibility of Sudí/Lišší selection
+    const [showoddEven, setShowoddEven] = useState(true); // Control visibility of Sudí/Lišší selection
 
     useEffect(() => {
         onSelectionChange(selectedChildren);
@@ -31,9 +31,9 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, sudilich
     };
 
     // Upravím ošetření change pro Sudí / Liší
-    const handleSudilichChange = (event) => {
+    const handleoddEvenChange = (event) => {
         const { id, checked } = event.target;
-        setSudilichSelection(prevState => ({
+        setoddEvenSelection(prevState => ({
             ...prevState,
             [id]: checked
         }));
@@ -104,27 +104,27 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, sudilich
             {/* Sudí/Lišší Card */}
             <div className="team-container">
                 <div
-                    onClick={() => setShowSudilich(!showSudilich)}
+                    onClick={() => setShowoddEven(!showoddEven)}
                     className="team-header"
                     style={{
-                        borderBottomLeftRadius: !showSudilich ? "8px" : "0px",
-                        borderBottomRightRadius: !showSudilich ? "8px" : "0px",
+                        borderBottomLeftRadius: !showoddEven ? "8px" : "0px",
+                        borderBottomRightRadius: !showoddEven ? "8px" : "0px",
                     }}
                 >
                     <span>Sudí / Liší</span>
                 </div>
 
                 {/* Sudí / Lišší Content */}
-                {showSudilich && (
+                {showoddEven && (
                     <div className="team-content">
-                        <div className="sudilich-selection">
+                        <div className="oddEven-selection">
                             <div className="child-item">
                                 <span>Sudí</span>
                                 <input
                                     type="checkbox"
                                     id="even"
-                                    checked={sudilichSelection.even}
-                                    onChange={handleSudilichChange}
+                                    checked={oddEvenSelection.even}
+                                    onChange={handleoddEvenChange}
                                 />
                             </div>
                             <div className="child-item">
@@ -132,8 +132,8 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, sudilich
                                 <input
                                     type="checkbox"
                                     id="odd"
-                                    checked={sudilichSelection.odd}
-                                    onChange={handleSudilichChange}
+                                    checked={oddEvenSelection.odd}
+                                    onChange={handleoddEvenChange}
                                 />
                             </div>
                         </div>
