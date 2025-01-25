@@ -5,7 +5,7 @@
         {
             "children": [
                 "Honza Houdek",
-                "Lucie Šafránkováa",
+                "Lucie Šafránková",
                 "Jolana Kubíková",
                 "Alice Pokorná",
                 "Vojta Pražák",
@@ -82,8 +82,285 @@
             "name": "Elfové"
         }
     ],
-    "teamGames": [],
-    "individualActivities": [],
+    "teamGames": [
+        {
+            "day": "Neděle",
+            "gameTypeId": 2,
+            "name": "Lišky ",
+            "results": [
+                {
+                    "points_awarded": 10,
+                    "position": 1,
+                    "team_name": "Trpaslíci"
+                },
+                {
+                    "points_awarded": 8,
+                    "position": 2,
+                    "team_name": "Rohan"
+                },
+                {
+                    "points_awarded": 6,
+                    "position": 3,
+                    "team_name": "Hobiti"
+                },
+                {
+                    "points_awarded": 4,
+                    "position": 4,
+                    "team_name": "Gondor"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 5,
+                    "team_name": "Elfové"
+                }
+            ]
+        },
+        {
+            "day": "Středa",
+            "gameTypeId": 3,
+            "name": "Bitva",
+            "results": [
+                {
+                    "points_awarded": 15,
+                    "position": 1,
+                    "team_name": "Hobiti"
+                },
+                {
+                    "points_awarded": 12,
+                    "position": 2,
+                    "team_name": "Elfové"
+                },
+                {
+                    "points_awarded": 9,
+                    "position": 3,
+                    "team_name": "Gondor"
+                },
+                {
+                    "points_awarded": 6,
+                    "position": 4,
+                    "team_name": "Trpaslíci"
+                },
+                {
+                    "points_awarded": 3,
+                    "position": 5,
+                    "team_name": "Rohan"
+                }
+            ]
+        },
+        {
+            "day": "Středa",
+            "gameTypeId": 2,
+            "name": "Vlajkovaná",
+            "results": [
+                {
+                    "points_awarded": 10,
+                    "position": 1,
+                    "team_name": "Elfové"
+                },
+                {
+                    "points_awarded": 8,
+                    "position": 2,
+                    "team_name": "Gondor"
+                },
+                {
+                    "points_awarded": 6,
+                    "position": 3,
+                    "team_name": "Rohan"
+                },
+                {
+                    "points_awarded": 4,
+                    "position": 4,
+                    "team_name": "Hobiti"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 5,
+                    "team_name": "Trpaslíci"
+                }
+            ]
+        },
+        {
+            "day": "Pondělí",
+            "gameTypeId": 1,
+            "name": "Člověče nezlob se",
+            "results": [
+                {
+                    "points_awarded": 5,
+                    "position": 1,
+                    "team_name": "Rohan"
+                },
+                {
+                    "points_awarded": 4,
+                    "position": 2,
+                    "team_name": "Elfové"
+                },
+                {
+                    "points_awarded": 3,
+                    "position": 3,
+                    "team_name": "Hobiti"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 4,
+                    "team_name": "Trpaslíci"
+                },
+                {
+                    "points_awarded": 1,
+                    "position": 5,
+                    "team_name": "Gondor"
+                }
+            ]
+        },
+        {
+            "day": "Úterý",
+            "gameTypeId": 2,
+            "name": "Latrýna ",
+            "results": [
+                {
+                    "points_awarded": 10,
+                    "position": 1,
+                    "team_name": "Rohan"
+                },
+                {
+                    "points_awarded": 8,
+                    "position": 2,
+                    "team_name": "Elfové"
+                },
+                {
+                    "points_awarded": 6,
+                    "position": 3,
+                    "team_name": "Trpaslíci"
+                },
+                {
+                    "points_awarded": 4,
+                    "position": 4,
+                    "team_name": "Gondor"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 5,
+                    "team_name": "Hobiti"
+                }
+            ]
+        },
+        {
+            "day": "Sobota",
+            "gameTypeId": 1,
+            "name": "Nástup",
+            "results": [
+                {
+                    "points_awarded": 5,
+                    "position": 1,
+                    "team_name": "Trpaslíci"
+                },
+                {
+                    "points_awarded": 4,
+                    "position": 2,
+                    "team_name": "Rohan"
+                },
+                {
+                    "points_awarded": 3,
+                    "position": 3,
+                    "team_name": "Hobiti"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 4,
+                    "team_name": "Gondor"
+                },
+                {
+                    "points_awarded": 1,
+                    "position": 5,
+                    "team_name": "Elfové"
+                }
+            ]
+        },
+        {
+            "day": "Pondělí",
+            "gameTypeId": 2,
+            "name": "krmení josifka",
+            "results": [
+                {
+                    "points_awarded": 10,
+                    "position": 1,
+                    "team_name": "Rohan"
+                },
+                {
+                    "points_awarded": 8,
+                    "position": 2,
+                    "team_name": "Elfové"
+                },
+                {
+                    "points_awarded": 6,
+                    "position": 3,
+                    "team_name": "Trpaslíci"
+                },
+                {
+                    "points_awarded": 4,
+                    "position": 4,
+                    "team_name": "Gondor"
+                },
+                {
+                    "points_awarded": 2,
+                    "position": 5,
+                    "team_name": "Hobiti"
+                }
+            ]
+        }
+    ],
+    "individualActivities": [
+        {
+            "day": "Středa",
+            "participants": [
+                "Honza Houdek",
+                "Alice Pokorná",
+                "Veronika Špačková",
+                "Jindra Jacháček",
+                "Klára Lichtágová",
+                "Tereza Koutníková"
+            ],
+            "points": 3,
+            "reason": "Pomoc v kuchyni"
+        },
+        {
+            "day": "Pondělí",
+            "participants": [
+                "Honza Houdek",
+                "Tereza Mitášová",
+                "Tomáš Skryja",
+                "Marek Houdek",
+                "Lucie Brablecová"
+            ],
+            "points": 3,
+            "reason": "Hledání dopisu"
+        },
+        {
+            "day": "Středa",
+            "participants": [
+                "Honza Houdek",
+                "Vojta Klusák",
+                "Tomáš Skryja"
+            ],
+            "points": 5,
+            "reason": "Výpomoc při nošení věcí"
+        },
+        {
+            "day": "Úterý",
+            "participants": [
+                "Eliška Velenová"
+            ],
+            "points": 3,
+            "reason": "Dobré chování"
+        },
+        {
+            "day": "Pátek",
+            "reason": "EVEN",
+            "points": 50,
+            "participants": [
+                "even"
+            ]
+        }
+    ],
     "gameTypes": [
         {
             "point_scheme": [
@@ -115,5 +392,45 @@
             ],
             "type": "Velmi bodovaná"
         }
-    ]
-}
+    ],
+    "oddOrEven": {
+        "even": [
+            "Karina Vášová"
+        ],
+        "odd": [
+            "Honza Houdek",
+            "Lucie Šafránková",
+            "Jolana Kubíková",
+            "Alice Pokorná",
+            "Vojta Pražák",
+            "Eliška Velenová",
+            "Vojta Klusák",
+            "Bára Chroustová",
+            "Veronika Špačková",
+            "Tereza Mitášová",
+            "Martin Čížek",
+            "Anna Jindrová",
+            "Tomáš Kubík",
+            "Tomáš Skryja",
+            "Adéla Klusáková",
+            "Zuzana Houdková",
+            "Daniela Koutníková",
+            "Eliška Mitášová",
+            "Jindra Jacháček",
+            "Adéla Brablecová",
+            "Klára Lichtágová",
+            "Iveta Jacháčková",
+            "Libor Havel",
+            "Nikola Chroustová",
+            "Marek Houdek",
+            "Lucie Čížková",
+            "Eliška Vášová",
+            "Ester Pokorná",
+            "Tereza Koutníková",
+            "Daniel Chládek",
+            "Lucie Brablecová",
+            "Kamila Kubíková",
+            "Adam Šejnoha"
+        ]
+    }
+}   

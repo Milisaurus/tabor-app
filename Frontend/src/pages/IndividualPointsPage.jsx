@@ -24,6 +24,7 @@ const IndividualPoints = () => {
     const [reason, setReason] = useState("");               // Name of the activity
     const [points, setPoints] = useState("");               // Points to participants
     const [participants, setParticipants] = useState([]);   // Holds names of participants
+    const [oddEvenSelection, setoddEvenSelection] = useState({ odd: false, even: false });
     const navigate = useNavigate();
 
     // fetch camp data from server
@@ -48,35 +49,55 @@ const IndividualPoints = () => {
         fetchCampData();
     }, []);
     
-    // Handles submit, sends new data to server
     const handleSubmit = async (event) => {
-        // prevent default values
         event.preventDefault();
-        // Check if the activity reason already exists in campData.teamGames
-        const isDuplicateReason = campData.individualActivities.some((activity) => activity.reason === reason);
+    
+        const isDuplicateReason = campData.individualActivities.some(
+            (activity) => activity.reason === reason
+        );
         if (isDuplicateReason) {
             alert("Název aktivity již existuje! Vyberte prosím jiný název.");
-            return; // Stop the submission
+            return;
         }
-        // wrap new activity into object
+
+        if (oddEvenSelection.even && oddEvenSelection.odd) {
+            alert("Můžete vybrat buď sudé nebo liché, ne obě možnosti.");
+            return; // Do not set both options to true
+        }
+    
+        // Pokud byly zatrženy Sudí nebo Liší, použije se kategorie místo účastníků
+        const selectedParticipants = [];
+        if (oddEvenSelection.even) {
+            selectedParticipants.push("even");
+        }
+        if (oddEvenSelection.odd) {
+            selectedParticipants.push("odd");
+        }
+        
+        // Pokud nejsou zatržena Sudí/Liší, použijeme účastníky
+        if (!oddEvenSelection.even && !oddEvenSelection.odd) {
+            selectedParticipants.push(...participants);
+        }
+    
         const newIndividualActivity = {
             day,
             reason,
             points: parseInt(points),
-            participants
-        }
-        // add new activity to camp data
+            participants: selectedParticipants
+        };
+    
         campData['individualActivities'].push(newIndividualActivity);
-        // send JSON string to server
+    
         try {
             await updateCamp(JSON.stringify(campData));
-        } catch (error){
+        } catch (error) {
             console.error("Failed to update camp data:", error);
-            console.log(updatedCampData);
             alert("Nepodařilo se odeslat požadavek");
-        }        
+        }
+    
         navigate("/main-page");
     };
+    
     
     if (loading) return <Loading />;
     if (error) return <h1>Error: {error}</h1>;
@@ -102,7 +123,8 @@ const IndividualPoints = () => {
                     <input type="number" value={points} onChange={(e) => {setPoints(e.target.value)}} min={0} required placeholder="Počet bodů"/>
                 </div>
 
-                <SelectCampMembers campData={campData} participants={participants} onSelectionChange={setParticipants} />
+                <SelectCampMembers campData={campData} participants={participants} onSelectionChange={setParticipants} oddEvenSelection={oddEvenSelection}
+                setoddEvenSelection={setoddEvenSelection} />
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
 

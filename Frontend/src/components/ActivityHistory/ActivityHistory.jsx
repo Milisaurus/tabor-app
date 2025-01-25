@@ -1,14 +1,8 @@
-// Author Milan Vrbas <xvrbas01>
-
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { updateCamp } from "../../api.jsx"
-
+import { Link } from "react-router-dom";
 import './ActivityHistory.css';
 
-const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData, handleDelete }) => {
-    const navigate = useNavigate();
-
+const ActivityHistory = ({ selectedActivity, campData, closeModal, handleDelete }) => {
     return (
         <div className="game-detail-modal">
             <div className="modal-content">
@@ -39,27 +33,34 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData, 
                     <>
                         {/* INDIVIDUAL ACTIVITY */}
                         <p><strong>Počet bodů:</strong> {selectedActivity.points}</p>
-                        <table className="participant-table">
-                            <thead>
-                                <tr>
-                                    <th>Tým</th>
-                                    <th>Jméno</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {selectedActivity.participants.map((participant, index) => {
-                                    const team = campData.teams.find(team => team.children.includes(participant));
-                                    const teamColor = team?.color || "#000"; // Default is black
+                        {selectedActivity.participants.some(participant => participant === "odd" || participant === "even") ? (
+                            // If participants are "odd" or "even", display a message instead of a table
+                            <>
+                                <p><strong>{selectedActivity.participants[0] === "odd" ? "Lichá" : "Sudá"}</strong></p>
+                            </>
+                        ) : (
+                            <table className="participant-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tým</th>
+                                        <th>Jméno</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedActivity.participants.map((participant, index) => {
+                                        const team = campData.teams.find(team => team.children.includes(participant));
+                                        const teamColor = team?.color || "#000"; // Default is black
 
-                                    return (
-                                        <tr key={index}>
-                                            <td style={{ color: teamColor }}>{team?.name}</td>
-                                            <td>{participant}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                        return (
+                                            <tr key={index}>
+                                                <td style={{ color: teamColor }}>{team?.name}</td>
+                                                <td>{participant}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        )}
                     </>
                 ) : (
                     <>
@@ -90,7 +91,7 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, setCampData, 
                     </>
                 )}
 
-                 {/* Close modal button */}
+                {/* Close modal button */}
                 <button className="close-modal" onClick={closeModal}>Zavřít</button>
             </div>
         </div>

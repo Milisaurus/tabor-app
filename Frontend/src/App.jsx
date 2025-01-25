@@ -11,6 +11,7 @@ import IndividualPoints from "./pages/IndividualPointsPage";
 import EditTeams from "./pages/EditTeam";
 import EditTeamGame from "./pages/EditTeamGame";
 import EditIndividualActivity from "./pages/EditIndividualGame";
+import OddEvenPage from "./pages/OddEvenPage";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/edit-teams" element={<EditTeams />} />
                 <Route path="edit-team-game" element={<EditTeamGame/>} />
                 <Route path="edit-individual-activity" element={<EditIndividualActivity/>}/>
+                <Route path="odd-even" element={<OddEvenPage/>}/>
             </Routes>
         </Router>
     );

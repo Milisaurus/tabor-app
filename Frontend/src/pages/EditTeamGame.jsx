@@ -90,12 +90,13 @@ const EditTeamGame = () => {
     if (!campData) return <h1>No camp data for {sessionStorage.getItem("camp_name")} available.</h1>;
 
     return(
-        <div className="edit-tem-games-page" onSubmit={handleSubmit}>
+        <div className="edit-team-games-page" onSubmit={handleSubmit}>
             <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2="#" showIcons="true" />
             <NavbarButtons />
             <Heading text="Úprava týmové hry" level={1} className="nadpish1" />
             <form onSubmit={handleSubmit} className="edit-game-form">
-                <div>
+                <div className="game-name-input">
+                    <label>Název hry</label>
                     <input type="text" value={editedGame.name} onChange={(e) => handleChange("name", e.target.value)} required placeholder="Název hry" />
                 </div>
 

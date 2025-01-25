@@ -3,10 +3,10 @@
 
 from flask import Flask, request, json, jsonify
 from flask_cors import CORS
-import json
 import os
 
 app = Flask(__name__)
+
 CORS(app) # leave it as it is
 
 CAMPS_DIR = "data/" # Folder name where camp JSON files are stored
@@ -19,7 +19,7 @@ def read_camp_data(camp_name):
     # Check if the camp file exists
     if not os.path.exists(camp_file_path):
         return None
-    
+
     # Open and read the camp file, returning the JSON data
     with open(camp_file_path, "r", encoding="utf-8") as file:
         return json.load(file)
@@ -102,7 +102,7 @@ def get_camp_data(camp_name):
     # Check if the camp file exists (shouldn't happen)
     if not camp_data:
         return jsonify({"message": f"Camp file for '{camp_name}' not found."}), 404
-    
+
     # Return the camp data
     return jsonify(camp_data)
 
@@ -144,17 +144,34 @@ def calculate_team_scores(camp_name):
     # Initialize the scores for each team
     scores = {team["name"]: {day: 0 for day in camp_days} for team in camp_data["teams"]}
 
-    # Calculate scores from individual activities
+     # Calculate scores from individual activities
     for activity in camp_data.get("individualActivities", []):
         day = activity["day"]
         points = activity["points"]
         participants = activity["participants"]
 
-        # Add points to each team based on their participants
-        for participant in participants:
-            for team in camp_data["teams"]:
-                if participant in team["children"]:
-                    scores[team["name"]][day] += points
+        # Handle "odd" or "even" cases
+        if "odd" in participants or "even" in participants:
+            odd_or_even = camp_data.get("oddOrEven", {})
+            relevant_participants = []
+
+            # Collect participants from the appropriate category
+            if "even" in participants:
+                relevant_participants.extend(odd_or_even.get("even", []))
+            if "odd" in participants:
+                relevant_participants.extend(odd_or_even.get("odd", []))
+
+            # Add points to teams based on these participants
+            for participant in relevant_participants:
+                for team in camp_data["teams"]:
+                    if participant in team["children"]:
+                        scores[team["name"]][day] += points
+        else:
+            # Add points to each team based on their participants
+            for participant in participants:
+                for team in camp_data["teams"]:
+                    if participant in team["children"]:
+                        scores[team["name"]][day] += points
 
     # Calculate scores from team games
     for game in camp_data.get("teamGames", []):
@@ -186,11 +203,11 @@ def add_game_types(camp_name):
 
      # Define the game types and calculate the corresponding point schemes
     game_types = [
-        {"type": "Méně bodovaná", 
+        {"type": "Méně bodovaná",
             "point_scheme": calculate_points(number_of_teams, "méně bodovaná"),},
-        {"type": "Více bodovaná", 
+        {"type": "Více bodovaná",
             "point_scheme": calculate_points(number_of_teams, "více bodovaná"),},
-        {"type": "Velmi bodovaná", 
+        {"type": "Velmi bodovaná",
             "point_scheme": calculate_points(number_of_teams, "velmi bodovaná"),}
     ]
 
@@ -209,10 +226,6 @@ def get_filtered_activities(camp_name):
     day = request.args.get("day")
     game_type = request.args.get("game_type")
 
-    # Return an error if day is not provided
-    if not day:
-        return jsonify({"error": "Day parameter is required"}), 400
-    
     # game_type can be empty - do not filter individual/team activities/games
 
     # Read the camp data
@@ -222,27 +235,40 @@ def get_filtered_activities(camp_name):
     if not camp_data:
         return jsonify({"message": f"Camp file for '{camp_name}' not found."}), 404
 
-    # Filter the games based on the day and game type
+     # Filter the games based on the day and game type
     filtered_games = []
     if game_type == "individual":
-        filtered_games = [
-            game for game in camp_data.get("individualActivities", [])
-            if game["day"] == day
-        ]
+        if day:
+            filtered_games = [
+                game for game in camp_data.get("individualActivities", [])
+                if game["day"] == day
+            ]
+        else:
+            filtered_games = camp_data.get("individualActivities", [])
     elif game_type == "team":
-        filtered_games = [
-            game for game in camp_data.get("teamGames", [])
-            if game["day"] == day
-        ]
-    # If no game_type is provided, return both individual and team games
-    else:
-        filtered_games = [
-            game for game in camp_data.get("individualActivities", [])
-            if game["day"] == day
-        ] + [
-            game for game in camp_data.get("teamGames", [])
-            if game["day"] == day
-        ]
+        if day:
+            filtered_games = [
+                game for game in camp_data.get("teamGames", [])
+                if game["day"] == day
+            ]
+        else:
+            filtered_games = camp_data.get("teamGames", [])
+    elif game_type == "":
+        # If game_type is empty or unspecified, return both individual and team games for that day (all days)
+        if day:
+            filtered_games = [
+                game for game in camp_data.get("individualActivities", [])
+                if game["day"] == day
+            ] + [
+                game for game in camp_data.get("teamGames", [])
+                if game["day"] == day
+            ]
+        else:
+            filtered_games = (
+                camp_data.get("individualActivities", []) +
+                camp_data.get("teamGames", [])
+            )
+
 
     # Return the filtered games
     return jsonify(filtered_games)

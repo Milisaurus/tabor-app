@@ -1,7 +1,19 @@
-.edit-tem-games-page {
+.edit-team-games-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+}
+
+.edit-game-form {
+    width: 80%;
+}
+
+.game-name-input {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px;
 }

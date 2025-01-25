@@ -257,6 +257,18 @@ const MainPage = () => {
         },
     };
 
+    const getContrastingTextColor = (backgroundColor) => {
+        const color = backgroundColor.substring(1); // remove #
+        const rgb = parseInt(color, 16); // hex value
+        const r = (rgb >> 16) & 0xff;
+        const g = (rgb >> 8) & 0xff; 
+        const b = (rgb >> 0) & 0xff; 
+        // calculate intensity
+        const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+        return yiq >= 128 ? "black" : "white";
+    };
+    
+
     return (
         <div className="main-page-container">
             <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />
@@ -275,6 +287,26 @@ const MainPage = () => {
                                 ))}
                             </tr>
                         </thead>
+
+                        {/* 
+                        <thead>
+                            <tr className="header-row">
+                                <th>Den</th>
+                                {campData.teams.map((team, index) => (
+                                    <th 
+                                        key={index} 
+                                        style={{
+                                            backgroundColor: team.color, 
+                                            color: getContrastingTextColor(team.color),
+                                        }}
+                                    >
+                                        {team.name}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        */}
+
                         <tbody>
                             {/* Loop through each day and render team scores for each day */}
                             {campDays.map((day, index) => (
@@ -357,6 +389,7 @@ const MainPage = () => {
                             value={selectedDay}
                             onChange={(e) => setSelectedDay(e.target.value)}
                         >
+                            <option value="">Všechny dny</option>
                             {campDays.map((day, index) => (
                                 <option key={index} value={day}>{day}</option>
                             ))}
@@ -391,9 +424,12 @@ const MainPage = () => {
                                 </span>
                                 <span className="participant-count">
                                     {game.participants 
-                                        ? `${game.participants.length} ${getParticipantLabel(game.participants.length)}`
+                                        ? (game.participants[0] === "odd" || game.participants[0] === "even" 
+                                            ? (game.participants[0] === "odd" ? "Lichá" : "Sudá") 
+                                            : `${game.participants.length} ${getParticipantLabel(game.participants.length)}`)
                                         : gameTypeMapping[game.gameTypeId]}
                                 </span>
+
                             </div>
                         ))}
                     </div>
@@ -406,7 +442,6 @@ const MainPage = () => {
                     selectedActivity={selectedActivity} 
                     campData={campData} 
                     closeModal={closeModal}
-                    setCampData={setCampData}
                     handleDelete={handleDelete}
                 />
             )}

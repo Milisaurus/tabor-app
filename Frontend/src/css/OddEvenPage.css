@@ -1,0 +1,118 @@
+/* Container for the main content */
+.assign-groups-container {
+  max-width: 550px;
+  margin: 0 auto;
+  width: 90%;
+  padding: 20px;
+  background: #fff;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* List style reset */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Styling for each item (child + buttons) */
+.assign-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #2c2c2c10;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Name styling */
+.child-name {
+  color: #333;
+  flex: 1;
+}
+
+/* Buttons container */
+.assign-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons style */
+.assign-item button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.odd-button.active {
+  background: #2c2c2c;
+  color: white;
+}
+
+.even-button.active {
+  background: #2c2c2c;
+  color: white;
+}
+
+.odd-button,
+.even-button {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.save-button-odd-even-container {
+  display: flex;
+  justify-content: center; 
+  margin-top: 30px;
+}
+
+.save-button-odd-even {
+  background-color: #2C2C2C;
+  color: #fff;
+  border: none;
+  padding: 15px 25px;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  min-width: 250px;
+  justify-content: center;
+}
+
+.save-button-odd-even:hover {
+  background-color: #3c3c3c;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.description {
+  margin: 0 auto 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #2C2C2C;
+}
+
+.child-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+@media (max-width: 530px) {
+  .child-info {
+    font-size: 15px;
+  }
+}
+
+.team-color-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+}

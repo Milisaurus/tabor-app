@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { getCamp, updateTeam } from "../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // COMPONENT IMPORT
 import TeamFormEdit from "../components/TeamFormEdit/TeamFormEdit";
@@ -60,11 +60,10 @@ const EditTeam = () => {
     const handleChildChange = (childIndex, e) => {
         const oldName = editedTeam.children[childIndex]; // Get the old child name
         const newName = e.target.value; // Get the new child name
-    
+
+        // Update the children in editedTeam
         const updatedChildren = [...editedTeam.children];
         updatedChildren[childIndex] = newName; // Update the child's name
-
-        // Update editedTeam with the new children list
         setEditedTeam((prev) => ({ ...prev, children: updatedChildren }));
 
         // Update participants in individualActivities with the new name
@@ -81,11 +80,37 @@ const EditTeam = () => {
             individualActivities: updatedActivities,
         };
         setCampData(updatedCampData); // Update camp data
+
+        // Now update the oddOrEven structure
+        const updatedOddOrEven = { ...campData.oddOrEven };
+
+        // Update in 'even' if necessary
+        if (updatedOddOrEven.even.includes(oldName)) {
+            updatedOddOrEven.even = updatedOddOrEven.even.map((child) =>
+                child === oldName ? newName : child
+            );
+        }
+
+        // Update in 'odd' if necessary
+        if (updatedOddOrEven.odd.includes(oldName)) {
+            updatedOddOrEven.odd = updatedOddOrEven.odd.map((child) =>
+                child === oldName ? newName : child
+            );
+        }
+
+        // Update the camp data with the modified oddOrEven structure
+        const updatedCampDataWithOddOrEven = {
+            ...updatedCampData,
+            oddOrEven: updatedOddOrEven,
+        };
+        setCampData(updatedCampDataWithOddOrEven); // Update camp data
     };
+
 
     // Handle removal of a child from the team
     const handleRemoveChild = (childIndex) => {
         const removedChild = editedTeam.children[childIndex]; // Get the child to remove
+
         // Remove the child from the list
         const updatedChildren = editedTeam.children.filter((_, index) => index !== childIndex);
 
@@ -104,7 +129,24 @@ const EditTeam = () => {
             individualActivities: updatedActivities,
         };
         setCampData(updatedCampData); // Update camp data
+
+        // Now update the oddOrEven structure
+        const updatedOddOrEven = { ...campData.oddOrEven };
+
+        // Remove the child from 'even' if present
+        updatedOddOrEven.even = updatedOddOrEven.even.filter((child) => child !== removedChild);
+
+        // Remove the child from 'odd' if present
+        updatedOddOrEven.odd = updatedOddOrEven.odd.filter((child) => child !== removedChild);
+
+        // Update the camp data with the modified oddOrEven structure
+        const updatedCampDataWithOddOrEven = {
+            ...updatedCampData,
+            oddOrEven: updatedOddOrEven,
+        };
+        setCampData(updatedCampDataWithOddOrEven); // Update camp data
     };
+
 
     // Handle adding a new child to the team
     const handleAddChild = () => {
@@ -161,6 +203,15 @@ const EditTeam = () => {
             <Header goBackLink="/" editLink1="/edit-teams" editLink2="#" />
             <NavbarButtons />
             <Heading text="Úprava informací o týmech" level={1} className="nadpish1" />
+
+            <Link to="/odd-even">
+            <div style={{ textDecoration: 'none', marginBottom: '15px' }}>
+                <button className="graph-button">
+                    Přiřazení sudých / lichých
+                </button>
+            </div>
+            </Link>
+
             <div className="teamSelect">
                 <label htmlFor="team-select">Vyber tým:</label>
                 <select
