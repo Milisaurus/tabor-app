@@ -75,6 +75,7 @@ const TeamPoints = () => {
                 position: result.position,
                 team_name: result.team_name,
             })),
+            timestamp: Date.now(),
         };
         // add new game into camp data
         campData["teamGames"].push(newTeamGame);

@@ -83,7 +83,8 @@ const IndividualPoints = () => {
             day,
             reason,
             points: parseInt(points),
-            participants: selectedParticipants
+            participants: selectedParticipants,
+            timestamp: Date.now()
         };
     
         campData['individualActivities'].push(newIndividualActivity);

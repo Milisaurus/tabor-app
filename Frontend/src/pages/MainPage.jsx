@@ -100,6 +100,7 @@ const MainPage = () => {
                         selectedDay,
                         selectedGameType
                     );
+                    
                     setFilteredGames(games);
                 } catch (err) {
                     setError("Error fetching filtered activities: " + err.message);
