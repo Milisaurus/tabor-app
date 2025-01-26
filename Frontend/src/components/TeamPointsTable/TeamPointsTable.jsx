@@ -1,33 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
-const TeamPointsTable = ({ campData }) => {
-    // Stav pro pozice týmů
+const TeamPointsTable = ({ campData, gameTypeId, setGameTypeId }) => {
     const [positions, setPositions] = useState(
-        Array(campData.teams.length).fill(null).map(() => []) // Prázdné pozice
+        Array(campData.teams.length).fill(null).map(() => []) // Empty positions
     );
-    // Stav pro "pool" týmů (nepřiřazené týmy)
     const [unassignedTeams, setUnassignedTeams] = useState([...campData.teams]);
+    const [gamePoints, setGamePoints] = useState([]);
 
-    // Handle Drag and Drop
+    // Set points for teams based on selected game type
+    useEffect(() => {
+        if (gameTypeId === 0) return;
+
+        const gameTypeData = campData.gameTypes[gameTypeId - 1];
+        if (!gameTypeData) return;
+
+        const { point_scheme } = gameTypeData;
+        const updatedTeams = campData.teams.map((team, index) => {
+            const points = index < point_scheme.length ? point_scheme[index] : 0;
+            return { ...team, points_awarded: points };
+        });
+        setGamePoints(updatedTeams);
+    }, [gameTypeId, campData]);
+
     const handleDragEnd = (result) => {
         const { source, destination } = result;
-
-        // Pokud uživatel nepřetáhl tým do platného cíle, nic se neděje
         if (!destination) return;
 
         const updatedPositions = [...positions];
         const updatedUnassigned = [...unassignedTeams];
 
-        // Přetažení z poolu do slotu
+        // Dragging from the pool to a position
         if (source.droppableId === "pool" && destination.droppableId.startsWith("pos-")) {
             const destIndex = parseInt(destination.droppableId.split("-")[1], 10);
             const [movedTeam] = updatedUnassigned.splice(source.index, 1);
             updatedPositions[destIndex].splice(destination.index, 0, movedTeam);
         }
 
-        // Přetažení mezi pozicemi
+        // Dragging between positions
         else if (source.droppableId.startsWith("pos-") && destination.droppableId.startsWith("pos-")) {
             const sourceIndex = parseInt(source.droppableId.split("-")[1], 10);
             const destIndex = parseInt(destination.droppableId.split("-")[1], 10);
@@ -35,7 +46,7 @@ const TeamPointsTable = ({ campData }) => {
             updatedPositions[destIndex].splice(destination.index, 0, movedTeam);
         }
 
-        // Přetažení zpět do poolu
+        // Dragging back from a position to the pool
         else if (source.droppableId.startsWith("pos-") && destination.droppableId === "pool") {
             const sourceIndex = parseInt(source.droppableId.split("-")[1], 10);
             const [movedTeam] = updatedPositions[sourceIndex].splice(source.index, 1);
@@ -48,8 +59,19 @@ const TeamPointsTable = ({ campData }) => {
 
     return (
         <div className="team-points-table">
+            <div className="select-game-type">
+                <label>Typ hry</label>
+                <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
+                    <option value={0}>Vlastní</option>
+                    {campData.gameTypes.map((type, index) => (
+                        <option key={index} value={index + 1}>
+                            {type.type}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <DragDropContext onDragEnd={handleDragEnd}>
-                {/* Pool pro nepřiřazené týmy */}
+                {/* Pool for unassigned teams */}
                 <div className="team-pool">
                     <h3>Nepřiřazené týmy</h3>
                     <Droppable droppableId="pool">
@@ -69,7 +91,7 @@ const TeamPointsTable = ({ campData }) => {
                                                 className="team-card"
                                                 style={{ backgroundColor: team.color }}
                                             >
-                                                {team.name}
+                                                {team.name} - {gamePoints.find((item) => item.name === team.name)?.points_awarded || 0} bodů
                                             </div>
                                         )}
                                     </Draggable>
@@ -80,7 +102,7 @@ const TeamPointsTable = ({ campData }) => {
                     </Droppable>
                 </div>
 
-                {/* Poziční sloty */}
+                {/* Position Slots */}
                 <div className="positions-container">
                     {positions.map((teams, posIndex) => (
                         <Droppable droppableId={`pos-${posIndex}`} key={`pos-${posIndex}`}>
@@ -103,7 +125,7 @@ const TeamPointsTable = ({ campData }) => {
                                                         backgroundColor: team.color,
                                                     }}
                                                 >
-                                                    {team.name}
+                                                    {team.name} - {gamePoints.find((item) => item.name === team.name)?.points_awarded || 0} bodů
                                                 </div>
                                             )}
                                         </Draggable>
