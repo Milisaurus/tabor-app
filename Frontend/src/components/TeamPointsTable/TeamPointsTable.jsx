@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import "./TeamPointsTable.css"
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [manualReorder, setManualReorder] = useState(false); // Nový stav pro kontrolu ručního přetahování
+    const [manualReorder, setManualReorder] = useState(false); // Stav pro kontrolu manuálního přetahování
 
     // Automatické řazení týmů
     useEffect(() => {
-        if (manualReorder) return; // Pokud probíhá ruční přetahování, ignoruj automatické řazení
+        if (manualReorder) return; // Pokud probíhá manuální přetahování, ignoruj automatické řazení
 
-        // Řazení týmů podle herních bodů
         const sortedResults = [...results]
             .sort((a, b) => b.game_points - a.game_points)
             .reduce((acc, result, index) => {
@@ -25,7 +25,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         setResults(sortedResults);
     }, [results, manualReorder]); // Poslouchá změny v herních bodech a ruční přetahování
 
-    // Přidělování bodů podle pořadí
+    // Přiřazení bodů na základě pořadí
     useEffect(() => {
         if (gameTypeId === 0) return;
 
@@ -60,20 +60,29 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
         // Aktualizace pořadí po přetahování
         updatedResults.forEach((item, index) => {
-            item.position = index + 1; // Aktualizuj pořadí ručně
+            item.position = index + 1; // Ruční pořadí
         });
 
         setResults(updatedResults);
-        setManualReorder(true); // Povolit ruční režim
+        setManualReorder(true); // Aktivace manuálního režimu
     };
 
-    // Řídí změny herních bodů
+    // Správa změny herních bodů
     const handleGamePointsChange = (index, newGamePoints) => {
         const updatedResults = [...results];
         updatedResults[index].game_points = newGamePoints;
 
         setResults(updatedResults);
         setManualReorder(false); // Přepnout zpět na automatické řazení
+    };
+
+    // Správa změny celkových bodů
+    const handleManualPointChange = (index, newPoints) => {
+        const updatedResults = [...results];
+        updatedResults[index].points_awarded = newPoints;
+
+        setResults(updatedResults);
+        setManualReorder(true); // Ponechat manuální režim pro přetahování
     };
 
     const getTeamColor = (teamName) => {
@@ -135,7 +144,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                     />
                                                 </div>
 
-                                                {/* Hlavní body */}
+                                                {/* Celkové body */}
                                                 <div>
                                                     <input
                                                         type="number"
