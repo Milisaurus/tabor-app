@@ -1,163 +1,89 @@
-.team-table-container {
+/* General container for the table of teams */
+.team-points-table {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 20px;
     justify-content: center;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
 }
 
-.select-game-type {
-    margin-bottom: 25px;
+/* Pool of unassigned teams */
+.team-pool {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: #f5f5f5;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    width: 300px;
+}
+
+/* Highlighted position during drag */
+.position-slot.highlight {
+    background-color: #dcdcdc;
+    border: 2px solid #0078d4;
+}
+
+/* Position slot area where teams can be dropped */
+.position-slot {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed gray;
+    border-radius: 8px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 55%;
-    min-width: 200px;
-}
-
-.team-drag-label {
-    margin-bottom: -15px;
-}
-
-@media (max-width: 480px) {
-    .select-game-type {
-        min-width: 220px;
-    }
-}
-
-.team-list {
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px 0;
-    border-radius: 16px;
-    border: 2px solid #ccc;
-    list-style: none; /* Odstraní výchozí seznamové ikony */
-    padding: 0;
-}
-
-.team-list .team-item {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-    align-items: center;
+    justify-content: flex-start;
+    background-color: #f0f0f0;
     transition: background-color 0.3s;
 }
 
-.team-list .team-item:last-child {
-    border-bottom: none;
-}
-
-.team-item:hover {
-    background-color: #f0f0f0;
-}
-
-.team-item .team-position {
-    font-weight: bold;
-    text-align: center;
-    width: 70px;
-    margin-right: 15px;
-}
-
-.team-item .team-name {
-    text-align: center;
-    padding: 12px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    width: 250px; /* Nastavení šířky pro název týmu */
-    margin-right: 15px;
-}
-
-.team-item .points-input {
-    width: 70px;
-    text-align: center;
-    padding: 6px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: white;
-}
-
-.points-type-container {
-    display: flex; /* Vstupy vedle sebe */
-    gap: 10px; /* Mezera mezi nimi */
-    align-items: center; /* Vertikální zarovnání */
-}
-
-@media (max-width: 600px) {
-    .points-input {
-        max-width: 50px; /* Při menších stránkách se zmenší */
-    }
-    .points-type-container {
-        gap: 5px; /* Mezera mezi vstupy se také zmenší */
-    }
-}
-
-/* Skryje šipky pro prohlížeče založené na Webkit (Chrome, Edge, Safari) */
-.game-points-input[type="number"]::-webkit-inner-spin-button,
-.game-points-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-}
-
-/* Skryje šipky pro Firefox */
-.game-points-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-.team-points-table {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.team-pool {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    width: 400px;
-    text-align: center;
-    background-color: #f9f9f9;
-}
-
-.pool-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    min-height: 60px;
-}
-
-.positions-container {
-    display: flex;
-    gap: 20px;
-}
-
-.position-slot {
-    width: 150px;
-    min-height: 100px;
-    border: 2px dashed gray;
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f0f0f0;
-}
-
+/* Label for positions */
 .position-label {
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
 }
 
+/* Styling for each draggable team card */
 .team-card {
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
     color: white;
     font-weight: bold;
-    border-radius: 4px;
+    border-radius: 5px;
     text-align: center;
     cursor: grab;
+}
+
+/* For pool */
+.team-card {
+    width: 100%;
+    background-color: #0078d4;  /* You can make this dynamic by using a team's color */
+    cursor: grab;
+    margin-bottom: 10px;
+}
+
+/* Droppable region for pool */
+.pool-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Styling for positions container */
+.positions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Remove default outline for draggable */
+.team-card:active {
+    cursor: grabbing;
+}
+
+.team-card {
+    background-color: #4CAF50; /* Green teams as an example */
 }
