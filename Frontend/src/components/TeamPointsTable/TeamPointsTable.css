@@ -1,89 +1,54 @@
-/* General container for the table of teams */
 .team-points-table {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
+    justify-content: space-around;
+    margin-top: 30px;
 }
 
-/* Pool of unassigned teams */
 .team-pool {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    background: #f5f5f5;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    width: 300px;
+    width: 200px;
 }
 
-/* Highlighted position during drag */
-.position-slot.highlight {
-    background-color: #dcdcdc;
-    border: 2px solid #0078d4;
-}
-
-/* Position slot area where teams can be dropped */
-.position-slot {
-    width: 150px;
-    height: 150px;
-    border: 2px dashed gray;
-    border-radius: 8px;
+.pool-container {
+    border: 1px solid #ccc;
     padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: #f0f0f0;
-    transition: background-color 0.3s;
+    background-color: #f9f9f9;
 }
 
-/* Label for positions */
+.position-slot {
+    border: 2px solid #ddd;
+    min-width: 200px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+
 .position-label {
     font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
 }
 
-/* Styling for each draggable team card */
 .team-card {
-    padding: 15px;
+    padding: 10px;
     margin-bottom: 10px;
-    color: white;
-    font-weight: bold;
     border-radius: 5px;
+    font-weight: bold;
+    color: white;
     text-align: center;
-    cursor: grab;
+    cursor: move;
 }
 
-/* For pool */
-.team-card {
-    width: 100%;
-    background-color: #0078d4;  /* You can make this dynamic by using a team's color */
-    cursor: grab;
-    margin-bottom: 10px;
+.team-card .points-input {
+    margin-top: 10px;
+    padding: 5px;
+    width: 50px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ddd;
 }
 
-/* Droppable region for pool */
-.pool-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.position-slot.highlight {
+    background-color: #e0e0e0;
 }
 
-/* Styling for positions container */
-.positions-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-/* Remove default outline for draggable */
-.team-card:active {
-    cursor: grabbing;
-}
-
-.team-card {
-    background-color: #4CAF50; /* Green teams as an example */
+input[type="number"] {
+    width: 50px;
+    font-size: 16px;
 }
