@@ -47,24 +47,13 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     };
 
     // Handle manual change of the points by user
-const handleManualPointChange = (index, newPoints) => {
-    const updatedResults = [...results];
-    updatedResults[index].points_awarded = newPoints;
-
-    // Sort teams by points in descending order
-    updatedResults.sort((a, b) => b.points_awarded - a.points_awarded);
-
-    // Update positions based on the sorted points
-    updatedResults.forEach((item, idx) => {
-        item.position = idx + 1;
-    });
-
-    setResults(updatedResults);
-
-    // set point scheme to "Vlastní"
-    setGameTypeId(0);
-};
-
+    const handleManualPointChange = (index, newPoints) => {
+        const updatedResults = [...results];
+        updatedResults[index].points_awarded = newPoints;
+        setResults(updatedResults);
+        // set point scheme to "Vlastní"
+        setGameTypeId(0);
+    };
 
     // Get color of the team from camp data
     const getTeamColor = (teamName) => {
