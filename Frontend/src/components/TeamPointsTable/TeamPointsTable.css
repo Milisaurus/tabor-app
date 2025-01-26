@@ -1,118 +1,66 @@
-/* TeamPointsTable.css */
 .team-table-container {
     padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .select-game-type {
     margin-bottom: 20px;
+}
+
+.rank-zones {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.select-game-type label {
-    font-weight: bold;
-}
-
-.select-game-type select {
-    padding: 5px 10px;
+.rank-zone {
+    flex: 1;
+    min-width: 200px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.position-zone {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.position-zone h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    color: #333;
+.rank-zone h3 {
+    margin: 0 0 10px 0;
+    text-align: center;
 }
 
 .team-list {
     list-style: none;
-    margin: 0;
     padding: 0;
-    min-height: 50px; /* Ensure there's space even if no teams are present */
+    margin: 0;
+    min-height: 50px;
 }
 
 .team-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
     margin-bottom: 8px;
-    background-color: #e6f7ff; /* Default light blue background for teams */
-    border: 1px solid #91d5ff;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
     cursor: grab;
-    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .team-item:active {
     cursor: grabbing;
 }
 
-.team-item:hover {
-    transform: translateY(-2px);
-    background-color: #bae7ff;
-}
-
-.team-item:last-child {
-    margin-bottom: 0;
-}
-
-.team-drag-label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-@media (max-width: 600px) {
-    .team-table-container {
-        padding: 10px;
-    }
-
-    .position-zone {
-        padding: 10px;
-    }
-
-    .team-item {
-        font-size: 12px;
-        padding: 8px;
-    }
-}
-
 .team-info {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     width: 100%;
 }
 
 .team-name {
     font-weight: bold;
-    font-size: 14px;
-    color: #ffffff;
 }
 
 .team-points {
-    font-size: 12px;
-    color: #ffffff;
-    margin-left: auto;
-    padding-left: 10px;
+    font-size: 14px;
+    color: #666;
 }
