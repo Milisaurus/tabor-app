@@ -3,59 +3,93 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [dropCount, setDropCount] = useState(0); // Count to refresh the table
-
-    // Give each team number of points acording to points scheme of selected game type
+    const [dropCount, setDropCount] = useState(0);
     useEffect(() => {
-        // unless it's set to "Vlastní"
+        // Řazení týmů a správné určení pozic (řešení shodných míst)
+        const sortedResults = [...results]
+            .sort((a, b) => b.game_points - a.game_points) // Řazení podle herních bodů (sestupně)
+            .reduce((acc, result, index, arr) => {
+                const prev = acc[acc.length - 1];
+                if (prev && prev.game_points === result.game_points) {
+                    result.position = prev.position; // Shodné místo jako předchozí tým
+                } else {
+                    result.position = (prev ? prev.position : 0) + 1; // Další dostupná pozice
+                }
+                return [...acc, result];
+            }, []);
+    
+        setResults(sortedResults);
+    }, [results]); // Aktualizace při změně výsledků
+    
+    useEffect(() => {
         if (gameTypeId === 0) return;
-
+    
         const updateResultsBasedOnPositions = (gameTypeId) => {
             const gameTypeData = campData.gameTypes[gameTypeId - 1];
             if (!gameTypeData) return;
-
+    
             const { point_scheme, everyone_else } = gameTypeData;
-            const updatedResults = results.map((result, index) => {
-                const points = index < point_scheme.length ? point_scheme[index] : everyone_else;
-                return { ...result, points_awarded: points };
+    
+            const updatedResults = results.map((result) => {
+                const points =
+                    result.position - 1 < point_scheme.length
+                        ? point_scheme[result.position - 1]
+                        : everyone_else;
+    
+                result.points_awarded = points; // Přidělení bodů dle pozice
+                return result;
             });
-
+    
             setResults(updatedResults);
         };
-
-        if (gameTypeId !== null && gameTypeId !== 0) {
-            updateResultsBasedOnPositions(gameTypeId);
-        }
-    }, [gameTypeId, dropCount]); // Refresh the table with gameType changed or after team drag
-
-    // Handle the Drag
+    
+        updateResultsBasedOnPositions(gameTypeId);
+    }, [gameTypeId, results]);
+    
+    // Řídí změny herních bodů (přesune tým na správné místo v pořadí)
+    const handleGamePointsChange = (index, newGamePoints) => {
+        const updatedResults = [...results];
+        updatedResults[index].game_points = newGamePoints;
+    
+        // Reorganizace výsledků a přepočet pozic
+        const sortedResults = updatedResults
+            .sort((a, b) => b.game_points - a.game_points)
+            .reduce((acc, result, i, arr) => {
+                const prev = acc[acc.length - 1];
+                if (prev && prev.game_points === result.game_points) {
+                    result.position = prev.position; // Shodné místo jako předchozí tým
+                } else {
+                    result.position = (prev ? prev.position : 0) + 1; // Další dostupná pozice
+                }
+                return [...acc, result];
+            }, []);
+    
+        setResults(sortedResults);
+    };
+    
+    
+    // Řídí přetažení týmů
     const handleDragEnd = (result) => {
         if (!result.destination) return;
-
+    
         const updatedResults = Array.from(results);
         const [movedItem] = updatedResults.splice(result.source.index, 1);
         updatedResults.splice(result.destination.index, 0, movedItem);
-
-        updatedResults.forEach((item, index) => {
-            item.position = index + 1;
-        });
-
-        setResults(updatedResults);
-
-        // Refresh the table
-        setDropCount(dropCount + 1);
+    
+        setResults(updatedResults); // Pozice budou přepočítány v useEffect
     };
+    
 
-    // Handle manual change of the points by user
+    
+    // Aktualizuje manuálně hlavní body
     const handleManualPointChange = (index, newPoints) => {
         const updatedResults = [...results];
         updatedResults[index].points_awarded = newPoints;
         setResults(updatedResults);
-        // set point scheme to "Vlastní"
-        setGameTypeId(0);
+        setGameTypeId(0); // Reset typu hry na "vlastní"
     };
+    
 
-    // Get color of the team from camp data
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
         return team ? team.color : "";
@@ -74,9 +108,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     ))}
                 </select>
             </div>
-            
+
             <div className="team-drag-label">
-            <label>Upravte pořadí týmů přetažením</label>
+                <label>Upravte pořadí týmů přetažením</label>
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -92,25 +126,47 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                         >
-                                            {/* Position */}
                                             <div className="team-position">{result.position}.</div>
-
-                                            {/* Team name */}
                                             <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
                                                 {result.team_name}
                                             </div>
 
-                                            {/* Points */}
-                                            <div>
-                                                <input
-                                                    type="number"
-                                                    className="points-input"
-                                                    value={result.points_awarded}
-                                                    onChange={(e) =>
-                                                        handleManualPointChange(index, parseFloat(e.target.value) || 0)
-                                                    }
-                                                    min={0}
-                                                />
+                                            <div  className="points-type-container">
+                                                {/* Herní body */}
+                                                <div>
+                                                    <input
+                                                        type="number"
+                                                        inputMode="numeric"
+                                                        onInput={(e) => {
+                                                            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Povolení pouze čísel a desetinné tečky
+                                                        }}
+                                                        className="game-points-input points-input"
+                                                        value={result.game_points || ''}
+                                                        onChange={(e) =>
+                                                            handleGamePointsChange(index, parseFloat(e.target.value) || 0)
+                                                        }
+                                                        min={0}
+                                                        placeholder="H"
+                                                    />
+                                                </div>
+
+                                                {/* Hlavní body */}
+                                                <div>
+                                                    <input
+                                                        type="number"
+                                                        inputMode="numeric"
+                                                        onInput={(e) => {
+                                                            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Povolení pouze čísel a desetinné tečky
+                                                        }}
+                                                        className="points-input"
+                                                        value={result.points_awarded || ''}
+                                                        onChange={(e) =>
+                                                            handleManualPointChange(index, parseFloat(e.target.value) || 0)
+                                                        }
+                                                        min={0}
+                                                        placeholder="C"
+                                                    />
+                                                </div>
                                             </div>
                                         </li>
                                     )}
@@ -121,6 +177,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     )}
                 </Droppable>
             </DragDropContext>
+            <span>(H = Herní body, C = Celkové body)</span>
         </div>
     );
 };

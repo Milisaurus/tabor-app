@@ -78,3 +78,29 @@
     border-radius: 6px;
     background-color: white;
 }
+
+.points-type-container {
+    display: flex; /* Vstupy vedle sebe */
+    gap: 10px; /* Mezera mezi nimi */
+    align-items: center; /* Vertikální zarovnání */
+}
+
+@media (max-width: 600px) {
+    .points-input {
+        max-width: 50px; /* Při menších stránkách se zmenší */
+    }
+    .points-type-container {
+        gap: 5px; /* Mezera mezi vstupy se také zmenší */
+    }
+}
+
+/* Skryje šipky pro prohlížeče založené na Webkit (Chrome, Edge, Safari) */
+.game-points-input[type="number"]::-webkit-inner-spin-button,
+.game-points-input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Skryje šipky pro Firefox */
+.game-points-input[type="number"] {
+    -moz-appearance: textfield;
+}
