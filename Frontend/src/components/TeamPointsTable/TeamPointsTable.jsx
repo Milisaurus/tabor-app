@@ -1,52 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [positions, setPositions] = useState(results.map((_, index) => index + 1)); // Inicializace pozic
+    const [positionZones, setPositionZones] = useState({}); // Zóny pro jednotlivé pozice
+    const [dropCount, setDropCount] = useState(0);
+
+    useEffect(() => {
+        // Inicializace zón na základě aktuálních výsledků
+        const initialZones = {};
+        results.forEach((result) => {
+            if (!initialZones[result.position]) {
+                initialZones[result.position] = [];
+            }
+            initialZones[result.position].push(result);
+        });
+
+        setPositionZones(initialZones);
+    }, [results]);
 
     useEffect(() => {
         if (gameTypeId === 0) return;
 
-        const updateResultsBasedOnPositions = (gameTypeId) => {
+        const updateResultsPoints = () => {
             const gameTypeData = campData.gameTypes[gameTypeId - 1];
             if (!gameTypeData) return;
 
             const { point_scheme, everyone_else } = gameTypeData;
-            const updatedResults = results.map((result, index) => {
-                const position = positions.indexOf(index + 1);
-                const points = position < point_scheme.length ? point_scheme[position] : everyone_else;
-                return { ...result, points_awarded: points };
-            });
+            const updatedResults = Object.entries(positionZones).flatMap(([position, teams]) =>
+                teams.map((team) => {
+                    const points = position - 1 < point_scheme.length ? point_scheme[position - 1] : everyone_else;
+                    return { ...team, points_awarded: points };
+                })
+            );
 
             setResults(updatedResults);
         };
 
-        if (gameTypeId !== null && gameTypeId !== 0) {
-            updateResultsBasedOnPositions(gameTypeId);
-        }
-    }, [gameTypeId, positions]);
+        updateResultsPoints();
+    }, [positionZones, gameTypeId]);
 
     const handleDragEnd = (result) => {
-        if (!result.destination) return;
+        const { source, destination } = result;
 
-        const updatedPositions = Array.from(positions);
-        const [movedPosition] = updatedPositions.splice(result.source.index, 1);
-        updatedPositions.splice(result.destination.index, 0, movedPosition);
+        // Pokud tým není přetažen do platné zóny, nic nedělej
+        if (!destination) return;
 
-        setPositions(updatedPositions);
-    };
+        const sourcePosition = source.droppableId;
+        const destinationPosition = destination.droppableId;
 
-    const handleManualPointChange = (index, newPoints) => {
-        const updatedResults = [...results];
-        updatedResults[index].points_awarded = newPoints;
-        setResults(updatedResults);
-        setGameTypeId(0);
-    };
+        const sourceTeams = Array.from(positionZones[sourcePosition] || []);
+        const destinationTeams = Array.from(positionZones[destinationPosition] || []);
 
-    const getTeamColor = (teamName) => {
-        const team = campData.teams.find((t) => t.name === teamName);
-        return team ? team.color : "";
+        const [movedTeam] = sourceTeams.splice(source.index, 1);
+
+        // Přidání týmu do cílové zóny
+        destinationTeams.splice(destination.index, 0, movedTeam);
+
+        setPositionZones({
+            ...positionZones,
+            [sourcePosition]: sourceTeams,
+            [destinationPosition]: destinationTeams,
+        });
+
+        setDropCount(dropCount + 1);
     };
 
     return (
@@ -63,59 +80,58 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                 </select>
             </div>
 
-            <div className="team-drag-label">
-                <label>Upravte pořadí týmů přetažením</label>
-            </div>
-
             <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="teamList">
-                    {(provided) => (
-                        <ul className="team-list" ref={provided.innerRef} {...provided.droppableProps}>
-                            {positions.map((pos, index) => {
-                                const teamIndex = pos - 1;
-                                const team = results[teamIndex];
+                {Array.from({ length: 5 }).map((_, i) => {
+                    const position = i + 1; // 1-based index
+                    const teamsInZone = positionZones[position] || [];
 
-                                return (
-                                    <Draggable key={team.team_name} draggableId={team.team_name} index={index}>
-                                        {(provided) => (
-                                            <li
-                                                className="team-item"
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                {/* Position */}
-                                                <div className="team-position">{index + 1}.</div>
+                    return (
+                        <div key={position} className="position-zone">
+    <h3>{position}. místo</h3>
+    <Droppable droppableId={`${position}`}>
+        {(provided) => (
+            <ul
+                className="team-list"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+            >
+                {teamsInZone.map((team, index) => (
+                    <Draggable
+                        key={team.team_name}
+                        draggableId={team.team_name}
+                        index={index}
+                    >
+                        {(provided) => (
+                            <li
+                                className="team-item"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                    backgroundColor: campData.teams.find(
+                                        (t) => t.name === team.team_name
+                                    )?.color,
+                                }}
+                            >
+                                {/* Zobrazení názvu týmu a bodů */}
+                                <div className="team-info">
+                                    <span className="team-name">{team.team_name}</span>
+                                    <span className="team-points">
+                                        {team.points_awarded} bodů
+                                    </span>
+                                </div>
+                            </li>
+                        )}
+                    </Draggable>
+                ))}
+                {provided.placeholder}
+            </ul>
+        )}
+    </Droppable>
+</div>
 
-                                                {/* Team name */}
-                                                <div
-                                                    className="team-name"
-                                                    style={{ backgroundColor: getTeamColor(team.team_name) }}
-                                                >
-                                                    {team.team_name}
-                                                </div>
-
-                                                {/* Points */}
-                                                <div>
-                                                    <input
-                                                        type="number"
-                                                        className="points-input"
-                                                        value={team.points_awarded}
-                                                        onChange={(e) =>
-                                                            handleManualPointChange(teamIndex, parseFloat(e.target.value) || 0)
-                                                        }
-                                                        min={0}
-                                                    />
-                                                </div>
-                                            </li>
-                                        )}
-                                    </Draggable>
-                                );
-                            })}
-                            {provided.placeholder}
-                        </ul>
-                    )}
-                </Droppable>
+                    );
+                })}
             </DragDropContext>
         </div>
     );

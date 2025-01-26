@@ -1,106 +1,118 @@
+/* TeamPointsTable.css */
 .team-table-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .select-game-type {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 55%;
-    min-width: 200px;
+    gap: 10px;
 }
 
-.team-drag-label {
-    margin-bottom: -15px;
+.select-game-type label {
+    font-weight: bold;
 }
 
-@media (max-width: 480px) {
-    .select-game-type {
-        min-width: 220px;
-    }
+.select-game-type select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.position-zone {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.position-zone h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
 }
 
 .team-list {
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px 0;
-    border-radius: 16px;
-    border: 2px solid #ccc;
-    list-style: none; /* Odstraní výchozí seznamové ikony */
+    list-style: none;
+    margin: 0;
     padding: 0;
+    min-height: 50px; /* Ensure there's space even if no teams are present */
 }
 
-.team-list .team-item {
-    display: flex;
-    border-bottom: 1px solid #ccc;
+.team-item {
     padding: 10px;
-    align-items: center;
-    transition: background-color 0.3s;
+    margin-bottom: 8px;
+    background-color: #e6f7ff; /* Default light blue background for teams */
+    border: 1px solid #91d5ff;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    cursor: grab;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.team-list .team-item:last-child {
-    border-bottom: none;
+.team-item:active {
+    cursor: grabbing;
 }
 
 .team-item:hover {
-    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    background-color: #bae7ff;
 }
 
-.team-item .team-position {
-    font-weight: bold;
+.team-item:last-child {
+    margin-bottom: 0;
+}
+
+.team-drag-label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
     text-align: center;
-    width: 70px;
-    margin-right: 15px;
-}
-
-.team-item .team-name {
-    text-align: center;
-    padding: 12px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    width: 250px; /* Nastavení šířky pro název týmu */
-    margin-right: 15px;
-}
-
-.team-item .points-input {
-    width: 70px;
-    text-align: center;
-    padding: 6px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: white;
-}
-
-.points-type-container {
-    display: flex; /* Vstupy vedle sebe */
-    gap: 10px; /* Mezera mezi nimi */
-    align-items: center; /* Vertikální zarovnání */
 }
 
 @media (max-width: 600px) {
-    .points-input {
-        max-width: 50px; /* Při menších stránkách se zmenší */
+    .team-table-container {
+        padding: 10px;
     }
-    .points-type-container {
-        gap: 5px; /* Mezera mezi vstupy se také zmenší */
+
+    .position-zone {
+        padding: 10px;
+    }
+
+    .team-item {
+        font-size: 12px;
+        padding: 8px;
     }
 }
 
-/* Skryje šipky pro prohlížeče založené na Webkit (Chrome, Edge, Safari) */
-.game-points-input[type="number"]::-webkit-inner-spin-button,
-.game-points-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
+.team-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-/* Skryje šipky pro Firefox */
-.game-points-input[type="number"] {
-    -moz-appearance: textfield;
+.team-name {
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.team-points {
+    font-size: 12px;
+    color: #ffffff;
+    margin-left: auto;
+    padding-left: 10px;
 }
