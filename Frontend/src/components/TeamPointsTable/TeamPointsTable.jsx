@@ -3,11 +3,20 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [dropCount, setDropCount] = useState(0);
     useEffect(() => {
-        // Řazení týmů a správné určení pozic (řešení shodných míst)
+        // Pokud nejsou herní body, pořadí zůstává ruční
+        if (results.some((team) => team.game_points === undefined || team.game_points === null)) {
+            const manualResults = [...results].map((result, index) => ({
+                ...result,
+                position: index + 1, // Ruční pořadí
+            }));
+            setResults(manualResults);
+            return;
+        }
+    
+        // Automatické řazení týmů podle herních bodů
         const sortedResults = [...results]
-            .sort((a, b) => b.game_points - a.game_points) // Řazení podle herních bodů (sestupně)
+            .sort((a, b) => b.game_points - a.game_points)
             .reduce((acc, result, index, arr) => {
                 const prev = acc[acc.length - 1];
                 if (prev && prev.game_points === result.game_points) {
@@ -19,7 +28,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
             }, []);
     
         setResults(sortedResults);
-    }, [results]); // Aktualizace při změně výsledků
+    }, [results]);
     
     useEffect(() => {
         if (gameTypeId === 0) return;
@@ -46,39 +55,29 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         updateResultsBasedOnPositions(gameTypeId);
     }, [gameTypeId, results]);
     
-    // Řídí změny herních bodů (přesune tým na správné místo v pořadí)
-    const handleGamePointsChange = (index, newGamePoints) => {
-        const updatedResults = [...results];
-        updatedResults[index].game_points = newGamePoints;
-    
-        // Reorganizace výsledků a přepočet pozic
-        const sortedResults = updatedResults
-            .sort((a, b) => b.game_points - a.game_points)
-            .reduce((acc, result, i, arr) => {
-                const prev = acc[acc.length - 1];
-                if (prev && prev.game_points === result.game_points) {
-                    result.position = prev.position; // Shodné místo jako předchozí tým
-                } else {
-                    result.position = (prev ? prev.position : 0) + 1; // Další dostupná pozice
-                }
-                return [...acc, result];
-            }, []);
-    
-        setResults(sortedResults);
-    };
-    
-    
-    // Řídí přetažení týmů
-    const handleDragEnd = (result) => {
-        if (!result.destination) return;
-    
-        const updatedResults = Array.from(results);
-        const [movedItem] = updatedResults.splice(result.source.index, 1);
-        updatedResults.splice(result.destination.index, 0, movedItem);
-    
-        setResults(updatedResults); // Pozice budou přepočítány v useEffect
-    };
-    
+   // Řídí přetažení týmů
+const handleDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const updatedResults = Array.from(results);
+    const [movedItem] = updatedResults.splice(result.source.index, 1);
+    updatedResults.splice(result.destination.index, 0, movedItem);
+
+    // Ruční aktualizace pořadí
+    updatedResults.forEach((item, index) => {
+        item.position = index + 1;
+    });
+
+    setResults(updatedResults);
+};
+
+// Řídí změny herních bodů (přesune tým na správné místo v pořadí)
+const handleGamePointsChange = (index, newGamePoints) => {
+    const updatedResults = [...results];
+    updatedResults[index].game_points = newGamePoints;
+
+    setResults(updatedResults); // Spustí automatické řazení díky `useEffect`
+};
 
     
     // Aktualizuje manuálně hlavní body
