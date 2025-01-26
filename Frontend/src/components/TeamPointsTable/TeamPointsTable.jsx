@@ -1,93 +1,80 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import "./TeamPointsTable.css";
+import "./TeamPointsTable.css"
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
+    const [manualReorder, setManualReorder] = useState(false); // Nový stav pro kontrolu ručního přetahování
+
+    // Automatické řazení týmů
     useEffect(() => {
-        // Pokud nejsou herní body, pořadí zůstává ruční
-        if (results.some((team) => team.game_points === undefined || team.game_points === null)) {
-            const manualResults = [...results].map((result, index) => ({
-                ...result,
-                position: index + 1, // Ruční pořadí
-            }));
-            setResults(manualResults);
-            return;
-        }
-    
-        // Automatické řazení týmů podle herních bodů
+        if (manualReorder) return; // Pokud probíhá ruční přetahování, ignoruj automatické řazení
+
+        // Řazení týmů podle herních bodů
         const sortedResults = [...results]
             .sort((a, b) => b.game_points - a.game_points)
-            .reduce((acc, result, index, arr) => {
+            .reduce((acc, result, index) => {
                 const prev = acc[acc.length - 1];
                 if (prev && prev.game_points === result.game_points) {
-                    result.position = prev.position; // Shodné místo jako předchozí tým
+                    result.position = prev.position; // Sdílená pozice
                 } else {
-                    result.position = (prev ? prev.position : 0) + 1; // Další dostupná pozice
+                    result.position = (prev ? prev.position : 0) + 1; // Nová pozice
                 }
                 return [...acc, result];
             }, []);
-    
+
         setResults(sortedResults);
-    }, [results]);
-    
+    }, [results, manualReorder]); // Poslouchá změny v herních bodech a ruční přetahování
+
+    // Přidělování bodů podle pořadí
     useEffect(() => {
         if (gameTypeId === 0) return;
-    
+
         const updateResultsBasedOnPositions = (gameTypeId) => {
             const gameTypeData = campData.gameTypes[gameTypeId - 1];
             if (!gameTypeData) return;
-    
+
             const { point_scheme, everyone_else } = gameTypeData;
-    
+
             const updatedResults = results.map((result) => {
                 const points =
                     result.position - 1 < point_scheme.length
                         ? point_scheme[result.position - 1]
                         : everyone_else;
-    
-                result.points_awarded = points; // Přidělení bodů dle pozice
-                return result;
+
+                return { ...result, points_awarded: points };
             });
-    
+
             setResults(updatedResults);
         };
-    
+
         updateResultsBasedOnPositions(gameTypeId);
     }, [gameTypeId, results]);
-    
-   // Řídí přetažení týmů
-const handleDragEnd = (result) => {
-    if (!result.destination) return;
 
-    const updatedResults = Array.from(results);
-    const [movedItem] = updatedResults.splice(result.source.index, 1);
-    updatedResults.splice(result.destination.index, 0, movedItem);
+    // Řídí přetažení týmů
+    const handleDragEnd = (result) => {
+        if (!result.destination) return;
 
-    // Ruční aktualizace pořadí
-    updatedResults.forEach((item, index) => {
-        item.position = index + 1;
-    });
+        const updatedResults = Array.from(results);
+        const [movedItem] = updatedResults.splice(result.source.index, 1);
+        updatedResults.splice(result.destination.index, 0, movedItem);
 
-    setResults(updatedResults);
-};
+        // Aktualizace pořadí po přetahování
+        updatedResults.forEach((item, index) => {
+            item.position = index + 1; // Aktualizuj pořadí ručně
+        });
 
-// Řídí změny herních bodů (přesune tým na správné místo v pořadí)
-const handleGamePointsChange = (index, newGamePoints) => {
-    const updatedResults = [...results];
-    updatedResults[index].game_points = newGamePoints;
-
-    setResults(updatedResults); // Spustí automatické řazení díky `useEffect`
-};
-
-    
-    // Aktualizuje manuálně hlavní body
-    const handleManualPointChange = (index, newPoints) => {
-        const updatedResults = [...results];
-        updatedResults[index].points_awarded = newPoints;
         setResults(updatedResults);
-        setGameTypeId(0); // Reset typu hry na "vlastní"
+        setManualReorder(true); // Povolit ruční režim
     };
-    
+
+    // Řídí změny herních bodů
+    const handleGamePointsChange = (index, newGamePoints) => {
+        const updatedResults = [...results];
+        updatedResults[index].game_points = newGamePoints;
+
+        setResults(updatedResults);
+        setManualReorder(false); // Přepnout zpět na automatické řazení
+    };
 
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
@@ -126,19 +113,18 @@ const handleGamePointsChange = (index, newGamePoints) => {
                                             {...provided.dragHandleProps}
                                         >
                                             <div className="team-position">{result.position}.</div>
-                                            <div className="team-name" style={{ backgroundColor: getTeamColor(result.team_name) }}>
+                                            <div
+                                                className="team-name"
+                                                style={{ backgroundColor: getTeamColor(result.team_name) }}
+                                            >
                                                 {result.team_name}
                                             </div>
 
-                                            <div  className="points-type-container">
+                                            <div className="points-type-container">
                                                 {/* Herní body */}
                                                 <div>
                                                     <input
                                                         type="number"
-                                                        inputMode="numeric"
-                                                        onInput={(e) => {
-                                                            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Povolení pouze čísel a desetinné tečky
-                                                        }}
                                                         className="game-points-input points-input"
                                                         value={result.game_points || ''}
                                                         onChange={(e) =>
@@ -153,10 +139,6 @@ const handleGamePointsChange = (index, newGamePoints) => {
                                                 <div>
                                                     <input
                                                         type="number"
-                                                        inputMode="numeric"
-                                                        onInput={(e) => {
-                                                            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Povolení pouze čísel a desetinné tečky
-                                                        }}
                                                         className="points-input"
                                                         value={result.points_awarded || ''}
                                                         onChange={(e) =>
