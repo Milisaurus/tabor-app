@@ -74,7 +74,6 @@ const TeamPoints = () => {
                 points_awarded: result.points_awarded,
                 position: result.position,
                 team_name: result.team_name,
-                game_points: result.game_points
             })),
             timestamp: Date.now(),
         };
