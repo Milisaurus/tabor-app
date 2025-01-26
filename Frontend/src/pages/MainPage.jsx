@@ -268,6 +268,19 @@ const MainPage = () => {
         const yiq = (r * 299 + g * 587 + b * 114) / 1000;
         return yiq >= 128 ? "black" : "white";
     };
+
+    function hexToRgba(hex, alpha) {
+        // Odstraní "#" na začátku, pokud existuje
+        let cleanHex = hex.replace('#', '');
+        
+        // Rozdělení na jednotlivé složky
+        let r = parseInt(cleanHex.substring(0, 2), 16);
+        let g = parseInt(cleanHex.substring(2, 4), 16);
+        let b = parseInt(cleanHex.substring(4, 6), 16);
+    
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`; // Použití s průhledností
+    }
+    
     
 
     return (
@@ -289,32 +302,13 @@ const MainPage = () => {
                             </tr>
                         </thead>
 
-                        {/* 
-                        <thead>
-                            <tr className="header-row">
-                                <th>Den</th>
-                                {campData.teams.map((team, index) => (
-                                    <th 
-                                        key={index} 
-                                        style={{
-                                            backgroundColor: team.color, 
-                                            color: getContrastingTextColor(team.color),
-                                        }}
-                                    >
-                                        {team.name}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        */}
-
                         <tbody>
                             {/* Loop through each day and render team scores for each day */}
                             {campDays.map((day, index) => (
                                 <tr key={index}>
                                     <td><strong>{day}</strong></td>
                                     {campData.teams.map((team, teamIndex) => (
-                                        <td key={teamIndex}>
+                                        <td key={teamIndex} style={{backgroundColor: hexToRgba(team.color, 0.15)}}>
                                             {/* Display the score for each team on the given day */}
                                             {teamScores[team.name][day] || 0}
                                         </td>
@@ -324,9 +318,9 @@ const MainPage = () => {
                         </tbody>
                         <tfoot>
                             <tr className="total-row">
-                                <td><strong>Celkem</strong></td>
+                                <td ><strong>Celkem</strong></td>
                                 {campData.teams.map((team, teamIndex) => (
-                                    <td key={teamIndex}>
+                                    <td key={teamIndex} style={{backgroundColor: hexToRgba(team.color, 0.35)}}>
                                          {/* Calculate the sum, take values for every day and sum it */}
                                         {Object.values(teamScores[team.name]).reduce((sum, score) => sum + score, 0)}
                                     </td>
