@@ -90,6 +90,19 @@
     color: #333;
 }
 
+.team-points-input {
+    width: 50px;
+    margin-left: 10px;
+    text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.team-info {
+    display: flex;
+    align-items: center;
+}
+
+
 /* Media queries pro responsivitu */
 @media (max-width: 768px) {
     .position-buckets {

@@ -10,7 +10,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }))
     );
 
-    // Synchronizace pozic s výsledky při každé změně typu hry nebo výsledků
+    // Synchronizace pozic a bodů s výsledky
     useEffect(() => {
         const initializeBuckets = () => {
             const newBuckets = positionBuckets.map((bucket) => ({
@@ -22,9 +22,13 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         initializeBuckets();
     }, [results]);
 
-    // Aktualizace bodového systému při změně typu hry
+    // Přepočet bodů při změně typu hry nebo přetažení
     useEffect(() => {
-        if (gameTypeId === 0) return; // Vlastní bodování
+        recalculatePoints();
+    }, [gameTypeId, positionBuckets]);
+
+    const recalculatePoints = () => {
+        if (gameTypeId === 0) return; // Vlastní bodování – ponechat ruční úpravy
 
         const gameTypeData = campData.gameTypes[gameTypeId - 1];
         if (!gameTypeData) return;
@@ -44,9 +48,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         });
 
         setResults(updatedResults);
-    }, [gameTypeId]);
+    };
 
-    // Logika pro přetažení
+    // Zpracování přetažení týmů mezi pozicemi
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
@@ -66,13 +70,24 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         destBucket.teams.push(draggedTeam);
         setPositionBuckets([...positionBuckets]);
 
-        // Aktualizace výsledků bez resetování bodů
+        // Aktualizace výsledků (pozic) po přetažení
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
             }
             return team;
         });
+
+        setResults(updatedResults);
+    };
+
+    // Ruční úprava bodů pomocí inputu
+    const handlePointsChange = (teamName, newPoints) => {
+        const updatedResults = results.map((team) =>
+            team.team_name === teamName
+                ? { ...team, points_awarded: parseInt(newPoints, 10) || 0 }
+                : team
+        );
         setResults(updatedResults);
     };
 
@@ -127,9 +142,20 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                             ...provided.draggableProps.style,
                                                         }}
                                                     >
-                                                        <div className="team-name">{team.team_name}</div>
-                                                        <div className="team-points">
-                                                            {team.points_awarded || 0} bodů
+                                                        <div className="team-info">
+                                                            <div className="team-name">{team.team_name}</div>
+                                                            <input
+                                                                type="number"
+                                                                className="team-points-input"
+                                                                value={team.points_awarded || 0}
+                                                                onChange={(e) =>
+                                                                    handlePointsChange(
+                                                                        team.team_name,
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                            />
+                                                            <span> bodů</span>
                                                         </div>
                                                     </li>
                                                 )}
