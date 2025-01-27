@@ -109,17 +109,19 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                             >
                                                 {(provided) => (
                                                     <li
-                                                        className="team-item"
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        style={{
-                                                            backgroundColor: getTeamColor(team.team_name),
-                                                            ...provided.draggableProps.style,
-                                                        }}
-                                                    >
-                                                        {team.team_name}
-                                                    </li>
+    className="team-item"
+    ref={provided.innerRef}
+    {...provided.draggableProps}
+    {...provided.dragHandleProps}
+    style={{
+        backgroundColor: getTeamColor(team.team_name),
+        ...provided.draggableProps.style,
+    }}
+>
+    <div className="team-name">{team.team_name}</div>
+    <div className="team-points">{team.points_awarded || 0} bodů</div>
+</li>
+
                                                 )}
                                             </Draggable>
                                         ))}

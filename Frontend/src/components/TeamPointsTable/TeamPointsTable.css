@@ -5,6 +5,7 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+    padding: 20px;
 }
 
 .select-game-type {
@@ -16,108 +17,100 @@
     min-width: 200px;
 }
 
-.team-drag-label {
-    margin-bottom: -15px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-align: center;
+.position-buckets {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Flexibilní přizpůsobení pro menší obrazovky */
+    width: 100%;
 }
 
-@media (max-width: 480px) {
-    .select-game-type {
-        min-width: 220px;
-    }
-}
-
-.slot-container {
+.position-bucket {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px dashed #999; /* Styl slotu */
+    background-color: #f9f9f9;
+    border: 2px dashed #ccc;
     border-radius: 12px;
-    margin: 10px 0; /* Mezera mezi sloty */
-    padding: 10px;
-    background-color: #f9f9f9; /* Světlý podklad */
-    transition: background-color 0.3s;
+    padding: 15px;
+    width: 200px; /* Šířka každého slotu */
+    min-height: 150px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.slot-container:hover {
-    background-color: #e9e9e9; /* Zvýraznění při najetí */
+.position-bucket:hover {
+    background-color: #f0f0f0;
 }
 
-.slot-label {
+.position-bucket h4 {
     font-weight: bold;
     margin-bottom: 10px;
-    font-size: 1rem;
-    color: #555;
+    color: #333;
 }
 
-.slot-items {
+.team-list {
     list-style: none;
-    width: 100%;
+    margin: 0;
     padding: 0;
+    width: 100%;
+}
+
+.team-item {
     display: flex;
-    flex-wrap: wrap; /* Flexibilní umístění položek */
-    gap: 10px; /* Mezera mezi týmy v rámci slotu */
+    flex-direction: column;
     justify-content: center;
-}
-
-.slot-items .team-item {
-    display: flex;
     align-items: center;
+    border-radius: 8px;
     padding: 10px;
-    border-radius: 12px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
-    min-width: 220px; /* Pro zachování jednotné šířky */
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.slot-items .team-item:hover {
-    background-color: #f4f4f4;
+.team-item:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .team-item .team-name {
-    text-align: center;
-    padding: 10px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    width: 180px;
-    margin-right: 10px;
+    font-size: 1.1rem;
 }
 
-.team-item .points-input {
-    width: 60px;
-    text-align: center;
-    padding: 6px;
-    font-size: 14px;
-    border: 1px solid #ccc;
+.team-item .team-points {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: normal;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 3px 8px;
     border-radius: 6px;
-    background-color: white;
+    color: #333;
 }
 
-.points-type-container {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-@media (max-width: 600px) {
-    .points-input {
-        max-width: 50px;
+/* Media queries pro responsivitu */
+@media (max-width: 768px) {
+    .position-buckets {
+        gap: 15px;
     }
-    .slot-container {
-        padding: 5px;
+
+    .position-bucket {
+        width: 160px;
+        min-height: 120px;
+        padding: 10px;
     }
-}
 
-/* Odstranění šipek pro čísla */
-.team-item .points-input[type="number"]::-webkit-inner-spin-button,
-.team-item .points-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-}
+    .team-item {
+        padding: 8px;
+    }
 
-.team-item .points-input[type="number"] {
-    -moz-appearance: textfield;
+    .team-item .team-name {
+        font-size: 1rem;
+    }
+
+    .team-item .team-points {
+        font-size: 0.8rem;
+    }
 }
