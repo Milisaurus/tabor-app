@@ -1,27 +1,27 @@
 .team-table-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 100%;
-    box-sizing: border-box;
     padding: 20px;
+    max-width: 700px;
+    box-sizing: border-box;
 }
 
 .select-game-type {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 55%;
-    min-width: 200px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
 .position-buckets {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap; /* Flexibilní přizpůsobení pro menší obrazovky */
     width: 100%;
 }
 
@@ -29,118 +29,178 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9;
-    border: 2px dashed #ccc;
-    border-radius: 12px;
+    background-color: rgba(163, 163, 163, 0.025);
+    border: 2px solid #2c2c2c18;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    width: 200px; /* Šířka každého slotu */
-    min-height: 150px;
-    box-sizing: border-box;
-    transition: background-color 0.3s ease-in-out;
+    width: 180px;
+    min-height: 120px;
+    transition: transform 0.3s, background-color 0.3s;
+    cursor: default;
 }
 
 .position-bucket:hover {
-    background-color: #f0f0f0;
+    transform: translateY(-5px);
+    transform: scale(1.07);
+    background-color: #fafafa;
 }
 
 .position-bucket h4 {
-    font-weight: bold;
+    text-align: center;
+    margin-top: 0;
     margin-bottom: 10px;
-    color: #333;
+    font-family: 'Inter', sans-serif;
+    color: #2C2C2C;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .team-list {
     list-style: none;
     margin: 0;
-    padding: 0;
-    width: 100%;
+    width: 90%;
 }
 
 .team-item {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    border-radius: 8px;
-    padding: 10px;
+    justify-content: center;
     color: white;
     font-weight: bold;
+    padding: 10px;
     margin-bottom: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: grab;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
 }
 
 .team-item:active {
-    transform: scale(0.98);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.team-item .team-name {
-    font-size: 1.1rem;
-}
-
-.team-item .team-points {
-    margin-top: 5px;
-    font-size: 0.9rem;
-    font-weight: normal;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 3px 8px;
-    border-radius: 6px;
-    color: #333;
-}
-
-.team-name-container {
-    display: flex;            /* Flexbox pro zobrazení vedle sebe */
-    align-items: center;      /* Vertikálně je zarovná na střed */
-    gap: 10px;                /* Mezera mezi názvem týmu a inputem */
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .team-name {
-    font-size: 14px;          /* Pěkný velikost textu */
-    font-weight: bold;        /* Zvýraznění názvu týmu */
+    font-size: 16px;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
 .team-points-input {
-    font-size: 0.9rem;         /* Malá velikost písma */
-    font-weight: normal;       /* Normální váha písma */
-    background: rgba(255, 255, 255, 0.8); /* Poloprůhledné bílé pozadí */
-    padding: 3px 8px;          /* Padding pro lepší vzhled */
-    border-radius: 6px;        /* Zaoblené rohy */
-    color: #333;               /* Barva písma */
-    width: 50px;              /* Nastavení šířky vstupního pole */
-    border: 1px solid #ccc;    /* Světle šedý okraj */
-    transition: border-color 0.3s ease; /* Přechodová animace pro změnu barvy okraje při focus */
+    width: 40%;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: border-color 0.3s;
 }
 
 .team-points-input:focus {
-    outline: none;             /* Zrušení defaultního okraje při focus */
-    border-color: #007bff;     /* Zvýraznění okraje modrou barvou */
+    outline: none;
+    transform: scale(1.05);
 }
 
 
+/* nastavit input omezení, vyřešit šipky, vyřešit scaling na mobilu*/
 
-/* Media queries pro responsivitu */
-@media (max-width: 768px) {
-    .position-buckets {
-        gap: 15px;
-    }
 
-    .position-bucket {
-        width: 160px;
-        min-height: 120px;
-        padding: 10px;
-    }
 
-    .team-item {
-        padding: 8px;
-    }
+/* SLIDER */
+/* Resetování defaultního vzhledu inputu */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 65%;
+    min-width: 210px;
+    height: 10px; 
+    background: transparent; 
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
 
-    .team-item .team-name {
-        font-size: 1rem;
-    }
+/* Webkit-based prohlížeče (Chrome, Safari) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 23px;
+    height: 23px;
+    background: #ddd;
+    border: 2px solid #2C2C2C; 
+    border-radius: 50%; 
+    cursor: pointer;
+    margin-top: -9px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
 
-    .team-item .team-points {
-        font-size: 0.8rem;
-    }
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #bbb; 
+    transform: scale(1.1);
+}
+
+/* Firefox */
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ddd; 
+    border: 2px solid #2C2C2C; 
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    background: #bbb;
+    transform: scale(1.1);
+}
+
+/* Styling the active portion of the slider (the part before the thumb) */
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #ddd;
+    height: 6px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Aktivní část slideru (vyplněná před kuličkou) */
+input[type="range"]::-webkit-slider-runnable-track:before {
+    content: '';
+    background: #2C2C2C;
+    height: 6px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+input[type="range"]::-moz-range-track {
+    background: #ddd;
+    height: 6px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Aktivní část slideru (vyplněná před kuličkou) */
+input[type="range"]::-moz-range-progress {
+    background: #2c2c2cd0; 
+    height: 6px;
+    border-radius: 5px;
+}
+
+input[type="range"]::-ms-track {
+    background: #ddd; 
+    height: 6px;
+    border-radius: 5px;
+    border: none;
+    color: transparent;
+    border-color: transparent;
+}
+
+/* Aktivní část slideru (vyplněná před kuličkou) */
+input[type="range"]::-ms-fill-lower {
+    background: #2C2C2C;
+    border-radius: 5px;
 }

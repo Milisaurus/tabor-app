@@ -107,9 +107,8 @@ const TeamPoints = () => {
 
                 <SelectDay selectedDay={day} onDayChange={setDay} />
 
-                <div style={{width: "100%"}}>
-                    <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
-                </div>
+                <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
+
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
             </form>

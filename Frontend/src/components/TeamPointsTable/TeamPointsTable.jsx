@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Heading from "../Heading/Heading";
+
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
     const [dropCount, setDropCount] = useState(0); // Count to refresh the table
     const [positionBuckets, setPositionBuckets] = useState(() =>
-        Array.from({ length: 5 }, (_, index) => ({
+        Array.from({ length: campData.teamCount }, (_, index) => ({
             position: index + 1,
             teams: [],
         }))
@@ -85,10 +87,28 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         return team ? team.color : "";
     };
 
+     // Funkce pro aktualizaci bodů při změně v inputu
+     const handlePointsChange = (teamName, points) => {
+        const updatedResults = results.map((team) => {
+            if (team.team_name === teamName) {
+                return { ...team, points_awarded: parseInt(points, 10) || 0 };
+            }
+            return team;
+        });
+
+        setGameTypeId(0);
+        setResults(updatedResults);
+    };
+
+
     return (
         <div className="team-table-container">
             <div className="select-game-type">
-                <label htmlFor="gameTypeSlider">Typ hry:</label>
+                <label htmlFor="gameTypeSlider">
+                    Typ bodování: {gameTypeId === 0
+                        ? "Vlastní"
+                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
+                </label>
                 <input
                     id="gameTypeSlider"
                     type="range"
@@ -96,13 +116,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     max={campData.gameTypes.length}
                     value={gameTypeId}
                     onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}
-                    className="slider"
                 />
-                <div>
-                    {gameTypeId === 0
-                        ? "Vlastní"
-                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
-                </div>
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -111,7 +125,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                         <Droppable key={bucket.position} droppableId={`position-${bucket.position}`}>
                             {(provided) => (
                                 <div className="position-bucket" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <h4>{bucket.position}.</h4>
+                                    <h4>{bucket.position}. místo</h4>
                                     <ul className="team-list">
                                         {bucket.teams.map((team, index) => (
                                             <Draggable
@@ -130,18 +144,21 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                             ...provided.draggableProps.style,
                                                         }}
                                                     >
-                                                        <div className="team-name-container">
-    <div className="team-name">{team.team_name}</div>
-    <input
-        type="number"
-        className="team-points-input"
-        value={team.points_awarded || 0}
-        onChange={(e) =>
-            handlePointsChange(team.team_name, e.target.value)
-        }
-    />
-</div>
-
+                                                        <div className="team-name">{team.team_name}</div>
+                                                         <input
+                                                                type="number"
+                                                                className="team-points-input"
+                                                                value={team.points_awarded || 0}
+                                                                onChange={(e) =>
+                                                                    handlePointsChange(
+                                                                        team.team_name,
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                                min="0"               
+                                                                step="1"                
+                                                                inputmode="numeric"   
+                                                            />
                                                     </li>
                                                 )}
                                             </Draggable>
