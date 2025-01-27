@@ -130,10 +130,18 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                             ...provided.draggableProps.style,
                                                         }}
                                                     >
-                                                        <div className="team-name">{team.team_name}</div>
-                                                        <div className="team-points">
-                                                            {team.points_awarded || 0} bodů
-                                                        </div>
+                                                        <div className="team-name-container">
+    <div className="team-name">{team.team_name}</div>
+    <input
+        type="number"
+        className="team-points-input"
+        value={team.points_awarded || 0}
+        onChange={(e) =>
+            handlePointsChange(team.team_name, e.target.value)
+        }
+    />
+</div>
+
                                                     </li>
                                                 )}
                                             </Draggable>

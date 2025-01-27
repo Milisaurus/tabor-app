@@ -90,17 +90,34 @@
     color: #333;
 }
 
+.team-name-container {
+    display: flex;            /* Flexbox pro zobrazení vedle sebe */
+    align-items: center;      /* Vertikálně je zarovná na střed */
+    gap: 10px;                /* Mezera mezi názvem týmu a inputem */
+}
+
+.team-name {
+    font-size: 14px;          /* Pěkný velikost textu */
+    font-weight: bold;        /* Zvýraznění názvu týmu */
+}
+
 .team-points-input {
-    width: 50px;
-    margin-left: 10px;
-    text-align: right;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    font-size: 0.9rem;         /* Malá velikost písma */
+    font-weight: normal;       /* Normální váha písma */
+    background: rgba(255, 255, 255, 0.8); /* Poloprůhledné bílé pozadí */
+    padding: 3px 8px;          /* Padding pro lepší vzhled */
+    border-radius: 6px;        /* Zaoblené rohy */
+    color: #333;               /* Barva písma */
+    width: 50px;              /* Nastavení šířky vstupního pole */
+    border: 1px solid #ccc;    /* Světle šedý okraj */
+    transition: border-color 0.3s ease; /* Přechodová animace pro změnu barvy okraje při focus */
 }
-.team-info {
-    display: flex;
-    align-items: center;
+
+.team-points-input:focus {
+    outline: none;             /* Zrušení defaultního okraje při focus */
+    border-color: #007bff;     /* Zvýraznění okraje modrou barvou */
 }
+
 
 
 /* Media queries pro responsivitu */
