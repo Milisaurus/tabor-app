@@ -10,18 +10,21 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }))
     );
 
+    // Synchronizace `positionBuckets` s výsledky
     useEffect(() => {
-        if (results.length > 0) {
-            const initialBuckets = positionBuckets.map((bucket) => ({
+        const updateBuckets = () => {
+            const newBuckets = positionBuckets.map((bucket) => ({
                 ...bucket,
                 teams: results.filter((team) => team.position === bucket.position),
             }));
-            setPositionBuckets(initialBuckets);
-        }
+            setPositionBuckets(newBuckets);
+        };
+        updateBuckets();
     }, [results]);
 
+    // Aktualizace bodů na základě typu hry nebo pozic
     useEffect(() => {
-        const updatePointsBasedOnPosition = () => {
+        const updatePoints = () => {
             if (gameTypeId === 0) return;
 
             const gameTypeData = campData.gameTypes[gameTypeId - 1];
@@ -43,9 +46,10 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
             setResults(updatedResults);
         };
 
-        updatePointsBasedOnPosition();
-    }, [gameTypeId, positionBuckets, results, campData.gameTypes]);
+        updatePoints();
+    }, [gameTypeId, positionBuckets]);
 
+    // Logika pro přetažení týmu
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
@@ -65,6 +69,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         destBucket.teams.push(draggedTeam);
         setPositionBuckets([...positionBuckets]);
 
+        // Aktualizace pozic výsledků
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
@@ -74,6 +79,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         setResults(updatedResults);
     };
 
+    // Barva týmu podle JSON dat
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
         return team ? team.color : "";
