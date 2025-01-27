@@ -10,46 +10,43 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }))
     );
 
-    // Synchronizace `positionBuckets` s výsledky
+    // Synchronizace pozic s výsledky při každé změně typu hry nebo výsledků
     useEffect(() => {
-        const updateBuckets = () => {
+        const initializeBuckets = () => {
             const newBuckets = positionBuckets.map((bucket) => ({
                 ...bucket,
                 teams: results.filter((team) => team.position === bucket.position),
             }));
             setPositionBuckets(newBuckets);
         };
-        updateBuckets();
+        initializeBuckets();
     }, [results]);
 
-    // Aktualizace bodů na základě typu hry nebo pozic
+    // Aktualizace bodového systému při změně typu hry
     useEffect(() => {
-        const updatePoints = () => {
-            if (gameTypeId === 0) return;
+        if (gameTypeId === 0) return; // Vlastní bodování
 
-            const gameTypeData = campData.gameTypes[gameTypeId - 1];
-            if (!gameTypeData) return;
+        const gameTypeData = campData.gameTypes[gameTypeId - 1];
+        if (!gameTypeData) return;
 
-            const { point_scheme, everyone_else } = gameTypeData;
-            const updatedResults = [...results];
+        const { point_scheme, everyone_else } = gameTypeData;
 
-            positionBuckets.forEach((bucket, index) => {
-                bucket.teams.forEach((team) => {
-                    const points = index < point_scheme.length ? point_scheme[index] : everyone_else;
-                    const teamIndex = updatedResults.findIndex((r) => r.team_name === team.team_name);
-                    if (teamIndex !== -1) {
-                        updatedResults[teamIndex].points_awarded = points;
-                    }
-                });
+        const updatedResults = [...results];
+
+        positionBuckets.forEach((bucket, index) => {
+            bucket.teams.forEach((team) => {
+                const points = index < point_scheme.length ? point_scheme[index] : everyone_else;
+                const teamIndex = updatedResults.findIndex((r) => r.team_name === team.team_name);
+                if (teamIndex !== -1) {
+                    updatedResults[teamIndex].points_awarded = points;
+                }
             });
+        });
 
-            setResults(updatedResults);
-        };
+        setResults(updatedResults);
+    }, [gameTypeId]);
 
-        updatePoints();
-    }, [gameTypeId, positionBuckets]);
-
-    // Logika pro přetažení týmu
+    // Logika pro přetažení
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
@@ -69,7 +66,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         destBucket.teams.push(draggedTeam);
         setPositionBuckets([...positionBuckets]);
 
-        // Aktualizace pozic výsledků
+        // Aktualizace výsledků bez resetování bodů
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
