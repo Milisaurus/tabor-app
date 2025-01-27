@@ -3,7 +3,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
-    const [dropCount, setDropCount] = useState(0);
     const [positionBuckets, setPositionBuckets] = useState(() =>
         Array.from({ length: 5 }, (_, index) => ({
             position: index + 1,
@@ -22,14 +21,15 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     }, [results]);
 
     useEffect(() => {
-        if (gameTypeId === 0) return;
-
         const updatePointsBasedOnPosition = () => {
+            if (gameTypeId === 0) return;
+
             const gameTypeData = campData.gameTypes[gameTypeId - 1];
             if (!gameTypeData) return;
 
             const { point_scheme, everyone_else } = gameTypeData;
             const updatedResults = [...results];
+
             positionBuckets.forEach((bucket, index) => {
                 bucket.teams.forEach((team) => {
                     const points = index < point_scheme.length ? point_scheme[index] : everyone_else;
@@ -39,11 +39,12 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     }
                 });
             });
+
             setResults(updatedResults);
         };
 
         updatePointsBasedOnPosition();
-    }, [gameTypeId, positionBuckets]);
+    }, [gameTypeId, positionBuckets, results, campData.gameTypes]);
 
     const handleDragEnd = (result) => {
         if (!result.destination) return;
@@ -71,7 +72,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
             return team;
         });
         setResults(updatedResults);
-        setDropCount((prev) => prev + 1);
     };
 
     const getTeamColor = (teamName) => {
@@ -82,15 +82,21 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     return (
         <div className="team-table-container">
             <div className="select-game-type">
-                <label>Typ hry</label>
-                <select value={gameTypeId} onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}>
-                    <option value={0}>Vlastní</option>
-                    {campData.gameTypes.map((type, index) => (
-                        <option key={index} value={index + 1}>
-                            {type.type}
-                        </option>
-                    ))}
-                </select>
+                <label htmlFor="gameTypeSlider">Typ hry:</label>
+                <input
+                    id="gameTypeSlider"
+                    type="range"
+                    min="0"
+                    max={campData.gameTypes.length}
+                    value={gameTypeId}
+                    onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}
+                    className="slider"
+                />
+                <div>
+                    {gameTypeId === 0
+                        ? "Vlastní"
+                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
+                </div>
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -109,19 +115,20 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                             >
                                                 {(provided) => (
                                                     <li
-    className="team-item"
-    ref={provided.innerRef}
-    {...provided.draggableProps}
-    {...provided.dragHandleProps}
-    style={{
-        backgroundColor: getTeamColor(team.team_name),
-        ...provided.draggableProps.style,
-    }}
->
-    <div className="team-name">{team.team_name}</div>
-    <div className="team-points">{team.points_awarded || 0} bodů</div>
-</li>
-
+                                                        className="team-item"
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        style={{
+                                                            backgroundColor: getTeamColor(team.team_name),
+                                                            ...provided.draggableProps.style,
+                                                        }}
+                                                    >
+                                                        <div className="team-name">{team.team_name}</div>
+                                                        <div className="team-points">
+                                                            {team.points_awarded || 0} bodů
+                                                        </div>
+                                                    </li>
                                                 )}
                                             </Draggable>
                                         ))}
