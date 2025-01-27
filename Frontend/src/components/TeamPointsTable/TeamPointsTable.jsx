@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
+    const [dropCount, setDropCount] = useState(0); // Count to refresh the table
     const [positionBuckets, setPositionBuckets] = useState(() =>
         Array.from({ length: 5 }, (_, index) => ({
             position: index + 1,
@@ -10,7 +11,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }))
     );
 
-    // Synchronizace pozic a bodů s výsledky
+    // Synchronizace pozic s výsledky při každé změně typu hry nebo výsledků
     useEffect(() => {
         const initializeBuckets = () => {
             const newBuckets = positionBuckets.map((bucket) => ({
@@ -22,13 +23,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         initializeBuckets();
     }, [results]);
 
-    // Přepočet bodů při změně typu hry nebo přetažení
+    // Aktualizace bodového systému při změně typu hry
     useEffect(() => {
-        recalculatePoints();
-    }, [gameTypeId, positionBuckets]);
-
-    const recalculatePoints = () => {
-        if (gameTypeId === 0) return; // Vlastní bodování – ponechat ruční úpravy
+        if (gameTypeId === 0) return; // Vlastní bodování
 
         const gameTypeData = campData.gameTypes[gameTypeId - 1];
         if (!gameTypeData) return;
@@ -48,9 +45,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         });
 
         setResults(updatedResults);
-    };
+    }, [gameTypeId, dropCount]);
 
-    // Zpracování přetažení týmů mezi pozicemi
+    // Logika pro přetažení
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
@@ -70,25 +67,16 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         destBucket.teams.push(draggedTeam);
         setPositionBuckets([...positionBuckets]);
 
-        // Aktualizace výsledků (pozic) po přetažení
+        // Aktualizace výsledků bez resetování bodů
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
             }
             return team;
         });
-
         setResults(updatedResults);
-    };
 
-    // Ruční úprava bodů pomocí inputu
-    const handlePointsChange = (teamName, newPoints) => {
-        const updatedResults = results.map((team) =>
-            team.team_name === teamName
-                ? { ...team, points_awarded: parseInt(newPoints, 10) || 0 }
-                : team
-        );
-        setResults(updatedResults);
+        setDropCount(dropCount + 1);
     };
 
     // Barva týmu podle JSON dat
@@ -142,20 +130,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                             ...provided.draggableProps.style,
                                                         }}
                                                     >
-                                                        <div className="team-info">
-                                                            <div className="team-name">{team.team_name}</div>
-                                                            <input
-                                                                type="number"
-                                                                className="team-points-input"
-                                                                value={team.points_awarded || 0}
-                                                                onChange={(e) =>
-                                                                    handlePointsChange(
-                                                                        team.team_name,
-                                                                        e.target.value
-                                                                    )
-                                                                }
-                                                            />
-                                                            <span> bodů</span>
+                                                        <div className="team-name">{team.team_name}</div>
+                                                        <div className="team-points">
+                                                            {team.points_awarded || 0} bodů
                                                         </div>
                                                     </li>
                                                 )}
