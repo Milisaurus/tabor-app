@@ -1,37 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Heading from "../Heading/Heading";
+
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
+    const [dropCount, setDropCount] = useState(0); // Count to refresh the table
     const [positionBuckets, setPositionBuckets] = useState(() =>
-        Array.from({ length: 5 }, (_, index) => ({
+        Array.from({ length: campData.teamCount }, (_, index) => ({
             position: index + 1,
             teams: [],
         }))
     );
 
-    // Synchronizace pozic a bodů s výsledky
+    // Synchronizace pozic s výsledky při každé změně typu hry nebo výsledků
     useEffect(() => {
         const initializeBuckets = () => {
             const newBuckets = positionBuckets.map((bucket) => ({
                 ...bucket,
-                teams: results
-                    .filter((team) => team.position === bucket.position)
-                    .map((team) => ({ team_name: team.team_name, points_awarded: team.points_awarded })),
+                teams: results.filter((team) => team.position === bucket.position),
             }));
             setPositionBuckets(newBuckets);
         };
-        
         initializeBuckets();
     }, [results]);
 
-    // Přepočet bodů při změně typu hry nebo přetažení
+    // Aktualizace bodového systému při změně typu hry
     useEffect(() => {
-        recalculatePoints();
-    }, [gameTypeId, positionBuckets]);
-
-    const recalculatePoints = () => {
-        if (gameTypeId === 0) return; // Vlastní bodování – ponechat ruční úpravy
+        if (gameTypeId === 0) return; // Vlastní bodování
 
         const gameTypeData = campData.gameTypes[gameTypeId - 1];
         if (!gameTypeData) return;
@@ -40,18 +36,20 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
         const updatedResults = [...results];
 
-        positionBuckets.forEach((bucket) => {
+        positionBuckets.forEach((bucket, index) => {
             bucket.teams.forEach((team) => {
-                const points = point_scheme[bucket.position - 1] || everyone_else;
-                team.points_awarded = points;
+                const points = index < point_scheme.length ? point_scheme[index] : everyone_else;
+                const teamIndex = updatedResults.findIndex((r) => r.team_name === team.team_name);
+                if (teamIndex !== -1) {
+                    updatedResults[teamIndex].points_awarded = points;
+                }
             });
         });
-        
 
         setResults(updatedResults);
-    };
+    }, [gameTypeId, dropCount]);
 
-    // Zpracování přetažení týmů mezi pozicemi
+    // Logika pro přetažení
     const handleDragEnd = (result) => {
         if (!result.destination) return;
 
@@ -68,35 +66,19 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         );
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
 
-        const updatedBuckets = positionBuckets.map((bucket) =>
-            bucket.position === sourcePos
-                ? { ...bucket, teams: bucket.teams.filter((t) => t.team_name !== draggedTeam.team_name) }
-                : bucket.position === destPos
-                ? { ...bucket, teams: [...bucket.teams, draggedTeam] }
-                : bucket
-        );
-        setPositionBuckets(updatedBuckets);
-        
+        destBucket.teams.push(draggedTeam);
+        setPositionBuckets([...positionBuckets]);
 
-        // Aktualizace výsledků (pozic) po přetažení
+        // Aktualizace výsledků bez resetování bodů
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
             }
             return team;
         });
-
         setResults(updatedResults);
-    };
 
-    // Ruční úprava bodů pomocí inputu
-    const handlePointsChange = (teamName, newPoints) => {
-        const updatedResults = results.map((team) =>
-            team.team_name === teamName
-                ? { ...team, points_awarded: parseInt(newPoints, 10) || 0 }
-                : team
-        );
-        setResults(updatedResults);
+        setDropCount(dropCount + 1);
     };
 
     // Barva týmu podle JSON dat
@@ -105,10 +87,28 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         return team ? team.color : "";
     };
 
+     // Funkce pro aktualizaci bodů při změně v inputu
+     const handlePointsChange = (teamName, points) => {
+        const updatedResults = results.map((team) => {
+            if (team.team_name === teamName) {
+                return { ...team, points_awarded: parseInt(points, 10) || 0 };
+            }
+            return team;
+        });
+
+        setGameTypeId(0);
+        setResults(updatedResults);
+    };
+
+
     return (
         <div className="team-table-container">
             <div className="select-game-type">
-                <label htmlFor="gameTypeSlider">Typ hry:</label>
+                <label htmlFor="gameTypeSlider">
+                    Typ bodování: {gameTypeId === 0
+                        ? "Vlastní"
+                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
+                </label>
                 <input
                     id="gameTypeSlider"
                     type="range"
@@ -116,13 +116,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     max={campData.gameTypes.length}
                     value={gameTypeId}
                     onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}
-                    className="slider"
                 />
-                <div>
-                    {gameTypeId === 0
-                        ? "Vlastní"
-                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
-                </div>
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -131,7 +125,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                         <Droppable key={bucket.position} droppableId={`position-${bucket.position}`}>
                             {(provided) => (
                                 <div className="position-bucket" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <h4>{bucket.position}.</h4>
+                                    <h4>{bucket.position}. místo</h4>
                                     <ul className="team-list">
                                         {bucket.teams.map((team, index) => (
                                             <Draggable
@@ -150,12 +144,19 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                             ...provided.draggableProps.style,
                                                         }}
                                                     >
-                                                        <div className="team-info">
-                                                            <div className="team-name">{team.team_name}</div>
+                                                        <div className="team-name">{team.team_name}</div>
                                                             <input
                                                                 type="number"
+                                                                inputMode="numeric"
+                                                                onInput={(e) => {
+                                                                    e.target.value = e.target.value.replace(/[^0-9.]/g, '');
+                                                                }}
+                                                                min={0}
                                                                 className="team-points-input"
-                                                                value={team.points_awarded || 0}
+                                                                value={team.points_awarded !== undefined && 
+                                                                    team.points_awarded !== null 
+                                                                    ? team.points_awarded 
+                                                                    : ''}
                                                                 onChange={(e) =>
                                                                     handlePointsChange(
                                                                         team.team_name,
@@ -163,8 +164,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                                                     )
                                                                 }
                                                             />
-                                                            <span> bodů</span>
-                                                        </div>
                                                     </li>
                                                 )}
                                             </Draggable>
