@@ -55,39 +55,61 @@ const TeamPoints = () => {
         fetchCampData();
     }, []);
     
-    // Handles submit, sends data to server
-    const handleSubmit = async (e) => {
-        // prevent default values
-        e.preventDefault();
-        // Check if the game name already exists in campData.teamGames
-        const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
-        if (isDuplicateName) {
-            alert("Název hry již existuje! Vyberte prosím jiný název.");
-            return; // Stop the submission
+// Handles submit, sends data to server
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Kontrola, zda se názvy neopakují
+    const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
+    if (isDuplicateName) {
+        alert("Název hry již existuje! Vyberte prosím jiný název.");
+        return; 
+    }
+
+    // Kontrola konzistence pozic
+    const positions = results.map(result => result.position);
+    const maxPosition = Math.max(...positions);
+    const missingPositions = [];
+
+    // Zkontroluj, zda neexistují chybějící pozice mezi 1 a maxPosition
+    for (let i = 1; i <= maxPosition; i++) {
+        if (!positions.includes(i)) {
+            missingPositions.push(i);
         }
-        // wrap new game into object
-        const newTeamGame = {
-            day,
-            gameTypeId: gameTypeId,
-            name: gameName,
-            results: results.map((result) => ({
-                points_awarded: result.points_awarded,
-                position: result.position,
-                team_name: result.team_name,
-            })),
-            timestamp: Date.now(),
-        };
-        // add new game into camp data
-        campData["teamGames"].push(newTeamGame);
-        // send JSON string to server
-        try {
-            await updateCamp(JSON.stringify(campData));
-        } catch (err) {
-            console.error("Error saving game data:", err);
-            console.log(updatedCampDataJson);
-        }
-        navigate("/main-page");
+    }
+
+    if (missingPositions.length > 0) {
+        alert(
+            `Pozice nejsou správně rozděleny. Chybějící pozice: ${missingPositions.join(", ")}. ` +
+            "Upravte prosím pořadí týmů."
+        );
+        return; 
+    }
+
+    // Zabalení nové hry do objektu
+    const newTeamGame = {
+        day,
+        gameTypeId: gameTypeId,
+        name: gameName,
+        results: results.map((result) => ({
+            points_awarded: result.points_awarded,
+            position: result.position,
+            team_name: result.team_name,
+        })),
+        timestamp: Date.now(),
     };
+
+    campData["teamGames"].push(newTeamGame);
+
+    try {
+        await updateCamp(JSON.stringify(campData));
+    } catch (err) {
+        console.error("Error saving game data:", err);
+    }
+
+    navigate("/main-page");
+};
+
 
     if (loading) return <Loading />;
     if (error) return <h1>Error: {error}</h1>;
