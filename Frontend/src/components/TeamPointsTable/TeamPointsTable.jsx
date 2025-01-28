@@ -52,7 +52,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     const handleDragEnd = (result) => {
         if (!result.destination) return;
     
-        // Zjisti pozice zdroje a cíle
         const sourcePos = parseInt(result.source.droppableId.split("-")[1], 10);
         const destPos = parseInt(result.destination.droppableId.split("-")[1], 10);
         const destIndex = result.destination.index;
@@ -76,16 +75,24 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         // Odeber tým ze zdrojového bucketu
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
     
-        // Aktualizuj pozici přetahovaného týmu
-        draggedTeam.position = destPos;
-    
-        // Přidej tým do cílového bucketu na správnou pozici
+        // Přidej tým na cílové místo
         destBucket.teams.splice(destIndex, 0, draggedTeam);
     
-        // Aktualizuj stav bucketů
+        // Aktualizuj pozice týmů ve všech bucketech
         const newPositionBuckets = positionBuckets.map((bucket) => {
-            if (bucket.position === sourcePos) return { ...bucket, teams: sourceBucket.teams };
-            if (bucket.position === destPos) return { ...bucket, teams: destBucket.teams };
+            if (bucket.position === sourcePos) {
+                return { ...bucket, teams: sourceBucket.teams };
+            }
+            if (bucket.position === destPos) {
+                // Aktualizace `position` týmů v cílovém bucketu
+                return {
+                    ...bucket,
+                    teams: bucket.teams.map((team, index) => ({
+                        ...team,
+                        position: bucket.position + index,
+                    })),
+                };
+            }
             return bucket;
         });
     
@@ -93,10 +100,11 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         // Aktualizuj výsledky
         const updatedResults = results.map((team) => {
-            if (team.team_name === draggedTeam.team_name) {
-                return { ...team, position: destPos };
-            }
-            return team;
+            const updatedTeam = newPositionBuckets
+                .flatMap((bucket) => bucket.teams)
+                .find((t) => t.team_name === team.team_name);
+    
+            return updatedTeam ? { ...team, position: updatedTeam.position } : team;
         });
     
         setResults(updatedResults);
@@ -106,6 +114,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         setDropCount((prev) => prev + 1);
     };
+    
     
     // Barva týmu podle JSON dat
     const getTeamColor = (teamName) => {
