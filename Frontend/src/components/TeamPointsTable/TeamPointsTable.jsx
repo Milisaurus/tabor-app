@@ -60,40 +60,42 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         if (!sourceBucket || !destBucket) return;
     
-        // Najdeme přetahovaný tým
+        // Najdeme tým, který byl přetahován
         const draggedTeamIndex = sourceBucket.teams.findIndex(
             (team) => team.team_name === result.draggableId
         );
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
     
-        // Přidáme přetahovaný tým na cílovou pozici
+        // Přidáme tým na určené místo ve výsledném bucketu
         destBucket.teams.splice(result.destination.index, 0, draggedTeam);
     
-        // Synchronizujeme pozice týmů v cílovém bucketu (podle indexů v seznamu)
+        // Ujistíme se, že pořadí v bucketu zůstává podle skutečného indexu
         destBucket.teams = destBucket.teams.map((team, index) => ({
             ...team,
-            position: destPos,
+            position: destPos, // Aktualizujeme pozici v bucketu
+            bucketIndex: index, // Uložíme přesné umístění v bucketu
         }));
     
-        // Obnovení pozic v source bucketu
-        sourceBucket.teams = sourceBucket.teams.map((team) => ({
+        // Projdeme a synchronizujeme pozice v původním bucketu (pro ostatní týmy)
+        sourceBucket.teams = sourceBucket.teams.map((team, index) => ({
             ...team,
-            position: sourcePos,
+            position: sourcePos, // Zachováme původní pozici
+            bucketIndex: index, // Aktualizujeme nový index v bucketu
         }));
     
-        // Aktualizujeme state s přepočtenými buckety
+        // Aktualizujeme celý state
         setPositionBuckets([...positionBuckets]);
     
-        // Aktualizujeme výsledky s novou pozicí týmu
+        // Aktualizace v seznamu výsledků
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
-                return { ...team, position: destPos };
+                return { ...team, position: destPos }; // Synchronizujeme globální pozici
             }
             return team;
         });
         setResults(updatedResults);
     
-        setDropCount((count) => count + 1);
+        setDropCount((count) => count + 1); // Trigger refresh, pokud je třeba
     };
     
 
