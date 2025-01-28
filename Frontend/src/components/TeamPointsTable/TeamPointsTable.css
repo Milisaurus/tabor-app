@@ -41,9 +41,10 @@
 }
 
 .position-bucket:hover {
-    transform: scale(1.07);
+    transform: translateY(-5px) scale(1.07);
     background-color: #fafafa;
 }
+
 
 .position-bucket h4 {
     text-align: center;
