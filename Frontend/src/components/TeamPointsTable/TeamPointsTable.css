@@ -108,31 +108,7 @@
 
 
 
-@media (max-width: 480px) {
-    .position-buckets {
-        gap: 10px;  /* Reduce gap even more on smaller screens */
-    }
 
-    .position-bucket {
-        width: 150px;  /* Reduce bucket width for very small screens */
-        padding: 10px;  /* Smaller padding for very small screens */
-        min-height: 90px;  /* Further reduce min-height */
-    }
-
-    .team-points-input {
-        width: 40%;  /* Make input fields even wider */
-        font-size: 0.7rem;  /* Even smaller font size for small screens */
-    }
-
-    .team-table-container {
-        max-width: 420px;
-    }
-
-    .position-bucket:hover {
-        padding: 15px;
-        background-color: #fafafa;
-    }
-}
 
 
 /* SLIDER */
