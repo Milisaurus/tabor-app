@@ -94,7 +94,7 @@
     border: none;
     background-color: #f0f0f0;
     color: #333;
-    font-size: 0.9rem;
+    font-size: 14px;
     text-align: center;
     transition: border-color 0.3s;
 }
@@ -108,7 +108,12 @@
     position: fixed !important;
     z-index: 1000;
     pointer-events: none;
+    transform: translate(-50%, -50%);
+    top: 0; /* Přepsat hodnoty JS */
+    left: 0; /* Přepsat hodnoty JS */
+    background-color: rgba(0, 0, 0, 0.75); /* Pro efekt */
 }
+
 
 
 /* vyřešit šipky, vyřešit scaling na mobilu*/

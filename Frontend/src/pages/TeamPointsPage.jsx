@@ -110,7 +110,7 @@ const TeamPoints = () => {
                 <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
 
 
-                <button className="submitbutton" type="submit">Potvrdit</button>
+                <button className="submitbutton" type="submit">Uložit</button>
             </form>
         </div>
     );
