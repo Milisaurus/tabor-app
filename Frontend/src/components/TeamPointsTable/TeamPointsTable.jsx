@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Heading from "../Heading/Heading";
-
 import "./TeamPointsTable.css";
 
 const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTypeId }) => {
     const [dropCount, setDropCount] = useState(0); // Count to refresh the table
     const [positionBuckets, setPositionBuckets] = useState(() =>
-        Array.from({ length: campData.teamCount }, (_, index) => ({
+        Array.from({ length: 5 }, (_, index) => ({
             position: index + 1,
             teams: [],
         }))
@@ -87,28 +85,10 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         return team ? team.color : "";
     };
 
-     // Funkce pro aktualizaci bodů při změně v inputu
-     const handlePointsChange = (teamName, points) => {
-        const updatedResults = results.map((team) => {
-            if (team.team_name === teamName) {
-                return { ...team, points_awarded: parseInt(points, 10) || 0 };
-            }
-            return team;
-        });
-
-        setGameTypeId(0);
-        setResults(updatedResults);
-    };
-
-
     return (
         <div className="team-table-container">
             <div className="select-game-type">
-                <label htmlFor="gameTypeSlider">
-                    Typ bodování: {gameTypeId === 0
-                        ? "Vlastní"
-                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
-                </label>
+                <label htmlFor="gameTypeSlider">Typ hry:</label>
                 <input
                     id="gameTypeSlider"
                     type="range"
@@ -116,7 +96,13 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     max={campData.gameTypes.length}
                     value={gameTypeId}
                     onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}
+                    className="slider"
                 />
+                <div>
+                    {gameTypeId === 0
+                        ? "Vlastní"
+                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
+                </div>
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -125,54 +111,40 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                         <Droppable key={bucket.position} droppableId={`position-${bucket.position}`}>
                             {(provided) => (
                                 <div className="position-bucket" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <h4>{bucket.position}. místo</h4>
+                                    <h4>{bucket.position}.</h4>
                                     <ul className="team-list">
                                         {bucket.teams.map((team, index) => (
-                                           <Draggable
-                                           key={team.team_name}
-                                           draggableId={team.team_name}
-                                           index={index}
-                                       >
-                                           {(provided, snapshot) => (
-                                               <li
-                                                    className={`team-item ${snapshot.isDragging ? 'dragging' : ''}`}
-                                                   ref={provided.innerRef}
-                                                   {...provided.draggableProps}
-                                                   {...provided.dragHandleProps}
-                                                   style={{
-                                                       ...provided.draggableProps.style,
-                                                       position: snapshot.isDragging ? 'fixed' : 'static',
-                                                       top: snapshot.isDragging ? '0' : 'auto',
-                                                       left: snapshot.isDragging ? '0' : 'auto',
-                                                       backgroundColor: getTeamColor(team.team_name),
-                                                   }}
-                                               >
-                                                   <div className="team-name">{team.team_name}</div>
-                                                   <input
-                                                       type="number"
-                                                       inputMode="numeric"
-                                                       onInput={(e) => {
-                                                           e.target.value = e.target.value.replace(/[^0-9.]/g, '');
-                                                       }}
-                                                       min={0}
-                                                       className="team-points-input"
-                                                       value={
-                                                           team.points_awarded !== undefined &&
-                                                           team.points_awarded !== null
-                                                               ? team.points_awarded
-                                                               : ''
-                                                       }
-                                                       onChange={(e) =>
-                                                           handlePointsChange(
-                                                               team.team_name,
-                                                               e.target.value
-                                                           )
-                                                       }
-                                                   />
-                                               </li>
-                                           )}
-                                       </Draggable>
-                                       
+                                            <Draggable
+                                                key={team.team_name}
+                                                draggableId={team.team_name}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <li
+                                                        className="team-item"
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        style={{
+                                                            backgroundColor: getTeamColor(team.team_name),
+                                                            ...provided.draggableProps.style,
+                                                        }}
+                                                    >
+                                                        <div className="team-name-container">
+    <div className="team-name">{team.team_name}</div>
+    <input
+        type="number"
+        className="team-points-input"
+        value={team.points_awarded || 0}
+        onChange={(e) =>
+            handlePointsChange(team.team_name, e.target.value)
+        }
+    />
+</div>
+
+                                                    </li>
+                                                )}
+                                            </Draggable>
                                         ))}
                                         {provided.placeholder}
                                     </ul>
