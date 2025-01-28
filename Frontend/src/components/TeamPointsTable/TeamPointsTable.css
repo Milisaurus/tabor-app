@@ -40,11 +40,18 @@
     cursor: default;
 }
 
-.position-bucket:not(:active):hover {
+.position-bucket:hover {
+    background-color: #fafafa;
+}
+
+.position-bucket.hovered {
     transform: translateY(-5px) scale(1.07);
     background-color: #fafafa;
 }
 
+.position-bucket.dragging {
+    transform: none; /* Žádné transformace při přetažení */
+}
 
 
 .position-bucket h4 {
