@@ -41,7 +41,8 @@
 }
 
 .position-bucket:hover {
-    background-color: #f0f0f0;
+    transform: scale(1.07);
+    background-color: #fafafa;
 }
 
 .position-bucket h4 {
