@@ -128,25 +128,21 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                     <h4>{bucket.position}. místo</h4>
                                     <ul className="team-list">
                                         {bucket.teams.map((team, index) => (
-                                            <Draggable
-                                                key={team.team_name}
-                                                draggableId={team.team_name}
-                                                index={index}
-                                            >
-                                                {(provided) => (
-                                                    <li
-                                                        className="team-item"
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        style={{
-                                                            backgroundColor: getTeamColor(team.team_name),
-                                                            ...provided.draggableProps.style,
-                                                        }}
-                                                    >
-                                                        <div className="team-name">{team.team_name}</div>
-                                                            <input
-                                                                type="number"
+                                            <Draggable key={team.team_name} draggableId={team.team_name} index={index}>
+                                            {(provided, snapshot) => (
+                                                <li
+                                                    className={`team-item ${snapshot.isDragging ? "dragging" : ""}`}
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={{
+                                                        ...provided.draggableProps.style, // Využívá nativní stylování knihovny
+                                                        backgroundColor: getTeamColor(team.team_name),
+                                                    }}
+                                                >
+                                                    <div className="team-name">{team.team_name}</div>
+                                                    <input
+                                                        type="number"
                                                                 inputMode="numeric"
                                                                 onInput={(e) => {
                                                                     e.target.value = e.target.value.replace(/[^0-9.]/g, '');
