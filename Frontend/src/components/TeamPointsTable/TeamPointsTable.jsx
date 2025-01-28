@@ -49,27 +49,42 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         setResults(updatedResults);
     }, [gameTypeId, dropCount]);
 
-    // Logika pro přetažení
     const handleDragEnd = (result) => {
         if (!result.destination) return;
-
+    
         const sourcePos = parseInt(result.source.droppableId.split("-")[1], 10);
         const destPos = parseInt(result.destination.droppableId.split("-")[1], 10);
-
+    
         const sourceBucket = positionBuckets.find((bucket) => bucket.position === sourcePos);
         const destBucket = positionBuckets.find((bucket) => bucket.position === destPos);
-
+    
         if (!sourceBucket || !destBucket) return;
-
+    
+        // Najdeme přetahovaný tým
         const draggedTeamIndex = sourceBucket.teams.findIndex(
             (team) => team.team_name === result.draggableId
         );
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
-
-        destBucket.teams.push(draggedTeam);
+    
+        // Přidáme přetahovaný tým na cílovou pozici
+        destBucket.teams.splice(result.destination.index, 0, draggedTeam);
+    
+        // Synchronizujeme pozice týmů v cílovém bucketu (podle indexů v seznamu)
+        destBucket.teams = destBucket.teams.map((team, index) => ({
+            ...team,
+            position: destPos,
+        }));
+    
+        // Obnovení pozic v source bucketu
+        sourceBucket.teams = sourceBucket.teams.map((team) => ({
+            ...team,
+            position: sourcePos,
+        }));
+    
+        // Aktualizujeme state s přepočtenými buckety
         setPositionBuckets([...positionBuckets]);
-
-        // Aktualizace výsledků bez resetování bodů
+    
+        // Aktualizujeme výsledky s novou pozicí týmu
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
@@ -77,9 +92,10 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
             return team;
         });
         setResults(updatedResults);
-
-        setDropCount(dropCount + 1);
+    
+        setDropCount((count) => count + 1);
     };
+    
 
     // Barva týmu podle JSON dat
     const getTeamColor = (teamName) => {
