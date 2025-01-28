@@ -66,6 +66,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         );
 
         console.log(draggedTeamIndex);
+        console.log(result.draggableId);
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
 
         destBucket.teams.push(draggedTeam);
