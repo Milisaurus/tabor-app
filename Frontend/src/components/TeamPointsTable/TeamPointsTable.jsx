@@ -49,40 +49,61 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         setResults(updatedResults);
     }, [gameTypeId, dropCount]);
 
-    // Logika pro přetažení
     const handleDragEnd = (result) => {
         if (!result.destination) return;
-
+    
+        // Zjisti pozice zdroje a cíle
         const sourcePos = parseInt(result.source.droppableId.split("-")[1], 10);
         const destPos = parseInt(result.destination.droppableId.split("-")[1], 10);
-
+        const destIndex = result.destination.index;
+    
+        // Najdi zdrojový a cílový bucket
         const sourceBucket = positionBuckets.find((bucket) => bucket.position === sourcePos);
         const destBucket = positionBuckets.find((bucket) => bucket.position === destPos);
-
+    
         if (!sourceBucket || !destBucket) return;
-
+    
+        // Zjisti index přetahovaného týmu
         const draggedTeamIndex = sourceBucket.teams.findIndex(
             (team) => team.team_name === result.draggableId
         );
-
-        console.log(draggedTeamIndex);
-        console.log(result.draggableId);
+    
+        if (draggedTeamIndex === -1) {
+            console.error("Team not found in source bucket.");
+            return;
+        }
+    
+        // Odeber tým ze zdrojového bucketu
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
-
-        destBucket.teams.push(draggedTeam);
-        setPositionBuckets([...positionBuckets]);
-
-        // Aktualizace výsledků bez resetování bodů
+    
+        // Přidej tým do cílového bucketu na správnou pozici
+        destBucket.teams.splice(destIndex, 0, draggedTeam);
+    
+        // Aktualizuj stav bucketů
+        const newPositionBuckets = positionBuckets.map((bucket) => {
+            if (bucket.position === sourcePos) return { ...bucket, teams: sourceBucket.teams };
+            if (bucket.position === destPos) return { ...bucket, teams: destBucket.teams };
+            return bucket;
+        });
+    
+        setPositionBuckets(newPositionBuckets);
+    
+        // Aktualizuj výsledky s novou pozicí
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
             }
             return team;
         });
+    
         setResults(updatedResults);
-
-        setDropCount(dropCount + 1);
+    
+        // Log pro ladění
+        console.log("Updated Position Buckets: ", newPositionBuckets);
+    
+        setDropCount((prev) => prev + 1);
     };
+    
 
     // Barva týmu podle JSON dat
     const getTeamColor = (teamName) => {
