@@ -47,19 +47,15 @@
 }
 
 .position-bucket h4 {
-    text-align: center;
-    margin-top: 0;
+    font-weight: bold;
     margin-bottom: 10px;
-    font-family: 'Inter', sans-serif;
-    color: #2C2C2C;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    color: #333;
 }
 
 .team-list {
     list-style: none;
     margin: 0;
-    padding: 0;
-    width: 100%;
+    width: 90%;
 }
 
 .team-item {
