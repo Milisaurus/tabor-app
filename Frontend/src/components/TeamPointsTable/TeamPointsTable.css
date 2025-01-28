@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    width: fit-content;
 }
 
 .select-game-type {
