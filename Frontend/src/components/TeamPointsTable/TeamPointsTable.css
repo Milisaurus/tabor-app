@@ -106,23 +106,7 @@
     transform: scale(1.05);
 }
 
-/* Media queries for smaller screens */
-@media (max-width: 768px) {
-    .position-buckets {
-        gap: 15px; /* Reduce gap between buckets on medium screens */
-    }
 
-    .position-bucket {
-        width: 150px;  /* Decrease width of buckets for medium screens */
-        padding: 12px;  /* Smaller padding for medium screens */
-        min-height: 100px;  /* Smaller min-height */
-    }
-
-    .team-points-input {
-        width: 50%;  /* Make input fields slightly wider */
-        font-size: 0.8rem;  /* Smaller font size for input fields */
-    }
-}
 
 @media (max-width: 480px) {
     .position-buckets {
@@ -138,6 +122,15 @@
     .team-points-input {
         width: 40%;  /* Make input fields even wider */
         font-size: 0.7rem;  /* Even smaller font size for small screens */
+    }
+
+    .team-table-container {
+        max-width: 420px;
+    }
+
+    .position-bucket:hover {
+        padding: 15px;
+        background-color: #fafafa;
     }
 }
 
