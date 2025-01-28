@@ -61,6 +61,12 @@ const TeamPoints = () => {
         e.preventDefault() // prevent default values
         setFormError(""); // Reset error message
 
+            // Ensure campData is available before doing checks
+    if (!campData) {
+        setFormError("Camp data is not loaded yet. Please try again.");
+        return;
+    }
+
         // Check if the game name already exists in campData.teamGames
         const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
         if (isDuplicateName) {
@@ -142,7 +148,7 @@ const TeamPoints = () => {
 
                 {/* Display error message if any */}
                 {formError && (
-                    <div className="form-error" style={{ color: "red", marginTop: "1rem" }}>
+                    <div className="form-error">
                         {formError}
                     </div>
                 )}
