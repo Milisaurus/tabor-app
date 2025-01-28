@@ -138,16 +138,14 @@ const TeamPoints = () => {
 
                 <SelectDay selectedDay={day} onDayChange={setDay} />
 
-                 {/* Display error message if any */}
-                 {formError && (
+                <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
+
+                {/* Display error message if any */}
+                {formError && (
                     <div className="form-error" style={{ color: "red", marginTop: "1rem" }}>
                         {formError}
                     </div>
                 )}
-
-                <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
-
-
                 <button className="submitbutton" type="submit">Uložit</button>
             </form>
         </div>
