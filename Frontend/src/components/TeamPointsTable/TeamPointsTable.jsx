@@ -13,17 +13,20 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }))
     );
 
-    // Synchronizace pozic s výsledky při každé změně typu hry nebo výsledků
     useEffect(() => {
         const initializeBuckets = () => {
             const newBuckets = positionBuckets.map((bucket) => ({
                 ...bucket,
                 teams: results.filter((team) => team.position === bucket.position),
             }));
-            setPositionBuckets(newBuckets);
+            setPositionBuckets((prevBuckets) => {
+                const hasChanged = JSON.stringify(prevBuckets) !== JSON.stringify(newBuckets);
+                return hasChanged ? newBuckets : prevBuckets;
+            });
         };
         initializeBuckets();
     }, [results]);
+    
 
     // Aktualizace bodového systému při změně typu hry
     useEffect(() => {
@@ -54,68 +57,37 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         const sourcePos = parseInt(result.source.droppableId.split("-")[1], 10);
         const destPos = parseInt(result.destination.droppableId.split("-")[1], 10);
-        const destIndex = result.destination.index;
     
-        // Najdi zdrojový a cílový bucket
-        const sourceBucket = positionBuckets.find((bucket) => bucket.position === sourcePos);
-        const destBucket = positionBuckets.find((bucket) => bucket.position === destPos);
+        // Zkopírujte pozice, aby nedošlo k přímé manipulaci
+        const updatedBuckets = positionBuckets.map((bucket) => ({
+            ...bucket,
+            teams: [...bucket.teams],
+        }));
+    
+        const sourceBucket = updatedBuckets.find((bucket) => bucket.position === sourcePos);
+        const destBucket = updatedBuckets.find((bucket) => bucket.position === destPos);
     
         if (!sourceBucket || !destBucket) return;
     
-        // Najdi přetahovaný tým
+        // Najděte přetahovaný tým
         const draggedTeamIndex = sourceBucket.teams.findIndex(
             (team) => team.team_name === result.draggableId
         );
-    
-        if (draggedTeamIndex === -1) {
-            console.error("Team not found in source bucket.");
-            return;
-        }
-    
-        // Odeber tým ze zdrojového bucketu
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
     
-        // Přidej tým na správné místo v cílovém bucketu
-        destBucket.teams.splice(destIndex, 0, draggedTeam);
+        destBucket.teams.push(draggedTeam);
     
-        // Aktualizuj pozice týmů ve všech bucketech
-        const updatedBuckets = positionBuckets.map((bucket) => {
-            // Aktualizuj cílový bucket
-            if (bucket.position === destPos) {
-                return {
-                    ...bucket,
-                    teams: bucket.teams.map((team, index) => ({
-                        ...team,
-                        position: destPos, // Nastav správnou pozici podle bucketu
-                    })),
-                };
-            }
-            // Aktualizuj zdrojový bucket
-            if (bucket.position === sourcePos) {
-                return { ...bucket, teams: sourceBucket.teams };
-            }
-            return bucket;
-        });
-    
+        // Aktualizujte stav pozic a výsledků
         setPositionBuckets(updatedBuckets);
     
-        // Synchronizuj výsledky
         const updatedResults = results.map((team) => {
-            const updatedTeam = updatedBuckets
-                .flatMap((bucket) => bucket.teams)
-                .find((t) => t.team_name === team.team_name);
-    
-            return updatedTeam ? { ...team, position: updatedTeam.position } : team;
+            if (team.team_name === draggedTeam.team_name) {
+                return { ...team, position: destPos };
+            }
+            return team;
         });
     
         setResults(updatedResults);
-    
-        // Debug logy
-        console.log("Updated Position Buckets: ", updatedBuckets);
-        console.log("Updated Results: ", updatedResults);
-    
-        // Zvýšení počítadla dropCount pro refresh
-        setDropCount((prev) => prev + 1);
     };
     
 
