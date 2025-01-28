@@ -108,7 +108,7 @@ const IndividualPoints = () => {
         <div className="individual-points-page">
             <Header goBackLink="/main-page"  editLink1={"/edit-teams"} editLink2="#" showIcons="true"/>  
             <NavbarButtons/>
-            <Heading text="Vložení individuálních bodů" level={1} className="nadpish1" />
+            <Heading text="Vložení individuální aktivity" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="points-form">
 

@@ -104,8 +104,14 @@
     transform: scale(1.05);
 }
 
+.team-item.dragging {
+    position: fixed !important;
+    z-index: 1000;
+    pointer-events: none;
+}
 
-/* nastavit input omezení, vyřešit šipky, vyřešit scaling na mobilu*/
+
+/* vyřešit šipky, vyřešit scaling na mobilu*/
 
 
 

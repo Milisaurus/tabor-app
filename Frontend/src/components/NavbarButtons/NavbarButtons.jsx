@@ -9,11 +9,11 @@ const NavbarButtons = () => {
         <nav className="navbar-buttons">
             {/* Link to the team points page*/}
             <Link to="/team-points">
-                <button className="nav-button">Vložení týmových bodů</button>
+                <button className="nav-button">Vložení týmové hry</button>
             </Link>
             {/* Link to the individual points page*/}
             <Link to="/individual-points">
-                <button className="nav-button">Vložení individuálních bodů</button>
+                <button className="nav-button">Vložení individuální aktivity</button>
             </Link>
         </nav>
 

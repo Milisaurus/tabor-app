@@ -97,7 +97,7 @@ const TeamPoints = () => {
         <div className="team-points-page">
             <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2="#" showIcons="true" />
             <NavbarButtons />
-            <Heading text="Vložení týmových bodů" level={1} className="nadpish1" />
+            <Heading text="Vložení týmové hry" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit} className="team-points-form">
                 <div className="game-name-input">
