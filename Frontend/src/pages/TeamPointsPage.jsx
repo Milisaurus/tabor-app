@@ -55,61 +55,68 @@ const TeamPoints = () => {
         fetchCampData();
     }, []);
     
-// Handles submit, sends data to server
-const handleSubmit = async (e) => {
-    e.preventDefault();
+    // Handles submit, sends data to server
+    const handleSubmit = async (e) => {
+        e.preventDefault() // prevent default values
+        setFormError(""); // Reset error message
 
-    // Kontrola, zda se názvy neopakují
-    const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
-    if (isDuplicateName) {
-        alert("Název hry již existuje! Vyberte prosím jiný název.");
-        return; 
-    }
-
-    // Kontrola konzistence pozic
-    const positions = results.map(result => result.position);
-    const maxPosition = Math.max(...positions);
-    const missingPositions = [];
-
-    // Zkontroluj, zda neexistují chybějící pozice mezi 1 a maxPosition
-    for (let i = 1; i <= maxPosition; i++) {
-        if (!positions.includes(i)) {
-            missingPositions.push(i);
+        // Check if the game name already exists in campData.teamGames
+        const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
+        if (isDuplicateName) {
+            setFormError("Název hry již existuje! Vyberte prosím jiný název.");
+            return; // Stop the submission
         }
-    }
 
-    if (missingPositions.length > 0) {
-        alert(
-            `Pozice nejsou správně rozděleny. Chybějící pozice: ${missingPositions.join(", ")}. ` +
-            "Upravte prosím pořadí týmů."
-        );
-        return; 
-    }
+        // Errors handling
+        const positions = results.map(result => result.position);
+        const maxPosition = Math.max(...positions);
+        const missingPositions = [];
 
-    // Zabalení nové hry do objektu
-    const newTeamGame = {
-        day,
-        gameTypeId: gameTypeId,
-        name: gameName,
-        results: results.map((result) => ({
-            points_awarded: result.points_awarded,
-            position: result.position,
-            team_name: result.team_name,
-        })),
-        timestamp: Date.now(),
+        for (let i = 1; i <= maxPosition; i++) {
+            if (!positions.includes(i)) {
+                missingPositions.push(i);
+            }
+        }
+
+        if (missingPositions.length > 0) {
+            setFormError(
+                `Pozice nejsou správně rozděleny. Chybějící pozice: ${missingPositions.join(", ")}. Upravte prosím pořadí týmů.`
+            );
+            return;
+        }
+
+        const hasZeroPoints = results.some(result => result.points_awarded === 0);
+        if (hasZeroPoints) {
+            setFormError("Každý tým musí mít přidělené body! Zkontrolujte, že žádný tým nemá 0 bodů.");
+            return;
+        }
+
+        // wrap new game into object
+        const newTeamGame = {
+            day,
+            gameTypeId: gameTypeId,
+            name: gameName,
+            results: results.map((result) => ({
+                points_awarded: result.points_awarded,
+                position: result.position,
+                team_name: result.team_name,
+            })),
+            timestamp: Date.now(),
+        };
+
+        // add new game into camp data
+        campData["teamGames"].push(newTeamGame);
+
+        // send JSON string to server
+        try {
+            await updateCamp(JSON.stringify(campData));
+        } catch (err) {
+            console.error("Error saving game data:", err);
+            console.log(updatedCampDataJson);
+        }
+        
+        navigate("/main-page");
     };
-
-    campData["teamGames"].push(newTeamGame);
-
-    try {
-        await updateCamp(JSON.stringify(campData));
-    } catch (err) {
-        console.error("Error saving game data:", err);
-    }
-
-    navigate("/main-page");
-};
-
 
     if (loading) return <Loading />;
     if (error) return <h1>Error: {error}</h1>;
@@ -128,6 +135,13 @@ const handleSubmit = async (e) => {
                 </div>
 
                 <SelectDay selectedDay={day} onDayChange={setDay} />
+
+                 {/* Display error message if any */}
+                 {formError && (
+                    <div className="form-error" style={{ color: "red", marginTop: "1rem" }}>
+                        {formError}
+                    </div>
+                )}
 
                 <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
 
