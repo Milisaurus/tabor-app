@@ -75,32 +75,33 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         // Odeber tým ze zdrojového bucketu
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
     
-        // Přidej tým na cílové místo
+        // Přidej tým na správné místo v cílovém bucketu
         destBucket.teams.splice(destIndex, 0, draggedTeam);
     
         // Aktualizuj pozice týmů ve všech bucketech
-        const newPositionBuckets = positionBuckets.map((bucket) => {
-            if (bucket.position === sourcePos) {
-                return { ...bucket, teams: sourceBucket.teams };
-            }
+        const updatedBuckets = positionBuckets.map((bucket) => {
+            // Aktualizuj cílový bucket
             if (bucket.position === destPos) {
-                // Aktualizace `position` týmů v cílovém bucketu
                 return {
                     ...bucket,
                     teams: bucket.teams.map((team, index) => ({
                         ...team,
-                        position: bucket.position + index,
+                        position: destPos, // Nastav správnou pozici podle bucketu
                     })),
                 };
+            }
+            // Aktualizuj zdrojový bucket
+            if (bucket.position === sourcePos) {
+                return { ...bucket, teams: sourceBucket.teams };
             }
             return bucket;
         });
     
-        setPositionBuckets(newPositionBuckets);
+        setPositionBuckets(updatedBuckets);
     
-        // Aktualizuj výsledky
+        // Synchronizuj výsledky
         const updatedResults = results.map((team) => {
-            const updatedTeam = newPositionBuckets
+            const updatedTeam = updatedBuckets
                 .flatMap((bucket) => bucket.teams)
                 .find((t) => t.team_name === team.team_name);
     
@@ -109,13 +110,15 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         setResults(updatedResults);
     
-        // Log pro ladění
-        console.log("Updated Position Buckets: ", newPositionBuckets);
+        // Debug logy
+        console.log("Updated Position Buckets: ", updatedBuckets);
+        console.log("Updated Results: ", updatedResults);
     
+        // Zvýšení počítadla dropCount pro refresh
         setDropCount((prev) => prev + 1);
     };
     
-    
+
     // Barva týmu podle JSON dat
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
