@@ -25,6 +25,7 @@ const IndividualPoints = () => {
     const [points, setPoints] = useState("");               // Points to participants
     const [participants, setParticipants] = useState([]);   // Holds names of participants
     const [oddEvenSelection, setoddEvenSelection] = useState({ odd: false, even: false });
+    const [formError, setFormError] = useState("");
     const navigate = useNavigate();
 
     // fetch camp data from server
@@ -51,17 +52,19 @@ const IndividualPoints = () => {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setFormError(""); // Reset error message
+
     
         const isDuplicateReason = campData.individualActivities.some(
             (activity) => activity.reason === reason
         );
         if (isDuplicateReason) {
-            alert("Název aktivity již existuje! Vyberte prosím jiný název.");
+            setFormError("Název aktivity již existuje! Vyberte prosím jiný název.");
             return;
         }
 
         if (oddEvenSelection.even && oddEvenSelection.odd) {
-            alert("Můžete vybrat buď sudé nebo liché, ne obě možnosti.");
+            setFormError("Můžete vybrat buď sudé nebo liché, ne obě možnosti.");
             return; // Do not set both options to true
         }
     
@@ -126,6 +129,13 @@ const IndividualPoints = () => {
 
                 <SelectCampMembers campData={campData} participants={participants} onSelectionChange={setParticipants} oddEvenSelection={oddEvenSelection}
                 setoddEvenSelection={setoddEvenSelection} />
+
+                {/* Display error message if any */}
+                {formError && (
+                    <div className="form-error" style={{ color: "red", marginTop: "1rem" }}>
+                        {formError}
+                    </div>
+                )}
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
 

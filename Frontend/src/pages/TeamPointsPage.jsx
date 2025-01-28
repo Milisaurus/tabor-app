@@ -23,6 +23,7 @@ const TeamPoints = () => {
     const [gameName, setGameName] = useState("");    // holds name of the game
     const [gameTypeId, setGameTypeId] = useState(0); // holds type of the game, this is used for assigning points
     const [results, setResults] = useState([]);      // holds results of the game
+    const [formError, setFormError] = useState("");
     const navigate = useNavigate();
 
     // fetch camp data
@@ -111,10 +112,11 @@ const TeamPoints = () => {
         try {
             await updateCamp(JSON.stringify(campData));
         } catch (err) {
+            alert("Nepodařilo se odeslat požadavek");
             console.error("Error saving game data:", err);
             console.log(updatedCampDataJson);
         }
-        
+
         navigate("/main-page");
     };
 
