@@ -63,7 +63,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         if (!sourceBucket || !destBucket) return;
     
-        // Zjisti index přetahovaného týmu
+        // Najdi přetahovaný tým
         const draggedTeamIndex = sourceBucket.teams.findIndex(
             (team) => team.team_name === result.draggableId
         );
@@ -75,6 +75,9 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         // Odeber tým ze zdrojového bucketu
         const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
+    
+        // Aktualizuj pozici přetahovaného týmu
+        draggedTeam.position = destPos;
     
         // Přidej tým do cílového bucketu na správnou pozici
         destBucket.teams.splice(destIndex, 0, draggedTeam);
@@ -88,7 +91,7 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     
         setPositionBuckets(newPositionBuckets);
     
-        // Aktualizuj výsledky s novou pozicí
+        // Aktualizuj výsledky
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
                 return { ...team, position: destPos };
@@ -104,7 +107,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         setDropCount((prev) => prev + 1);
     };
     
-
     // Barva týmu podle JSON dat
     const getTeamColor = (teamName) => {
         const team = campData.teams.find((t) => t.name === teamName);
