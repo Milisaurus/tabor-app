@@ -50,40 +50,50 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
     }, [gameTypeId, dropCount]);
 
     const handleDragEnd = (result) => {
-        if (!result.destination) return; // Pokud přetáhnutí bylo mimo cílovou zónu, ukonči
+        if (!result.destination) return;
     
         const sourcePos = parseInt(result.source.droppableId.split("-")[1], 10);
         const destPos = parseInt(result.destination.droppableId.split("-")[1], 10);
     
-        const updatedBuckets = [...positionBuckets];
+        const sourceBucket = positionBuckets.find((bucket) => bucket.position === sourcePos);
+        const destBucket = positionBuckets.find((bucket) => bucket.position === destPos);
     
-        // Najdeme box zdroje a destinace
-        const sourceBucketIndex = updatedBuckets.findIndex((bucket) => bucket.position === sourcePos);
-        const destBucketIndex = updatedBuckets.findIndex((bucket) => bucket.position === destPos);
+        if (!sourceBucket || !destBucket) return;
     
-        if (sourceBucketIndex === -1 || destBucketIndex === -1) return;
+        // Najdi přetahovaný tým
+        const draggedTeamIndex = sourceBucket.teams.findIndex(
+            (team) => team.team_name === result.draggableId
+        );
+        const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
     
-        // Vyjmeme přetažený tým z původního boxu
-        const [draggedTeam] = updatedBuckets[sourceBucketIndex].teams.splice(result.source.index, 1);
+        // Aktualizuj buckety
+        const newPositionBuckets = positionBuckets.map((bucket) => {
+            if (bucket.position === sourcePos) {
+                return {
+                    ...bucket,
+                    teams: bucket.teams.filter((team) => team.team_name !== result.draggableId),
+                };
+            } else if (bucket.position === destPos) {
+                return {
+                    ...bucket,
+                    teams: [...bucket.teams, { ...draggedTeam, position: destPos }],
+                };
+            }
+            return bucket;
+        });
     
-        // Vložíme tým na správné místo v cílovém boxu
-        updatedBuckets[destBucketIndex].teams.splice(result.destination.index, 0, draggedTeam);
+        setPositionBuckets(newPositionBuckets);
     
-        // Aktualizujeme buckety
-        setPositionBuckets(updatedBuckets);
-    
-        // Synchronizujeme pozice týmů v `results`
+        // Aktualizuj výsledky
         const updatedResults = results.map((team) => {
-            const newBucket = updatedBuckets.find((bucket) =>
-                bucket.teams.some((bTeam) => bTeam.team_name === team.team_name)
-            );
-            if (newBucket) {
-                return { ...team, position: newBucket.position };
+            if (team.team_name === draggedTeam.team_name) {
+                return { ...team, position: destPos };
             }
             return team;
         });
-    
         setResults(updatedResults);
+    
+        setDropCount(dropCount + 1);
     };
     
 
@@ -133,49 +143,49 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                                 <div className="position-bucket" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h4>{bucket.position}. místo</h4>
                                     <ul className="team-list">
-    {bucket.teams.map((team, index) => (
-        <Draggable
-            key={team.team_name}
-            draggableId={team.team_name}
-            index={index} // Index správně reflektuje pořadí v rámci boxu
-        >
-            {(provided) => (
-                <li
-                    className="team-item"
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={{
-                        backgroundColor: getTeamColor(team.team_name),
-                        ...provided.draggableProps.style,
-                    }}
-                >
-                    <div className="team-name">{team.team_name}</div>
-                    <input
-                        type="number"
-                        inputMode="numeric"
-                        onInput={(e) => {
-                            e.target.value = e.target.value.replace(/[^0-9.]/g, "");
-                        }}
-                        min={0}
-                        className="team-points-input"
-                        value={
-                            team.points_awarded !== undefined &&
-                            team.points_awarded !== null
-                                ? team.points_awarded
-                                : ""
-                        }
-                        onChange={(e) =>
-                            handlePointsChange(team.team_name, e.target.value)
-                        }
-                    />
-                </li>
-            )}
-        </Draggable>
-    ))}
-    {provided.placeholder}
-</ul>
-
+                                        {bucket.teams.map((team, index) => (
+                                            <Draggable
+                                                key={team.team_name}
+                                                draggableId={team.team_name}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <li
+                                                        className="team-item"
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        style={{
+                                                            backgroundColor: getTeamColor(team.team_name),
+                                                            ...provided.draggableProps.style,
+                                                        }}
+                                                    >
+                                                        <div className="team-name">{team.team_name}</div>
+                                                            <input
+                                                                type="number"
+                                                                inputMode="numeric"
+                                                                onInput={(e) => {
+                                                                    e.target.value = e.target.value.replace(/[^0-9.]/g, '');
+                                                                }}
+                                                                min={0}
+                                                                className="team-points-input"
+                                                                value={team.points_awarded !== undefined && 
+                                                                    team.points_awarded !== null 
+                                                                    ? team.points_awarded 
+                                                                    : ''}
+                                                                onChange={(e) =>
+                                                                    handlePointsChange(
+                                                                        team.team_name,
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                            />
+                                                    </li>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </ul>
                                 </div>
                             )}
                         </Droppable>
