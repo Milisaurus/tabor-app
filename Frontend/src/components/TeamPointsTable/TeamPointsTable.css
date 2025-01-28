@@ -41,7 +41,7 @@
 }
 
 .position-bucket:hover {
-    padding: 20px; /* Posun nahoru */
+    padding: 20px;
     background-color: #fafafa;
 }
 
@@ -77,7 +77,7 @@
 }
 
 .team-item:hover {
-    transform: translateY(-5px) scale(1.07);
+    transform: scale(1.07);
 }
 
 .team-item:active {
