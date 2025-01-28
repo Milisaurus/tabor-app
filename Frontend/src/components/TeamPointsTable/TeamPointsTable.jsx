@@ -13,17 +13,27 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         }))
     );
 
-    // Synchronizace pozic s výsledky při každé změně typu hry nebo výsledků
     useEffect(() => {
         const initializeBuckets = () => {
-            const newBuckets = positionBuckets.map((bucket) => ({
-                ...bucket,
-                teams: results.filter((team) => team.position === bucket.position),
+            const buckets = Array.from({ length: campData.teamCount }, (_, index) => ({
+                position: index + 1,
+                teams: [],
             }));
-            setPositionBuckets(newBuckets);
+    
+            // Přiřadíme týmy na základě jejich pozice ve výsledcích
+            results.forEach((team) => {
+                const bucketIndex = buckets.findIndex((bucket) => bucket.position === team.position);
+                if (bucketIndex !== -1) {
+                    buckets[bucketIndex].teams.push(team);
+                }
+            });
+    
+            setPositionBuckets(buckets);
         };
+    
         initializeBuckets();
-    }, [results]);
+    }, [results, campData.teamCount]);
+    
 
     // Aktualizace bodového systému při změně typu hry
     useEffect(() => {
@@ -55,47 +65,28 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
         const sourcePos = parseInt(result.source.droppableId.split("-")[1], 10);
         const destPos = parseInt(result.destination.droppableId.split("-")[1], 10);
     
-        const sourceBucket = positionBuckets.find((bucket) => bucket.position === sourcePos);
-        const destBucket = positionBuckets.find((bucket) => bucket.position === destPos);
+        const updatedBuckets = [...positionBuckets];
     
-        if (!sourceBucket || !destBucket) return;
+        const sourceBucketIndex = updatedBuckets.findIndex((bucket) => bucket.position === sourcePos);
+        const destBucketIndex = updatedBuckets.findIndex((bucket) => bucket.position === destPos);
     
-        // Najdeme tým, který byl přetahován
-        const draggedTeamIndex = sourceBucket.teams.findIndex(
-            (team) => team.team_name === result.draggableId
-        );
-        const [draggedTeam] = sourceBucket.teams.splice(draggedTeamIndex, 1);
+        if (sourceBucketIndex === -1 || destBucketIndex === -1) return;
     
-        // Přidáme tým na určené místo ve výsledném bucketu
-        destBucket.teams.splice(result.destination.index, 0, draggedTeam);
+        // Najdeme a přesuneme tým
+        const [draggedTeam] = updatedBuckets[sourceBucketIndex].teams.splice(result.source.index, 1);
+        updatedBuckets[destBucketIndex].teams.splice(result.destination.index, 0, draggedTeam);
     
-        // Ujistíme se, že pořadí v bucketu zůstává podle skutečného indexu
-        destBucket.teams = destBucket.teams.map((team, index) => ({
-            ...team,
-            position: destPos, // Aktualizujeme pozici v bucketu
-            bucketIndex: index, // Uložíme přesné umístění v bucketu
-        }));
+        // Aktualizujeme state bucketů
+        setPositionBuckets(updatedBuckets);
     
-        // Projdeme a synchronizujeme pozice v původním bucketu (pro ostatní týmy)
-        sourceBucket.teams = sourceBucket.teams.map((team, index) => ({
-            ...team,
-            position: sourcePos, // Zachováme původní pozici
-            bucketIndex: index, // Aktualizujeme nový index v bucketu
-        }));
-    
-        // Aktualizujeme celý state
-        setPositionBuckets([...positionBuckets]);
-    
-        // Aktualizace v seznamu výsledků
+        // Zaktualizujeme výsledky
         const updatedResults = results.map((team) => {
             if (team.team_name === draggedTeam.team_name) {
-                return { ...team, position: destPos }; // Synchronizujeme globální pozici
+                return { ...team, position: destPos };
             }
             return team;
         });
         setResults(updatedResults);
-    
-        setDropCount((count) => count + 1); // Trigger refresh, pokud je třeba
     };
     
 
