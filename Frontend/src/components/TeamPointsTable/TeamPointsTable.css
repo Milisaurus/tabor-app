@@ -40,9 +40,11 @@
     cursor: default;
 }
 
-.position-bucket:hover {
+.position-bucket:not(:active):hover {
+    transform: translateY(-5px) scale(1.07);
     background-color: #fafafa;
 }
+
 
 
 .position-bucket h4 {
