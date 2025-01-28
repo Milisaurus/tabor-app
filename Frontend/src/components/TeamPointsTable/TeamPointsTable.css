@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    max-width: 700px;
     box-sizing: border-box;
 }
 
@@ -44,7 +43,6 @@
     padding: 20px;
     background-color: #fafafa;
 }
-
 
 .position-bucket h4 {
     text-align: center;
@@ -108,9 +106,40 @@
     transform: scale(1.05);
 }
 
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+    .position-buckets {
+        gap: 15px; /* Reduce gap between buckets on medium screens */
+    }
 
-/* vyřešit scaling na mobilu, řazení*/
+    .position-bucket {
+        width: 150px;  /* Decrease width of buckets for medium screens */
+        padding: 12px;  /* Smaller padding for medium screens */
+        min-height: 100px;  /* Smaller min-height */
+    }
 
+    .team-points-input {
+        width: 50%;  /* Make input fields slightly wider */
+        font-size: 0.8rem;  /* Smaller font size for input fields */
+    }
+}
+
+@media (max-width: 480px) {
+    .position-buckets {
+        gap: 10px;  /* Reduce gap even more on smaller screens */
+    }
+
+    .position-bucket {
+        width: 150px;  /* Reduce bucket width for very small screens */
+        padding: 10px;  /* Smaller padding for very small screens */
+        min-height: 90px;  /* Further reduce min-height */
+    }
+
+    .team-points-input {
+        width: 40%;  /* Make input fields even wider */
+        font-size: 0.7rem;  /* Even smaller font size for small screens */
+    }
+}
 
 
 /* SLIDER */

@@ -97,15 +97,6 @@ input:focus, select:focus {
   border-color: #2C2C2C;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  gap: 10px;
-  width: 90%;
-  align-items: center;
-}
-
 .team-form {
   background-color: #fff;
   border: 1px solid #ccc;

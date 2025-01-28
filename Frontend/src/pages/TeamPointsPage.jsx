@@ -61,11 +61,8 @@ const TeamPoints = () => {
         e.preventDefault() // prevent default values
         setFormError(""); // Reset error message
 
-            // Ensure campData is available before doing checks
-    if (!campData) {
-        setFormError("Camp data is not loaded yet. Please try again.");
-        return;
-    }
+        // Trim the gameName to remove leading/trailing whitespace
+        const trimmedGameName = gameName.trim();
 
         // Check if the game name already exists in campData.teamGames
         const isDuplicateName = campData.teamGames.some((game) => game.name === gameName);
@@ -102,7 +99,7 @@ const TeamPoints = () => {
         const newTeamGame = {
             day,
             gameTypeId: gameTypeId,
-            name: gameName,
+            name: trimmedGameName,
             results: results.map((result) => ({
                 points_awarded: result.points_awarded,
                 position: result.position,
