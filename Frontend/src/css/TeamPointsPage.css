@@ -6,10 +6,6 @@
     box-sizing: border-box;
 }
 
-.team-points-form {
-    width: 800px;
-}
-
 .game-name-input {
     width: 50%;
     display: flex;
@@ -26,3 +22,5 @@
     text-align: center; 
     display: block;
 }
+
+
