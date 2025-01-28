@@ -41,7 +41,7 @@
 }
 
 .position-bucket:hover {
-    transform: translateY(-5px) scale(1.07);
+    transform: translateY(-5px);
     background-color: #fafafa;
 }
 
