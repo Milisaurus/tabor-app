@@ -72,13 +72,20 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, handleDelete 
                                     <th>Umístění</th>
                                     <th>Body</th>
                                     {selectedActivity.results.every(result => result.game_points !== 0) && (
-                                        <th>Herní body</th> // Zobrazení sloupce pro herní body pokud jsou všechny nenulové
+                                        <th>Herní body</th> // Zobrazení sloupce pro herní body, pokud jsou všechny nenulové
                                     )}
                                 </tr>
                             </thead>
                             <tbody>
                                 {selectedActivity.results
-                                    .sort((a, b) => a.position - b.position)  // Třídění podle umístění
+                                    .sort((a, b) => {
+                                        // Nejprve řadíme podle umístění
+                                        if (a.position !== b.position) {
+                                            return a.position - b.position; // Ascending order by position
+                                        }
+                                        // Pokud jsou umístění stejné, řadíme podle bodů
+                                        return b.points_awarded - a.points_awarded; // Descending order by points
+                                    })
                                     .map((result, index) => {
                                         const team = campData.teams.find(team => team.name === result.team_name);
                                         const teamColor = team?.color || "#000"; // Default is black
