@@ -111,17 +111,17 @@
 
 @media (max-width: 500px) {
     .position-buckets {
-        gap: 8px;  /* Reduce gap even more on smaller screens */
+        gap: 8px; 
     }
 
     .position-bucket {
-        width: 135px;  /* Reduce bucket width for very small screens */
-        padding: 10px;  /* Smaller padding for very small screens */
-        min-height: 90px;  /* Further reduce min-height */
+        width: 135px;
+        padding: 10px;
+        min-height: 90px; 
     }
 
     .team-points-input {
-        font-size: 0.7rem;  /* Even smaller font size for small screens */
+        font-size: 0.7rem; 
     }
 
     .position-bucket:hover {

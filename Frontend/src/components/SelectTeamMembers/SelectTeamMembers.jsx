@@ -49,7 +49,21 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenS
             onSelectionChange(updatedSelection);
         };
     
-
+        const getTextColor = (bgColor) => {
+        if (!bgColor) return "#ffffff";
+            
+        // Převedeme HEX na RGB
+        const hex = bgColor.replace("#", "");
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        
+        // Vypočítáme jas barvy (luminance formula)
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            
+        return brightness > 125 ? "#000000" : "#ffffff";
+    };
+        
 
     return (
         <div className="member_selector">
@@ -65,38 +79,50 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenS
                             onClick={() => toggleTeam(team.name)}
                             className="team-header"
                             style={{
+                                color: getTextColor(team.color),
                                 borderBottomLeftRadius: !isExpanded ? "8px" : "0px",
                                 borderBottomRightRadius: !isExpanded ? "8px" : "0px",
+                                backgroundColor: team.color,
                             }}
                         >
                             <span>{team.name}</span>
                             <label>
-                            Vybrat všechny
-                                <input type="checkbox" checked={allTeamSelected}
+                                Vybrat všechny
+                                <input
+                                    type="checkbox"
+                                    className="custom-checkbox-select-all"
+                                    checked={allTeamSelected}
                                     onChange={(e) =>
                                         handleSelectAll(team.children, e.target.checked)
                                     }
                                     onClick={(e) => e.stopPropagation()}
+                                    style={{
+                                        "--team-color": team.color, // Použití barvy týmu
+                                        "--checkbox-fill": getTextColor(team.color), // Určí barvu výplně checkboxu
+                                    }}
                                 />
                             </label>
-                        </div>
 
+                        </div>
                         {/* Expandable content */}
-                        {isExpanded && (
-                            <div className="team-content">
-                                {team.children.map((child) => (
-                                    <div key={child} className="child-item">
-                                        <span>{child}</span>
-                                        <input
-                                            type="checkbox"
-                                            value={child}
-                                            checked={selectedChildren.includes(child)}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                ))}
+                        <div className={`team-content ${isExpanded ? "open" : ""}`}>
+                        {team.children.map((child) => (
+                            <div key={child} className="child-item">
+                            <span>{child}</span>
+                            <input
+                                type="checkbox"
+                                value={child}
+                                className="custom-checkbox"
+                                style={{
+                                    "--team-color": team.color, // Použití CSS proměnné
+                                    border: `2px solid ${team.color}`
+                                }}
+                                checked={selectedChildren.includes(child)}
+                                onChange={handleChange}
+                            />
                             </div>
-                        )}
+                        ))}
+                        </div>
                     </div>
                 );
             })}
@@ -115,30 +141,30 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenS
                 </div>
 
                 {/* Sudí / Lišší Content */}
-                {showoddEven && (
-                    <div className="team-content">
-                        <div className="oddEven-selection">
-                            <div className="child-item">
-                                <span>Sudí</span>
-                                <input
-                                    type="checkbox"
-                                    id="even"
-                                    checked={oddEvenSelection.even}
-                                    onChange={handleoddEvenChange}
-                                />
-                            </div>
-                            <div className="child-item">
-                                <span>Liší</span>
-                                <input
-                                    type="checkbox"
-                                    id="odd"
-                                    checked={oddEvenSelection.odd}
-                                    onChange={handleoddEvenChange}
-                                />
-                            </div>
+                <div className={`team-content ${showoddEven ? "open" : ""}`}>
+                    <div className="oddEven-selection">
+                        <div className="child-item">
+                            <span>Sudí</span>
+                            <input
+                                type="checkbox"
+                                className="custom-checkbox-odd-even"
+                                id="even"
+                                checked={oddEvenSelection.even}
+                                onChange={handleoddEvenChange}
+                            />
+                        </div>
+                        <div className="child-item">
+                            <span>Liší</span>
+                            <input
+                                type="checkbox"
+                                id="odd"
+                                className="custom-checkbox-odd-even"
+                                checked={oddEvenSelection.odd}
+                                onChange={handleoddEvenChange}
+                            />
                         </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );
