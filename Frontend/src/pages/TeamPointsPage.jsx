@@ -92,12 +92,6 @@ const TeamPoints = () => {
             return;
         }
 
-        const hasZeroPoints = results.some(result => result.points_awarded === 0);
-        if (hasZeroPoints) {
-            setFormError("Každý tým musí mít přidělené body! Zkontrolujte, že žádný tým nemá 0 bodů.");
-            return;
-        }
-
         // wrap new game into object
         const newTeamGame = {
             day,
