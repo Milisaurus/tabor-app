@@ -92,19 +92,6 @@ const TeamPoints = () => {
             return;
         }
 
-        
-         // Ověřujeme, zda jsou herní body buď všechny 0, nebo všechny nenulové
-        const gamePoints = results.map(result => result.game_points);
-
-        // Check if all game_points are 0 or all are non-zero
-        const allZero = gamePoints.every(points => points === 0);
-        const allNonZero = gamePoints.every(points => points !== 0);
-
-        if (!(allZero || allNonZero)) {
-            setFormError("Všechny týmy musí mít buď všechny herní body 0, nebo všechny nenulové.");
-            return; // Stop submission
-        }
-
         const hasZeroPoints = results.some(result => result.points_awarded === 0);
         if (hasZeroPoints) {
             setFormError("Každý tým musí mít přidělené body! Zkontrolujte, že žádný tým nemá 0 bodů.");
