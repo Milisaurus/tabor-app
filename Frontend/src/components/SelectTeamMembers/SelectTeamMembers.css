@@ -93,27 +93,6 @@
     text-align: left;
 }
 
-@media (max-width: 500px) {
-    .child-item {
-        font-size: 15px;
-    }
-
-    /* Team header */
-    .team-header {
-        font-size: 15px;
-        height: 20px;
-        background-color: #333;
-        transition: background-color 0.3s ease;
-    }
-    .team-header label{
-        font-size: 10px;
-    }
-    
-}
-
-
-
-
 .custom-checkbox {
     appearance: none;
     width: 10px;
@@ -194,4 +173,30 @@
     font-weight: bold;
     display: none;
     margin-bottom: 2px;
+}
+
+@media (max-width: 500px) {
+    .child-item {
+        font-size: 15px;
+    }
+
+    /* Team header */
+    .team-header {
+        font-size: 15px;
+        height: 20px;
+        background-color: #333;
+        transition: background-color 0.3s ease;
+    }
+    .team-header label{
+        font-size: 10px;
+    }
+    .custom-checkbox {
+        width: 28px;
+        height: 28px;
+    }
+
+    .custom-checkbox-odd-even {
+        width: 28px;
+        height: 28px;
+    }
 }
