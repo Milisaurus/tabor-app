@@ -1,0 +1,86 @@
+.team-table-container-game-points {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+    .select-game-type-game-points {
+        min-width: 220px;
+    }
+}
+
+.team-list-game-points {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px 0;
+    border-radius: 16px;
+    border: 2px solid #ccc;
+    list-style: none; /* Odstraní výchozí seznamové ikony */
+    padding: 0;
+}
+
+.team-list-game-points .team-item-game-points {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.team-list-game-points .team-item-game-points:last-child {
+    border-bottom: none;
+}
+
+.team-item-game-points:hover {
+    background-color: #f0f0f0;
+}
+
+.team-item-game-points .team-position-game-points {
+    font-weight: bold;
+    text-align: center;
+    width: 70px;
+    margin-right: 15px;
+}
+
+.team-item-game-points .team-name-game-points {
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    width: 250px; /* Nastavení šířky pro název týmu */
+    margin-right: 15px;
+}
+
+.team-item-game-points .points-input-game-points {
+    width: 70px;
+    text-align: center;
+    padding: 6px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+}
+
+.points-type-container-game-points {
+    display: flex; /* Vstupy vedle sebe */
+    gap: 10px; /* Mezera mezi nimi */
+    align-items: center; /* Vertikální zarovnání */
+}
+
+.input-explain {
+    margin-bottom: -10px;
+}
+
+@media (max-width: 600px) {
+    .points-input-game-points {
+        max-width: 50px; /* Při menších stránkách se zmenší */
+    }
+    .points-type-container-game-points {
+        gap: 5px; /* Mezera mezi vstupy se také zmenší */
+    }
+}

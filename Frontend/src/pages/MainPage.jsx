@@ -258,17 +258,6 @@ const MainPage = () => {
         },
     };
 
-    const getContrastingTextColor = (backgroundColor) => {
-        const color = backgroundColor.substring(1); // remove #
-        const rgb = parseInt(color, 16); // hex value
-        const r = (rgb >> 16) & 0xff;
-        const g = (rgb >> 8) & 0xff; 
-        const b = (rgb >> 0) & 0xff; 
-        // calculate intensity
-        const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-        return yiq >= 128 ? "black" : "white";
-    };
-
     function hexToRgba(hex, alpha) {
         // Odstraní "#" na začátku, pokud existuje
         let cleanHex = hex.replace('#', '');
@@ -281,8 +270,6 @@ const MainPage = () => {
         return `rgba(${r}, ${g}, ${b}, ${alpha})`; // Použití s průhledností
     }
     
-    
-
     return (
         <div className="main-page-container">
             <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />

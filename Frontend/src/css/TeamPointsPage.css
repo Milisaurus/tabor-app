@@ -24,3 +24,52 @@
 }
 
 
+.checkbox-container-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+.checkbox-container-switch label {
+    display: flex;
+    align-items: center;
+    font-size: 16px; 
+    color: #2C2C2C; 
+    margin-right: 10px; 
+    gap: 30px;
+}
+
+/* Styl pro checkbox pro vybrání všech */
+.checkbox-switch {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #2C2C2C; 
+    background-color: #ffffff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox-switch:checked {
+    background-color: #2C2C2C;
+}
+
+.checkbox-switch::before {
+    content: "✓";
+    color: white; 
+    font-size: 16px;
+    font-weight: bold;
+    display: none;
+    margin-bottom: 2px;
+}
+
+.checkbox-switch:checked::before {
+    display: block;
+}

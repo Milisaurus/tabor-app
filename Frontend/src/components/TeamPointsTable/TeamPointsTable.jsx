@@ -102,22 +102,6 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
 
     return (
         <div className="team-table-container">
-            <div className="select-game-type">
-                <label htmlFor="gameTypeSlider">
-                    Typ bodování: {gameTypeId === 0
-                        ? "Vlastní"
-                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
-                </label>
-                <input
-                    id="gameTypeSlider"
-                    type="range"
-                    min="0"
-                    max={campData.gameTypes.length}
-                    value={gameTypeId}
-                    onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}
-                />
-            </div>
-
             <DragDropContext onDragEnd={handleDragEnd}>
                 <div className="position-buckets">
                     {positionBuckets.map((bucket) => (
@@ -175,6 +159,21 @@ const TeamPointsTable = ({ campData, results, setResults, gameTypeId, setGameTyp
                     ))}
                 </div>
             </DragDropContext>
+            <div className="select-game-type">
+                <label htmlFor="gameTypeSlider">
+                    Typ bodování: {gameTypeId === 0
+                        ? "Vlastní"
+                        : campData.gameTypes[gameTypeId - 1]?.type || ""}
+                </label>
+                <input
+                    id="gameTypeSlider"
+                    type="range"
+                    min="0"
+                    max={campData.gameTypes.length}
+                    value={gameTypeId}
+                    onChange={(e) => setGameTypeId(parseInt(e.target.value, 10))}
+                />
+            </div>
         </div>
     );
 };

@@ -1,10 +1,7 @@
 ## TODO POINTS
-1. individuální body v týmových hrách
 2. udělet znovu seznam her kvůli timestampu a bodům, postupně
 3. Systém na stezku odvahy pro projítí dětí 
 4. rozřaďování děcek do týmů
-
-- týmy můžou skončit na stejném místě
 
 - přepočítávání bodů když je v týmu méně dětí
 

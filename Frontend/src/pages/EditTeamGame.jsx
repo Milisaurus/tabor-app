@@ -9,6 +9,7 @@ import { getCamp, updateCamp } from "../api";
 import SelectDay from "../components/selectDay/selectDay";
 import TeamPointsTable from "../components/TeamPointsTable/TeamPointsTable";
 import Loading from '../components/Loading/Loading';
+import TeamPointsTableGame from "../components/TeamPointsTableGame/TeamPointsTableGame";
 
 import "../css/EditGame.css"
 
@@ -20,6 +21,7 @@ const EditTeamGame = () => {
     const [editedGame, setEditedGame] =useState();      // edited version of selected game
     const navigate = useNavigate();
     const location = useLocation();
+    const [useGamePoints, setGamePoints] = useState(false);
 
     // get name of edited game form URL querry
     const queryParams = new URLSearchParams(location.search);
@@ -102,14 +104,33 @@ const EditTeamGame = () => {
 
                 <SelectDay selectedDay={editedGame.day} onDayChange={(newDay) => handleChange("day", newDay)}/>
 
-                <div style={{width: "100%"}}>
+                <div className="checkbox-container-switch">
+                    <label>
+                        Použít herní body:
+                        <input 
+                            className="checkbox-switch"
+                            type="checkbox" 
+                            checked={useGamePoints} 
+                            onChange={() => setGamePoints(!useGamePoints)}
+                        />
+                    </label>
+                </div>
+
+                {!useGamePoints ? (
                     <TeamPointsTable 
+                    campData={campData} 
+                    results={editedGame.results} 
+                    setResults={(newTeams) => handleChange("results", newTeams)} 
+                    gameTypeId={editedGame.gameTypeId} 
+                    setGameTypeId={(newId) => handleChange("gameTypeId", newId)}/>
+                ) : (
+                    <TeamPointsTableGame 
                         campData={campData} 
                         results={editedGame.results} 
                         setResults={(newTeams) => handleChange("results", newTeams)} 
                         gameTypeId={editedGame.gameTypeId} 
                         setGameTypeId={(newId) => handleChange("gameTypeId", newId)}/>
-                </div>
+                )}
 
                 <button className="submitbutton" type="submit">Potvrdit</button>
 

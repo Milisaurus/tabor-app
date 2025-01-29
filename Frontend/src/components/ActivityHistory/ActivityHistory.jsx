@@ -71,21 +71,29 @@ const ActivityHistory = ({ selectedActivity, campData, closeModal, handleDelete 
                                     <th>Tým</th>
                                     <th>Umístění</th>
                                     <th>Body</th>
+                                    {selectedActivity.results.every(result => result.game_points !== 0) && (
+                                        <th>Herní body</th> // Zobrazení sloupce pro herní body pokud jsou všechny nenulové
+                                    )}
                                 </tr>
                             </thead>
                             <tbody>
-                                {selectedActivity.results.map((result, index) => {
-                                    const team = campData.teams.find(team => team.name === result.team_name);
-                                    const teamColor = team?.color || "#000"; // Default is black
+                                {selectedActivity.results
+                                    .sort((a, b) => a.position - b.position)  // Třídění podle umístění
+                                    .map((result, index) => {
+                                        const team = campData.teams.find(team => team.name === result.team_name);
+                                        const teamColor = team?.color || "#000"; // Default is black
 
-                                    return (
-                                        <tr key={index}>
-                                            <td style={{ color: teamColor }}>{result.team_name}</td>
-                                            <td>{result.position}</td>
-                                            <td>{result.points_awarded}</td>
-                                        </tr>
-                                    );
-                                })}
+                                        return (
+                                            <tr key={index}>
+                                                <td style={{ color: teamColor }}>{result.team_name}</td>
+                                                <td>{result.position}</td>
+                                                <td>{result.points_awarded}</td>
+                                                {selectedActivity.results.every(result => result.game_points !== 0) && (
+                                                    <td>{result.game_points}</td> // Zobrazení herních bodů
+                                                )}
+                                            </tr>
+                                        );
+                                    })}
                             </tbody>
                         </table>
                     </>

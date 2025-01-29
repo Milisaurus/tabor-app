@@ -10,6 +10,7 @@ import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Heading from "../components/Heading/Heading";
 import SelectDay from "../components/selectDay/selectDay";
 import TeamPointsTable from "../components/TeamPointsTable/TeamPointsTable";
+import TeamPointsTableGame from "../components/TeamPointsTableGame/TeamPointsTableGame";
 import Loading from '../components/Loading/Loading';
 
 import "../css/TeamPointsPage.css";
@@ -24,6 +25,7 @@ const TeamPoints = () => {
     const [gameTypeId, setGameTypeId] = useState(0); // holds type of the game, this is used for assigning points
     const [results, setResults] = useState([]);      // holds results of the game
     const [formError, setFormError] = useState("");
+    const [useGamePoints, setGamePoints] = useState(false);
     const navigate = useNavigate();
 
     // fetch camp data
@@ -35,6 +37,7 @@ const TeamPoints = () => {
                     setCampData(data);
                     const initialResults = data.teams.map((team, index) => ({
                         points_awarded: 0,
+                        game_points: 0,
                         position: index + 1,
                         team_name: team.name,
                     }));
@@ -89,6 +92,19 @@ const TeamPoints = () => {
             return;
         }
 
+        
+         // Ověřujeme, zda jsou herní body buď všechny 0, nebo všechny nenulové
+        const gamePoints = results.map(result => result.game_points);
+
+        // Check if all game_points are 0 or all are non-zero
+        const allZero = gamePoints.every(points => points === 0);
+        const allNonZero = gamePoints.every(points => points !== 0);
+
+        if (!(allZero || allNonZero)) {
+            setFormError("Všechny týmy musí mít buď všechny herní body 0, nebo všechny nenulové.");
+            return; // Stop submission
+        }
+
         const hasZeroPoints = results.some(result => result.points_awarded === 0);
         if (hasZeroPoints) {
             setFormError("Každý tým musí mít přidělené body! Zkontrolujte, že žádný tým nemá 0 bodů.");
@@ -104,6 +120,7 @@ const TeamPoints = () => {
                 points_awarded: result.points_awarded,
                 position: result.position,
                 team_name: result.team_name,
+                game_points: result.game_points,
             })),
             timestamp: Date.now(),
         };
@@ -141,7 +158,23 @@ const TeamPoints = () => {
 
                 <SelectDay selectedDay={day} onDayChange={setDay} />
 
-                <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
+                <div className="checkbox-container-switch">
+                    <label>
+                        Použít herní body:
+                        <input 
+                            className="checkbox-switch"
+                            type="checkbox" 
+                            checked={useGamePoints} 
+                            onChange={() => setGamePoints(!useGamePoints)}
+                        />
+                    </label>
+                </div>
+
+                {!useGamePoints ? (
+                    <TeamPointsTable campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
+                ) : (
+                    <TeamPointsTableGame campData={campData} results={results} setResults={setResults} gameTypeId={gameTypeId} setGameTypeId={setGameTypeId}/>
+                )}
 
                 {/* Display error message if any */}
                 {formError && (
