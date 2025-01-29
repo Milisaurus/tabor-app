@@ -1,6 +1,6 @@
 /* Container for the entire component */
 .member_selector {
-    width: 85%;
+    width: 90%;
     margin: 20px auto;
     border-radius: 8px;
     box-sizing: border-box;
@@ -95,8 +95,7 @@
 
 @media (max-width: 500px) {
     .child-item {
-        height: 20px;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     /* Team header */
