@@ -124,7 +124,16 @@ const IndividualPoints = () => {
 
                 <div className="number-of-points-input">
                     <label>Počet udělených bodů</label>
-                    <input type="number" value={points} onChange={(e) => {setPoints(e.target.value)}} min={0} required placeholder="Počet bodů"/>
+                    <input 
+                    type="number" 
+                    value={points} 
+                    onChange={(e) => {setPoints(e.target.value)}} 
+                    min={0} 
+                    required 
+                    placeholder="Počet bodů"
+                    inputMode="numeric"
+                    onInput={(e) => {e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
+                    />
                 </div>
 
                 <SelectCampMembers campData={campData} participants={participants} onSelectionChange={setParticipants} oddEvenSelection={oddEvenSelection}

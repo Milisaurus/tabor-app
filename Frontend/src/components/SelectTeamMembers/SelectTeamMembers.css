@@ -188,15 +188,15 @@
         transition: background-color 0.3s ease;
     }
     .team-header label{
-        font-size: 10px;
+        font-size: 11px;
     }
     .custom-checkbox {
-        width: 28px;
-        height: 28px;
+        width: 25px;
+        height: 25px;
     }
 
     .custom-checkbox-odd-even {
-        width: 28px;
-        height: 28px;
+        width: 25px;
+        height: 25px;
     }
 }
