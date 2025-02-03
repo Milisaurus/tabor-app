@@ -15,6 +15,14 @@
     margin-bottom: 20px;
 }
 
+.table-competition-table-container {
+    display: block;
+    width: 100%;
+    margin: 0 auto; 
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .table-competition-table {
     width: 500px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -24,6 +32,7 @@
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid #ccc;
+    margin: 0 auto;
 }
 
 .header-competition-table,
@@ -146,7 +155,7 @@
     }
     .header-competition-table,
     .row-header-competition-table {
-        font-size: 12px;
+        font-size: 14px;
         padding: 8px;
     }
     .cell-competition-table {
@@ -154,7 +163,6 @@
     }
     .table-competition-table {
         max-width: 90%;
-        min-width: 300px
     }
     .results-competition-table {
         padding: 10px 10px 0px 10px;

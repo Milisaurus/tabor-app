@@ -187,67 +187,68 @@ const CompetitionTablePage = () => {
                     </div>
                 </div>
             )}
-    
-            <table className="table-competition-table">
-                <thead>
-                    <tr>
-                        <th className="header-competition-table"></th>
-                        {teams.map(team => (
-                            <th key={team.name} className="header-competition-table" style={{ color: team.color }}>
-                                {team.name}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {teams.map((team1, rowIndex) => (
-                        <tr key={team1.name}>
-                            <td className="row-header-competition-table" style={{ color: team1.color }}>
-                                {team1.name}
-                            </td>
-                            {teams.map((team2, colIndex) => {
-                                const isAboveDiagonal = rowIndex < colIndex;
-                                const isSameTeam = team1.name === team2.name;
-                                const matchKey = `${team1.name}-${team2.name}`;
-                                const matchResult = matchResults[matchKey];
-    
-                                const handleClick = isSameTeam || isAboveDiagonal ? () => {} : () => handleResultClick(team1.name, team2.name);
-    
-                                // Zjištění, zda se jedná o aktuální zápas
-                                const isCurrentMatch =
-                                    (schedule[currentMatchIndex] && schedule[currentMatchIndex][0] === team1.name &&
-                                        schedule[currentMatchIndex][1] === team2.name) ||
-                                    (schedule[currentMatchIndex] && schedule[currentMatchIndex][1] === team1.name &&
-                                        schedule[currentMatchIndex][0] === team2.name);
-    
-                                return (
-                                    <td
-                                        key={matchKey}
-                                        className={`cell-competition-table ${matchResult === team1.name ? "winner-competition-table" : ""}`}
-                                        style={{
-                                            backgroundColor:
-                                                matchResult === team1.name
-                                                    ? team1.color
-                                                    : matchResult === team2.name
-                                                    ? team2.color
-                                                    : isSameTeam
-                                                    ? "#f0f0f0"
-                                                    : isAboveDiagonal
-                                                    ? "#f0f0f0"
-                                                    : isCurrentMatch
-                                                    ? "#ffff99" 
-                                                    : "white"
-                                        }}
-                                        onClick={handleClick}
-                                    >
-                                        {isSameTeam ? "" : ""}
-                                    </td>
-                                );
-                            })}
+            <div className="table-competition-table-container">
+                <table className="table-competition-table">
+                    <thead>
+                        <tr>
+                            <th className="header-competition-table"></th>
+                            {teams.map(team => (
+                                <th key={team.name} className="header-competition-table" style={{ color: team.color }}>
+                                    {team.name}
+                                </th>
+                            ))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {teams.map((team1, rowIndex) => (
+                            <tr key={team1.name}>
+                                <td className="row-header-competition-table" style={{ color: team1.color }}>
+                                    {team1.name}
+                                </td>
+                                {teams.map((team2, colIndex) => {
+                                    const isAboveDiagonal = rowIndex < colIndex;
+                                    const isSameTeam = team1.name === team2.name;
+                                    const matchKey = `${team1.name}-${team2.name}`;
+                                    const matchResult = matchResults[matchKey];
+        
+                                    const handleClick = isSameTeam || isAboveDiagonal ? () => {} : () => handleResultClick(team1.name, team2.name);
+        
+                                    // Zjištění, zda se jedná o aktuální zápas
+                                    const isCurrentMatch =
+                                        (schedule[currentMatchIndex] && schedule[currentMatchIndex][0] === team1.name &&
+                                            schedule[currentMatchIndex][1] === team2.name) ||
+                                        (schedule[currentMatchIndex] && schedule[currentMatchIndex][1] === team1.name &&
+                                            schedule[currentMatchIndex][0] === team2.name);
+        
+                                    return (
+                                        <td
+                                            key={matchKey}
+                                            className={`cell-competition-table ${matchResult === team1.name ? "winner-competition-table" : ""}`}
+                                            style={{
+                                                backgroundColor:
+                                                    matchResult === team1.name
+                                                        ? team1.color
+                                                        : matchResult === team2.name
+                                                        ? team2.color
+                                                        : isSameTeam
+                                                        ? "#f0f0f0"
+                                                        : isAboveDiagonal
+                                                        ? "#f0f0f0"
+                                                        : isCurrentMatch
+                                                        ? "#ffff99" 
+                                                        : "white"
+                                            }}
+                                            onClick={handleClick}
+                                        >
+                                            {isSameTeam ? "" : ""}
+                                        </td>
+                                    );
+                                })}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             {/* Výsledky týmů */}
             <div className="results-competition-table">
                 <h3>Výsledky:</h3>
