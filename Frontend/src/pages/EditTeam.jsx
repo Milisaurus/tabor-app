@@ -204,22 +204,6 @@ const EditTeam = () => {
             <NavbarButtons />
             <Heading text="Úprava informací o týmech" level={1} className="nadpish1" />
 
-            <Link to="/odd-even">
-            <div style={{ textDecoration: 'none', marginBottom: '15px' }}>
-                <button className="graph-button">
-                    Přiřazení sudých / lichých
-                </button>
-            </div>
-            </Link>
-
-            <Link to="/competition-table">
-            <div style={{ textDecoration: 'none', marginBottom: '15px' }}>
-                <button className="graph-button">
-                    Soutěžní tabulka
-                </button>
-            </div>
-            </Link>
-
             <div className="teamSelect">
                 <label htmlFor="team-select">Vyber tým:</label>
                 <select

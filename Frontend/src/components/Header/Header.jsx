@@ -27,12 +27,18 @@ const Header = ({ goBackLink, editLink1, editLink2,
             {/* Show the right icons only if showIconsRight is true */}
             {showIconsRight ? (
                 <div className="right-icons">
-                    <Link to={editLink1}>
-                        <img src="/edit-teams-button.png" alt="Editovat týmy" title="Klikněte pro úpravu týmů"/>
-                    </Link>
-                    {/* <Link to={editLink2}>
-                        <img src="/edit-points-button.png" alt="Editovat typ bodování her" title="Klikněte editaci typu bodování her"/>
-                    </Link> */}
+                    {/* Dropdown for multiple links */}
+                    <div className="dropdown">
+                        <button className="dropbtn">
+                            <img src="/drop-down.png" alt="Editovat týmy" title="Klikněte pro úpravu týmů" />
+                        </button>
+                        <div className="dropdown-content">
+                            <Link to={"/edit-teams"}>Editovat týmy</Link>
+                            <Link to={"/odd-even"}>Přiřazení sudých/lichých</Link>
+                            <Link to={"/competition-table"}>Soutěžní tabulka</Link>
+                            {/* Přidej další odkazy podle potřeby */}
+                        </div>
+                    </div>
                 </div>
             ) : (
                 <div className="right-icons" style={{ visibility: 'hidden' }}>
