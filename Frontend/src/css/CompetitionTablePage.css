@@ -154,6 +154,7 @@
     }
     .table-competition-table {
         max-width: 90%;
+        min-width: 300px
     }
     .results-competition-table {
         padding: 10px 10px 0px 10px;
