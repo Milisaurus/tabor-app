@@ -212,6 +212,14 @@ const EditTeam = () => {
             </div>
             </Link>
 
+            <Link to="/competition-table">
+            <div style={{ textDecoration: 'none', marginBottom: '15px' }}>
+                <button className="graph-button">
+                    Soutěžní tabulka
+                </button>
+            </div>
+            </Link>
+
             <div className="teamSelect">
                 <label htmlFor="team-select">Vyber tým:</label>
                 <select

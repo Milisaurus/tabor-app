@@ -2,13 +2,13 @@
 
 
 - Systém na stezku odvahy pro projítí dětí 
-- rozřaďování děcek do týmů
+- systém pro želvy/lišky - vyhazování týmů
+
 - vytvořit drop-down menu pro další funkcionality - editace týmů, rozdělování do sudých/lichých, systém pro stezku odvahy, 
 ---
 
 MOŽNÁ
+- rozřaďování děcek do týmů
 - seznam (DB) her
 - přepočítávání bodů "dobře" podle procent
-- systém pro želvy/lišky - vyhazování týmů
 - psaní poznámek ke hrám
-- přepočítávání bodů když je v týmu méně dětí
