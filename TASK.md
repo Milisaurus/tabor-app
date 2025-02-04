@@ -4,7 +4,7 @@
 - Systém na stezku odvahy pro projítí dětí 
 - systém pro želvy/lišky - vyhazování týmů
 
-- vytvořit drop-down menu pro další funkcionality - editace týmů, rozdělování do sudých/lichých, systém pro stezku odvahy, 
+- vytvořit drop-down menu pro další funkcionality - editace týmů, rozdělování do sudých/lichých, systém pro stezku odvahy, dodělat
 ---
 
 MOŽNÁ
