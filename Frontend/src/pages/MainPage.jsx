@@ -427,7 +427,6 @@ const MainPage = () => {
                     handleDelete={handleDelete}
                 />
             )}
-
         </div>
     );
 };

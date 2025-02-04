@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+.custom-dropdown-container {
+  position: relative;
+  max-width: 100%;
+  text-align: center;
+  z-index: 200;
+}
+
+.custom-dropdown-checkbox:checked,
+.custom-dropdown-checkbox:not(:checked) {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom-dropdown-label {
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: none; /* Odstranění žlutého pozadí */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Přizpůsob velikosti ikony */
+  height: 50px;
+  padding: 5px;
+}
+
+.custom-dropdown-label img {
+  width: 28px; /* Přizpůsob velikosti ikony */
+  height: auto;
+  transition: transform 200ms linear;
+  transform: rotate(180deg);
+}
+
+.custom-dropdown-checkbox:checked + .custom-dropdown-label img {
+  transform: rotate(0deg);
+}
+
+.custom-dropdown-content {
+  align-items: center;
+  position: absolute;
+  padding: 5px;
+  justify-content: space-between;
+  background-color: #2C2C2C;
+  top: 70px;
+  right: 0;
+  width: 255px;
+  border-radius: 4px;
+  display: block;
+  box-shadow: 0 14px 35px 0 rgba(9,9,12,0.4);
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all 200ms linear;
+}
+
+.custom-dropdown-checkbox:checked ~ .custom-dropdown-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.custom-dropdown-content:after {
+  position: absolute;
+  top: -7px;
+  right: 22px;
+  width: 0; 
+  height: 0; 
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent; 
+  border-bottom: 8px solid #2C2C2C;
+  content: '';
+  display: block;
+  z-index: 2;
+  transition: all 200ms linear;
+}
+
+    .custom-dropdown-content a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .custom-dropdown-content a:last-child {
+    border-bottom: none; 
+    }
+
+    .custom-dropdown-content a:hover {
+    color: #2C2C2C;
+    background-color: #F8F9FA;
+    }
+  
+  .custom-dropdown-content a > span {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+.custom-dropdown-content a:hover {
+  color: #2C2C2C;
+  background-color: #F8F9FA;
+}
+
+.custom-dropdown-content a .uil {
+  font-size: 22px;
+}
+
+  

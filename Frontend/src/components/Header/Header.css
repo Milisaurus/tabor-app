@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   width: 90%;
+  height: 55px;
   margin: 0 auto;
   border-bottom: 2px solid #2C2C2C;
 }
@@ -24,12 +25,21 @@
   margin-bottom: -10px;
 }
 
+.left-icon {
+  margin-bottom: -5px;
+  transition: transform 0.3s ease;
+}
+
+.left-icon:hover {
+  transform: scale(1.07);
+}
+
 .app-name {
   font-family: 'Inknut Antiqua', sans-serif;
   font-size: 28px;
   font-weight: bold;
   color: #2C2C2C;
-  margin: -5px;
+  margin-bottom: 15px;
   text-align: center;
   flex-grow: 1;
   display: flex;
@@ -41,7 +51,6 @@ header a {
   color: inherit;
 }
 
-/* Styly pro dropdown */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -57,11 +66,11 @@ header a {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  width: 225px; /* Šířka menu */
+  width: 200px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  right: 100%; /* Menu se zobrazí vlevo od tlačítka */
-  top: 0;
+  right: 0;
+  top: 100%;
 }
 
 .dropdown:hover .dropdown-content {
@@ -69,18 +78,17 @@ header a {
 }
 
 .dropdown-content a {
-  color: #2C2C2C;
+  color: black;
   padding: 12px 16px;
-  font-weight: bold;
   text-decoration: none;
   display: block;
   border-bottom: 1px solid #ddd; /* Čára pod každou položkou */
 }
 
-.dropdown-content a:hover {
-  background-color: #2C2C2C15;
+.dropdown-content a:last-child {
+  border-bottom: none; /* Odstraní čáru u poslední položky */
 }
 
-.dropdown-content a:last-child {
-  border-bottom: none; 
+.dropdown-content a:hover {
+  background-color: #ddd;
 }

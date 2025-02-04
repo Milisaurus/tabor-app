@@ -2,6 +2,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import DropDownMenu from '../DropDownMenu/DropDownMenu';
+
 
 const Header = ({ goBackLink, editLink1, editLink2, 
                 showIconsLeft = true, showIconsRight = true}) => {
@@ -11,7 +13,7 @@ const Header = ({ goBackLink, editLink1, editLink2,
             {showIconsLeft ? (
                 <div className="left-icon" title="Zpět na úvodní stránku">
                     <Link to={goBackLink} className="icon-button left-icon">
-                        <img src="/back-button.png" alt="Zpět" />
+                        <img src="/back.png" alt="Zpět" />
                     </Link>
                 </div>
             ) : (
@@ -27,18 +29,7 @@ const Header = ({ goBackLink, editLink1, editLink2,
             {/* Show the right icons only if showIconsRight is true */}
             {showIconsRight ? (
                 <div className="right-icons">
-                    {/* Dropdown for multiple links */}
-                    <div className="dropdown">
-                        <button className="dropbtn">
-                            <img src="/drop-down.png" alt="Editovat týmy" title="Klikněte pro úpravu týmů" />
-                        </button>
-                        <div className="dropdown-content">
-                            <Link to={"/edit-teams"}>Editovat týmy</Link>
-                            <Link to={"/odd-even"}>Přiřazení sudých/lichých</Link>
-                            <Link to={"/competition-table"}>Soutěžní tabulka</Link>
-                            {/* Přidej další odkazy podle potřeby */}
-                        </div>
-                    </div>
+                    <DropDownMenu/>
                 </div>
             ) : (
                 <div className="right-icons" style={{ visibility: 'hidden' }}>
