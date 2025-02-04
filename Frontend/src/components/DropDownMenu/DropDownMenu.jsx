@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import "./DropDownMenu.css";
 
 const DropDownMenu = () => {
+    const dropdownRef = useRef(null); // Create a reference to the dropdown container
+
+    useEffect(() => {
+        // Function to close the dropdown if clicked outside
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                const checkbox = document.getElementById('custom-dropdown');
+                if (checkbox) {
+                    checkbox.checked = false; // Uncheck the checkbox to close the dropdown
+                }
+            }
+        };
+
+        // Add event listener for clicks
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Clean up the event listener when the component unmounts
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="custom-dropdown-container">
+        <div className="custom-dropdown-container" ref={dropdownRef}>
             <input
                 className="custom-dropdown-checkbox"
                 type="checkbox"
