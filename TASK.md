@@ -4,7 +4,7 @@
 - Systém na stezku odvahy pro projítí dětí 
 - systém pro želvy/lišky - vyhazování týmů
 - úprava bodování
-
+- rework celýho projektu
 ---
 
 MOŽNÁ
