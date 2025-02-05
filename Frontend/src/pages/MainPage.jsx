@@ -276,6 +276,10 @@ const MainPage = () => {
                 <Heading text="Sledování bodového postupu" level={1} className="nadpish1" />
                 <h3 className="nadpish3">{campData.campName}</h3>
                 <div className="camp-results-table-container">
+                    <div style={{ display: "flex", justifyContent: "center", 
+                        alignItems: "center", marginTop: "10px", marginBottom: "-20px"}}>
+                        <img style={{ width: "70px", height: "70px" }} className='cat' src='cat.png' />
+                    </div>
                     <table className="camp-results-table">
                         <thead>
                             <tr className="header-row">

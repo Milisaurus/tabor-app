@@ -31,7 +31,6 @@ const Header = ({ goBackLink, showIconsLeft = true, showIconsRight = true}) => {
             {/* Show the right icons only if showIconsRight is true */}
             {showIconsRight ? (
                 <div className="right-icon" title="Další možnosti">
-                    <img className='cat' src='cat.png'></img>
                     <DropDownMenu/>
                 </div>
             ) : (

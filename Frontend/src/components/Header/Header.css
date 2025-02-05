@@ -40,7 +40,6 @@
     font-weight: bold;
     color: var(--primaryColor);
     margin-bottom: 15px;
-    margin-left: 60px;
     text-align: center;
     flex-grow: 1;
     display: flex;
@@ -96,21 +95,5 @@ header a {
 }
 
 .dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.right-icon img {
-    width: 50px;
-    height: 50px;
-}
-
-@media (max-width: 480px) {
-    .right-icon img {
-        width: 20px;
-        height: 20px;
-    }
-    .cat {
-        margin-top: 30px;
-        margin-left: 20px;
-    }
+  background-color: #ddd;
 }
