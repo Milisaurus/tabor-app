@@ -98,6 +98,13 @@ const EditGameTypePointsPage = () => {
         }
     };
 
+    const handleDeleteGameType = (gameTypeIndex) => {
+        const updatedCampData = { ...campData };
+        updatedCampData.gameTypes.splice(gameTypeIndex, 1); // Odstraní bodovací typ na daném indexu
+        setCampData(updatedCampData);
+    };
+    
+
     if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
     if (!campData) return <div>No camp data available.</div>;
@@ -110,37 +117,50 @@ const EditGameTypePointsPage = () => {
             
             <div className="game-types-list">
                 {campData.gameTypes.map((gameType, gameTypeIndex) => (
-                    <div key={gameTypeIndex} className="game-type-section">
-                        <h3 
-                            onDoubleClick={() => gameTypeIndex >= 3 && handleDoubleClick(gameTypeIndex, gameType.type)}
-                        >
-                            {editingIndex === gameTypeIndex ? (
-                                <input
-                                    type="text"
-                                    className="editable-input"
-                                    value={newGameTypeName}
-                                    onChange={handleNameChange}
-                                    onBlur={() => handleNameBlur(gameTypeIndex)}
-                                    autoFocus
-                                />
-                            ) : (
-                                gameType.type
-                            )}
-                        </h3>
-                        <div className="point-scheme">
-                            {gameType.point_scheme.map((points, pointIndex) => (
-                                <input
-                                    key={pointIndex}
-                                    min={1} 
-                                    inputMode="numeric"
-                                    onInput={(e) => {e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
-                                    type="number"
-                                    value={points}
-                                    onChange={(e) => handlePointChange(gameTypeIndex, pointIndex, e.target.value)}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                   <div key={gameTypeIndex} className="game-type-section">
+                    <h3 
+                        onDoubleClick={() => gameTypeIndex >= 3 && handleDoubleClick(gameTypeIndex, gameType.type)}
+                    >
+                        {editingIndex === gameTypeIndex ? (
+                            <input
+                                type="text"
+                                className="editable-input"
+                                value={newGameTypeName}
+                                onChange={handleNameChange}
+                                onBlur={() => handleNameBlur(gameTypeIndex)}
+                                autoFocus
+                                maxLength="20"
+                            />
+                        ) : (
+                            <>
+                                {gameType.type}
+                                {/* Only show delete icon for user-created game types (index >= 3) */}
+                                {gameTypeIndex >= 3 && (
+                                    <img 
+                                        src="./recycle-bin.png" 
+                                        alt="Delete" 
+                                        className="delete-icon" 
+                                        onClick={() => handleDeleteGameType(gameTypeIndex)}
+                                    />
+                                )}
+                            </>
+                        )}
+                    </h3>
+                    <div className="point-scheme">
+                       {gameType.point_scheme.map((points, pointIndex) => (
+                           <input
+                               key={pointIndex}
+                               min={1}
+                               inputMode="decimal"
+                               onInput={(e) => {e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
+                               type="number"
+                               value={points}
+                               onChange={(e) => handlePointChange(gameTypeIndex, pointIndex, e.target.value)}
+                           />
+                       ))}
+                   </div>
+               </div>
+               
                 ))}
                 {/* Přidání nového bodového schématu */}
                 <div className="add-game-type">
