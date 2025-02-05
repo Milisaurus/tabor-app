@@ -12,7 +12,10 @@ import "../css/EditGameTypePointsPage.css";
 const EditGameTypePointsPage = () => {
     const [loading, setLoading] = useState(true);
     const [campData, setCampData] = useState(null);
+    const [originalCampData, setOriginalCampData] = useState(null); 
     const [error, setError] = useState(null);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [newGameTypeName, setNewGameTypeName] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,6 +24,7 @@ const EditGameTypePointsPage = () => {
                 const campData = await getCamp();
                 if (campData) {
                     setCampData(campData);
+                    setOriginalCampData(JSON.stringify(campData)); 
                 } else {
                     setError("Camp data not found.");
                 }
@@ -37,17 +41,59 @@ const EditGameTypePointsPage = () => {
         fetchCampData();
     }, [navigate]);
 
+    const handleDoubleClick = (index, currentName) => {
+        setEditingIndex(index);
+        setNewGameTypeName(currentName);
+    };
+
+    const handleNameChange = (event) => {
+        setNewGameTypeName(event.target.value);
+    };
+
+    const handleNameBlur = (gameTypeIndex) => {
+        if (newGameTypeName.trim() === "") {
+            setEditingIndex(null);
+            return;
+        }
+
+        const updatedCampData = { ...campData };
+        updatedCampData.gameTypes[gameTypeIndex].type = newGameTypeName;
+        setCampData(updatedCampData);
+        setEditingIndex(null);
+    };
+
+
     const handlePointChange = (gameTypeIndex, pointIndex, newValue) => {
         const updatedCampData = { ...campData };
         updatedCampData.gameTypes[gameTypeIndex].point_scheme[pointIndex] = Number(newValue);
         setCampData(updatedCampData);
     };
 
+    const addNewGameType = () => {
+        if (!campData) return;
+        
+        const newGameType = {
+            type: "Nový typ hry",
+            point_scheme: new Array(campData.teamCount).fill(1), // Naplní pole jedničkami dle počtu týmů
+        };
+
+        setCampData({
+            ...campData,
+            gameTypes: [...campData.gameTypes, newGameType],
+        });
+    };
+
     const saveChanges = async () => {
+        if (JSON.stringify(campData) === originalCampData) {
+            alert("Žádné změny nebyly provedeny.");
+            return;
+        }
+
         try {
-            await updateCamp(campData);
-            alert("Změny byly úspěšně uloženy.");
+            await updateCamp(JSON.stringify(campData));
+            navigate("/main-page");
         } catch (err) {
+            console.error("Chyba při ukládání:", err);
             alert("Chyba při ukládání: " + err.message);
         }
     };
@@ -57,18 +103,37 @@ const EditGameTypePointsPage = () => {
     if (!campData) return <div>No camp data available.</div>;
 
     return (
-        <div className="edit-game-type-points-container">
+        <div>
             <Header goBackLink="/main-page" />
             <NavbarButtons />
-            <Heading text="Editace bodových schémat" level={1} className="nadpish1" />
+            <Heading text="Úpravy bodových schémat" level={1} className="nadpish1" />
+            
             <div className="game-types-list">
                 {campData.gameTypes.map((gameType, gameTypeIndex) => (
                     <div key={gameTypeIndex} className="game-type-section">
-                        <h2>{gameType.type}</h2>
+                        <h3 
+                            onDoubleClick={() => gameTypeIndex >= 3 && handleDoubleClick(gameTypeIndex, gameType.type)}
+                        >
+                            {editingIndex === gameTypeIndex ? (
+                                <input
+                                    type="text"
+                                    className="editable-input"
+                                    value={newGameTypeName}
+                                    onChange={handleNameChange}
+                                    onBlur={() => handleNameBlur(gameTypeIndex)}
+                                    autoFocus
+                                />
+                            ) : (
+                                gameType.type
+                            )}
+                        </h3>
                         <div className="point-scheme">
                             {gameType.point_scheme.map((points, pointIndex) => (
                                 <input
                                     key={pointIndex}
+                                    min={1} 
+                                    inputMode="numeric"
+                                    onInput={(e) => {e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
                                     type="number"
                                     value={points}
                                     onChange={(e) => handlePointChange(gameTypeIndex, pointIndex, e.target.value)}
@@ -77,8 +142,15 @@ const EditGameTypePointsPage = () => {
                         </div>
                     </div>
                 ))}
+                {/* Přidání nového bodového schématu */}
+                <div className="add-game-type">
+                    <img src="plus.png" alt="Přidat nový typ hry" onClick={addNewGameType} className="add-game-type-icon" />
+                </div>
             </div>
-            <button onClick={saveChanges} className="save-button">Uložit změny</button>
+
+            <div className="save-button-edit-schemes-container">
+                <button onClick={saveChanges} className="save-button-edit-schemes">Uložit</button>
+            </div>
         </div>
     );
 };

@@ -76,7 +76,7 @@ const OddEvenPage = () => {
             navigate("/main-page");
         } catch (error) {
             console.error(error);
-            alert("Error saving assignments.");
+            alert("Chyba při ukládání: " + err.message);
         }
     };
 
