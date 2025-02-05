@@ -74,15 +74,18 @@ const EditGameTypePointsPage = () => {
         
         const newGameType = {
             type: "Nový typ hry",
-            point_scheme: new Array(campData.teamCount).fill(1), // Naplní pole jedničkami dle počtu týmů
+            point_scheme: new Array(campData.teamCount).fill(1),
         };
-
+    
         setCampData({
             ...campData,
-            gameTypes: [...campData.gameTypes, newGameType],
+            gameTypes: [
+                ...campData.gameTypes,
+                { ...newGameType, id: Date.now() }, 
+            ],
         });
     };
-
+    
     const saveChanges = async () => {
         if (JSON.stringify(campData) === originalCampData) {
             alert("Žádné změny nebyly provedeny.");
@@ -98,12 +101,34 @@ const EditGameTypePointsPage = () => {
         }
     };
 
-    const handleDeleteGameType = (gameTypeIndex) => {
-        const updatedCampData = { ...campData };
-        updatedCampData.gameTypes.splice(gameTypeIndex, 1); // Odstraní bodovací typ na daném indexu
-        setCampData(updatedCampData);
+    const handleDeleteGameType = (index) => {
+        const updatedGameTypes = [...campData.gameTypes];
+        const gameTypeToDelete = updatedGameTypes[index];
+    
+        // Mark game type as deleting for animation
+        updatedGameTypes[index] = { ...gameTypeToDelete, deleting: true };
+    
+        setCampData((prevState) => ({
+            ...prevState,
+            gameTypes: updatedGameTypes,
+        }));
+    
+        setTimeout(() => {
+            setCampData((prevState) => ({
+                ...prevState,
+                gameTypes: prevState.gameTypes.filter((_, idx) => idx !== index),
+            }));
+        }, 600); // Allow for animation to finish
     };
     
+    
+    setTimeout(() => {
+        setCampData({
+            ...campData,
+            gameTypes: updatedGameTypes.filter((_, idx) => idx !== index),
+        });
+    }, 800); // Slightly longer timeout to accommodate the animation
+        
 
     if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
@@ -116,55 +141,59 @@ const EditGameTypePointsPage = () => {
             <Heading text="Úpravy bodových schémat" level={1} className="nadpish1" />
             
             <div className="game-types-list">
+                <span className="scheme-description">
+                    Vstupní pole jsou seřazena od 1. místa po poslední, zleva doprava.
+                </span>
                 {campData.gameTypes.map((gameType, gameTypeIndex) => (
-                   <div key={gameTypeIndex} className="game-type-section">
-                    <h3 
-                        onDoubleClick={() => gameTypeIndex >= 3 && handleDoubleClick(gameTypeIndex, gameType.type)}
+                    <div
+                        key={gameType.id || gameTypeIndex}
+                        id={`game-type-section-${gameTypeIndex}`}
+                        className={`game-type-section ${gameType.deleting ? "deleting" : ""}`}
+                        data-new={gameType.id ? "true" : "false"}
                     >
-                        {editingIndex === gameTypeIndex ? (
-                            <input
-                                type="text"
-                                className="editable-input"
-                                value={newGameTypeName}
-                                onChange={handleNameChange}
-                                onBlur={() => handleNameBlur(gameTypeIndex)}
-                                autoFocus
-                                maxLength="20"
-                            />
-                        ) : (
-                            <>
-                                {gameType.type}
-                                {/* Only show delete icon for user-created game types (index >= 3) */}
-                                {gameTypeIndex >= 3 && (
-                                    <img 
-                                        src="./recycle-bin.png" 
-                                        alt="Delete" 
-                                        className="delete-icon" 
-                                        onClick={() => handleDeleteGameType(gameTypeIndex)}
-                                    />
-                                )}
-                            </>
-                        )}
-                    </h3>
-                    <div className="point-scheme">
-                       {gameType.point_scheme.map((points, pointIndex) => (
-                           <input
-                               key={pointIndex}
-                               min={1}
-                               inputMode="decimal"
-                               onInput={(e) => {e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
-                               type="text"
-                               value={points}
-                               onChange={(e) => handlePointChange(gameTypeIndex, pointIndex, e.target.value)}
-                           />
-                       ))}
-                   </div>
-               </div>
-               
+                        <h3 onDoubleClick={() => gameTypeIndex >= 3 && handleDoubleClick(gameTypeIndex, gameType.type)}>
+                            {editingIndex === gameTypeIndex ? (
+                                <input
+                                    type="text"
+                                    className="editable-input"
+                                    value={newGameTypeName}
+                                    onChange={handleNameChange}
+                                    onBlur={() => handleNameBlur(gameTypeIndex)}
+                                    autoFocus
+                                    maxLength="20"
+                                />
+                            ) : (
+                                <>
+                                    {gameType.type}
+                                    {gameTypeIndex >= 3 && (
+                                        <img
+                                            src="./recycle-bin.png"
+                                            alt="Delete"
+                                            className="delete-icon"
+                                            onClick={() => handleDeleteGameType(gameTypeIndex)}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </h3>
+                        <div className="point-scheme">
+                            {gameType.point_scheme.map((points, pointIndex) => (
+                                <input
+                                    key={pointIndex}
+                                    min={1}
+                                    inputMode="numeric"
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
+                                    type="number"
+                                    value={points}
+                                    onChange={(e) => handlePointChange(gameTypeIndex, pointIndex, e.target.value)}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 ))}
-                {/* Přidání nového bodového schématu */}
                 <div className="add-game-type">
-                    <img src="plus.png" alt="Přidat nový typ hry" onClick={addNewGameType} className="add-game-type-icon" />
+                    <img src="plus.png" alt="Přidat nový typ hry" onClick={addNewGameType} 
+                        className="add-game-type-icon" />
                 </div>
             </div>
 
