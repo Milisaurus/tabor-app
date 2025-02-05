@@ -1,5 +1,5 @@
 .navbar-buttons .nav-button {
-    background-color: #2C2C2C;
+    background-color: var(--primaryColor);
     color: #fff;
     border: none;
     padding: 15px 25px;

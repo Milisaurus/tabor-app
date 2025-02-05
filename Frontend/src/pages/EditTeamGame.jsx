@@ -1,5 +1,3 @@
-// Author Jan Juračka <xjurac07>
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -93,7 +91,7 @@ const EditTeamGame = () => {
 
     return(
         <div className="edit-team-games-page" onSubmit={handleSubmit}>
-            <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2="#" showIcons="true" />
+            <Header goBackLink="/main-page"/>
             <NavbarButtons />
             <Heading text="Úprava týmové hry" level={1} className="nadpish1" />
             <form onSubmit={handleSubmit} className="edit-game-form">

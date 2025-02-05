@@ -21,7 +21,7 @@
 }
 
 .linkbutton {
-    background-color: #2C2C2C;
+    background-color: var(--primaryColor);
     color: #fff;
     border: none;
     padding: 20px;
@@ -46,7 +46,7 @@
   }
   
   .linkbuttonSmall {
-    background-color: #2C2C2C;
+    background-color: var(--primaryColor);
     color: #fff;
     border: none;
     font-size: 16px;

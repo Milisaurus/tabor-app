@@ -1,5 +1,3 @@
-// Author Milan Vrbas <xvrbas01>
-
 import React, { useState, useEffect } from "react";
 import { getCamp, updateTeam } from "../api";
 import { useNavigate, Link } from "react-router-dom";
@@ -200,7 +198,7 @@ const EditTeam = () => {
 
     return (
         <div className="create-camp-container">
-            <Header goBackLink="/" editLink1="/edit-teams" editLink2="#" />
+            <Header goBackLink="/main-page"/>
             <NavbarButtons />
             <Heading text="Úprava informací o týmech" level={1} className="nadpish1" />
 

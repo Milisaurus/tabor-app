@@ -1,5 +1,3 @@
-// Author Milan Vrbas <xvrbas01>
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateCamp, addGameTypes } from "../api";
@@ -138,7 +136,7 @@ const CreateCamp = () => {
     return (
         <div className="create-camp-container">
             
-            <Header goBackLink="/" editLink1={"#"} editLink2={"#"} showIconsRight={false}/>
+            <Header goBackLink="/" showIconsRight={false}/>
             <Heading text="Tvorba Tábora" level={1} className="nadpish1" />
 
             <form onSubmit={handleSubmit}>

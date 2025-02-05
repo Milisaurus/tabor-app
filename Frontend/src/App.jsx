@@ -13,6 +13,7 @@ import EditTeamGame from "./pages/EditTeamGame";
 import EditIndividualActivity from "./pages/EditIndividualGame";
 import OddEvenPage from "./pages/OddEvenPage";
 import CompetitionTablePage from "./pages/CompetitionTablePage";
+import EditGameTypePointsPage from "./pages/EditGameTypePointsPage";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/edit-individual-activity" element={<EditIndividualActivity/>}/>
                 <Route path="/odd-even" element={<OddEvenPage/>}/>
                 <Route path="/competition-table" element={<CompetitionTablePage/>}/>
+                <Route path="/edit-game-type-points" element={<EditGameTypePointsPage/>}/>
             </Routes>
         </Router>
     );

@@ -127,7 +127,7 @@ const EditIndividualActivity = () => {
 
     return(
         <div className="edit-individual-activity-page">
-            <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2="#" showIcons="true" />
+            <Header goBackLink="/main-page"/>
             <NavbarButtons/>
             <Heading text="Úprava individuální aktivity" level={1} className="nadpish1" />
 

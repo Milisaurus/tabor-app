@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Loading.css'; // Připojení CSS souboru
+import './Loading.css';
 
 const Loader = () => {
   const [dots, setDots] = useState('');
@@ -13,9 +13,9 @@ const Loader = () => {
           return '';
         }
       });
-    }, 300); // Změna každých 500 ms
+    }, 300); 
 
-    return () => clearInterval(interval); // Vyčištění při odmountování komponenty
+    return () => clearInterval(interval);
   }, []);
 
   return (

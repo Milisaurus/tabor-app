@@ -99,7 +99,7 @@ const OddEvenPage = () => {
 
     return (
         <div>
-            <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />
+            <Header goBackLink="/"/>
             <NavbarButtons />
             <Heading text="Přiřazení dětí do suchých a lichých" level={1} className="nadpish1" />
             <div className="assign-groups-container">

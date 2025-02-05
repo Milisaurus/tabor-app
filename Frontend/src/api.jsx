@@ -1,6 +1,3 @@
-// API
-// Authors: Milan Vrbas <xvrbas01>, Jan Juračka <xjurac07>
-
 // API to create a new camp
 export const createCamp = async (campName) => {
     try {

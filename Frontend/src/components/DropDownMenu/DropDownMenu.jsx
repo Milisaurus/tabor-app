@@ -50,12 +50,24 @@ const DropDownMenu = () => {
                     <i className="uil uil-arrow-right"></i>
                 </Link>
 
+                <Link to="/edit-game-type-points">
+                    <span>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style={{marginLeft:"-3px"}}>
+                    <path d="M14 6L8 12V16H12L18 10M14 6L17 3L21 7L18 10M14 6L18 10M10 4L4 4L4 20L20 20V14" 
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                        Editovat typy bodování
+                    </span>
+                    <i className="uil uil-arrow-right"></i>
+                </Link>
+
                 <Link to="/odd-even">
                     <span>
-                        <svg className="custom-icon" fill="none" height="28" width="35" 
+                        <svg fill="none" height="28" width="35" 
                             stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" 
                             strokeWidth="2" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" 
-                            style={{ marginLeft:"-3px" ,marginRight: '-10px', marginTop: '7px', verticalAlign: 'middle'}}>
+                            style={{ marginLeft:"-3px" ,marginRight: '-7px', marginTop: '7px', verticalAlign: 'middle'}}>
                             <path fill="currentColor" d="M106.666667,1.42108547e-14 L106.666667,42.6666667 
                                 L42.6666667,42.6666667 L42.6666667,341.333333 L106.666667,341.333333 L106.666667,384 
                                 L1.42108547e-14,384 L1.42108547e-14,1.42108547e-14 L106.666667,1.42108547e-14 Z 

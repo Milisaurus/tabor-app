@@ -1,5 +1,3 @@
-// Author Milan Vrbas <xvrbas01>
-
 import React, { useEffect, useState } from "react";
 import { getCamp, fetchFilteredActivities, fetchTeamScores, updateCamp } from "../api";
 
@@ -272,7 +270,7 @@ const MainPage = () => {
     
     return (
         <div className="main-page-container">
-            <Header goBackLink="/" editLink1={"/edit-teams"} editLink2={"#"} />
+            <Header goBackLink="/"/>
             <NavbarButtons />
             <div>
                 <Heading text="Sledování bodového postupu" level={1} className="nadpish1" />

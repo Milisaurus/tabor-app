@@ -1,5 +1,3 @@
-// Author Jan Juračka <xjurac07>
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -127,7 +125,7 @@ const TeamPoints = () => {
 
     return (
         <div className="team-points-page">
-            <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2="#" showIcons="true" />
+            <Header goBackLink="/main-page"/>
             <NavbarButtons />
             <Heading text="Vložení týmové hry" level={1} className="nadpish1" />
 

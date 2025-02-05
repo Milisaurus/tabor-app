@@ -1,5 +1,3 @@
-// Author Milan Vrbas <xvrbas01>
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createCamp, fetchCamps } from "../api";
@@ -54,7 +52,7 @@ const StartPage = () => {
 
     return (
         <div className="start-page">
-            <Header goBackLink="/" editLink1={"#"} editLink2={"#"} showIconsLeft={false} showIconsRight={false} />
+            <Header goBackLink="/" showIconsLeft={false} showIconsRight={false} />
             <Heading text="Vítejte v táborovém organizátoru bodů!" level={1} className="nadpish1" />
 
             <div className="background-wrapper">

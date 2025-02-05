@@ -49,12 +49,12 @@ ul {
 }
 
 .odd-button.active {
-  background: #2c2c2c;
+  background: var(--primaryColor);
   color: white;
 }
 
 .even-button.active {
-  background: #2c2c2c;
+  background: var(--primaryColor);
   color: white;
 }
 
@@ -71,7 +71,7 @@ ul {
 }
 
 .save-button-odd-even {
-  background-color: #2C2C2C;
+  background-color: var(--primaryColor);
   color: #fff;
   border: none;
   padding: 15px 25px;
@@ -93,7 +93,7 @@ ul {
   margin: 0 auto 20px;
   text-align: center;
   font-size: 16px;
-  color: #2C2C2C;
+  color: var(--primaryColor);
 }
 
 .child-info {

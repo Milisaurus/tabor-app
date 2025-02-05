@@ -7,7 +7,7 @@ import Heading from "../components/Heading/Heading";
 import NavbarButtons from "../components/NavbarButtons/NavbarButtons";
 import Header from "../components/Header/Header";
 
-import "../css/CompetitionTablePage.css"; // Připojení CSS
+import "../css/CompetitionTablePage.css";
 
 const CompetitionTablePage = () => {
     const [teams, setTeams] = useState([]);
@@ -19,7 +19,6 @@ const CompetitionTablePage = () => {
     const [currentMatchIndex, setCurrentMatchIndex] = useState(0); // Stav pro aktuální zápas
     const [isScheduleGenerated, setIsScheduleGenerated] = useState(false); // Stav pro kontrolu, zda byl plán generován
     const navigate = useNavigate();
-    const [teamWins, setTeamWins] = useState({});
 
     useEffect(() => {
         const fetchCampData = async () => {
@@ -86,19 +85,6 @@ const CompetitionTablePage = () => {
         setIsScheduleGenerated(true);
     };
 
-    const calculateResults = () => {
-        let wins = {};
-        teams.forEach(team => {
-            wins[team.name] = 0;
-        });
-
-        Object.values(matchResults).forEach(winner => {
-            if (winner) wins[winner]++;
-        });
-
-        setTeamWins(wins);
-    };
-
     const handleResultClick = (team1, team2) => {
         setMatchResults(prev => {
             const key = `${team1}-${team2}`;
@@ -115,7 +101,6 @@ const CompetitionTablePage = () => {
     
             return { ...prev, [key]: newWinner }; 
         });
-        calculateResults();
     };
 
     const showNextMatch = () => {
@@ -142,7 +127,7 @@ const CompetitionTablePage = () => {
 
     return (
         <div className="container-competition-table">
-            <Header goBackLink="/main-page" editLink1={"/edit-teams"} editLink2={"#"} />
+            <Header goBackLink="/main-page"/>
             <NavbarButtons />
             <Heading text="Soutěžní tabulka" level={1} className="nadpish1" />
     
