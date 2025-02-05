@@ -73,7 +73,7 @@ const EditGameTypePointsPage = () => {
         if (!campData) return;
         
         const newGameType = {
-            type: "Nový typ hry",
+            type: "Nové bodové schéma",
             point_scheme: new Array(campData.teamCount).fill(1),
         };
     
