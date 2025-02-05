@@ -16,6 +16,7 @@ const EditGameTypePointsPage = () => {
     const [error, setError] = useState(null);
     const [editingIndex, setEditingIndex] = useState(null);
     const [newGameTypeName, setNewGameTypeName] = useState("");
+    const [formError, setFormError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,7 +75,7 @@ const EditGameTypePointsPage = () => {
         
         const newGameType = {
             type: "Nové bodové schéma",
-            point_scheme: new Array(campData.teamCount).fill(1),
+            point_scheme: new Array(campData.teamCount).fill(null),
         };
     
         setCampData({
@@ -88,11 +89,20 @@ const EditGameTypePointsPage = () => {
     
     
     const saveChanges = async () => {
+        setFormError(""); // Reset error message
+
         if (JSON.stringify(campData) === originalCampData) {
             alert("Žádné změny nebyly provedeny.");
             return;
         }
-
+    
+        for (let gameType of campData.gameTypes) {
+            if (gameType.point_scheme.some(point => point === null)) {
+                setFormError("Chyba: Některá bodová schémata obsahují nevyplněné hodnoty.");
+                return;
+            }
+        }
+    
         try {
             await updateCamp(JSON.stringify(campData));
             navigate("/main-page");
@@ -101,6 +111,7 @@ const EditGameTypePointsPage = () => {
             alert("Chyba při ukládání: " + err.message);
         }
     };
+    
 
     const handleDeleteGameType = (index) => {
         const updatedGameTypes = [...campData.gameTypes];
@@ -198,6 +209,15 @@ const EditGameTypePointsPage = () => {
                 </div>
             </div>
 
+            
+            {/* Display error message if any */}
+            {formError && (
+                <div className="form-error form-error-scheme" 
+                    style={{margin: "0 auto", marginBottom:"-15px", marginTop:"20px"}}>
+                    {formError}
+                </div>
+            )}
+            
             <div className="save-button-edit-schemes-container">
                 <button onClick={saveChanges} className="save-button-edit-schemes">Uložit</button>
             </div>

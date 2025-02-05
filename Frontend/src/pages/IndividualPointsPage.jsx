@@ -139,7 +139,7 @@ const IndividualPoints = () => {
 
                 {/* Display error message if any */}
                 {formError && (
-                    <div className="form-error" style={{ color: "red", marginTop: "1rem" }}>
+                    <div className="form-error" style={{ color: "red", marginTop:"-20px" }}>
                         {formError}
                     </div>
                 )}
