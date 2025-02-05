@@ -81,10 +81,11 @@ const EditGameTypePointsPage = () => {
             ...campData,
             gameTypes: [
                 ...campData.gameTypes,
-                { ...newGameType, id: Date.now() }, 
+                newGameType,
             ],
         });
     };
+    
     
     const saveChanges = async () => {
         if (JSON.stringify(campData) === originalCampData) {
