@@ -107,7 +107,7 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenS
                         {/* Expandable content */}
                         <div className={`team-content ${isExpanded ? "open" : ""}`}>
                         {team.children.map((child) => (
-                            <div key={child} className="child-item">
+                            <div key={child} className="child-item-select">
                             <span>{child}</span>
                             <input
                                 type="checkbox"
@@ -143,7 +143,7 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenS
                 {/* Sudí / Lišší Content */}
                 <div className={`team-content ${showoddEven ? "open" : ""}`}>
                     <div className="oddEven-selection">
-                        <div className="child-item">
+                        <div className="child-item-select">
                             <span>Sudí</span>
                             <input
                                 type="checkbox"
@@ -153,7 +153,7 @@ const SelectCampMembers = ({ campData, participants, onSelectionChange, oddEvenS
                                 onChange={handleoddEvenChange}
                             />
                         </div>
-                        <div className="child-item">
+                        <div className="child-item-select">
                             <span>Liší</span>
                             <input
                                 type="checkbox"

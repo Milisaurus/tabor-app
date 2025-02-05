@@ -25,12 +25,25 @@
     align-items: center;
 }
 
+
 .modal-content {
     background-color: white;
     width: 400px;
     padding: 20px;
     border-radius: 25px;
     text-align: center;
+    animation: scaleIn 0.7s ease forwards;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .detail-hry {

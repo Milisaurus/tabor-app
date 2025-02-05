@@ -73,22 +73,22 @@
     white-space: nowrap;
 }
 
-.child-item {
+.child-item-select {
     display: flex;
     align-items: center;
     padding: 5px 0;
-    height: 25px;
+    height: 32px;
     font-size: 16px;
     color: #333;
     border-bottom: 1px solid #ddd;
 }
 
-.child-item:last-child {
+.child-item-select:last-child {
     border-bottom: none;
     margin-bottom: -5px;
 }
 
-.child-item span {
+.child-item-select span {
     flex-grow: 1;
     text-align: left;
 }
@@ -176,7 +176,7 @@
 }
 
 @media (max-width: 500px) {
-    .child-item {
+    .child-item-select {
         font-size: 15px;
     }
 

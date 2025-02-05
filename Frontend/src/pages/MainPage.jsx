@@ -396,7 +396,7 @@ const MainPage = () => {
                 {isFetching ? (
                     <div className="spinner"></div>
                 ) : (
-                    <div className={`games-list ${isFetching ? 'loading' : ''}`}>
+                    <div className="games-list">
                         {filteredGames.map((game, index) => (
                             <div
                                 key={index}
@@ -413,13 +413,11 @@ const MainPage = () => {
                                             : `${game.participants.length} ${getParticipantLabel(game.participants.length)}`)
                                         : gameTypeMapping[game.gameTypeId]}
                                 </span>
-
                             </div>
                         ))}
                     </div>
                 )}
             </div>
-
             {/* Render modal with activity details if an activity is selected */}
             {selectedActivity && (
                 <ActivityHistory 
