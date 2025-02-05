@@ -111,7 +111,9 @@
 .delete-icon {
     width: 24px;
     height: 24px;
+    margin-bottom: 4px;
     margin-left: 10px;
+    margin-right: 5px;
     cursor: pointer;
     vertical-align: middle;
     transition: transform 0.3s ease;
