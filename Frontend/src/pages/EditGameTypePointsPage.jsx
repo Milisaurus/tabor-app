@@ -153,7 +153,7 @@ const EditGameTypePointsPage = () => {
                                min={1}
                                inputMode="decimal"
                                onInput={(e) => {e.target.value = e.target.value.replace(/[^0-9.]/g, ''); }}
-                               type="number"
+                               type="text"
                                value={points}
                                onChange={(e) => handlePointChange(gameTypeIndex, pointIndex, e.target.value)}
                            />
