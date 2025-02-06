@@ -212,7 +212,7 @@ const EditGameTypePointsPage = () => {
             
             {/* Display error message if any */}
             {formError && (
-                <div className="form-error form-error-scheme" 
+                <div className="form-error" 
                     style={{margin: "0 auto", marginBottom:"-15px", marginTop:"20px"}}>
                     {formError}
                 </div>

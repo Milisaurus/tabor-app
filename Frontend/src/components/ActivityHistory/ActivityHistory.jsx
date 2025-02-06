@@ -5,7 +5,7 @@ import './ActivityHistory.css';
 const ActivityHistory = ({ selectedActivity, campData, closeModal, handleDelete }) => {
     return (
         <div className="game-detail-modal">
-            <div className="modal-content">
+            <div className="modal-content-history">
                 <div className="modal-header">
                     {/* Edit button */}
                     {selectedActivity.participants ? (

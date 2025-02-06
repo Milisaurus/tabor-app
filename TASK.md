@@ -3,7 +3,7 @@
 
 - Systém na stezku odvahy pro projítí dětí 
 - systém pro želvy/lišky - vyhazování týmů
-
+- doplnit typy her do main page aktivit history
 ---
 
 MOŽNÁ
