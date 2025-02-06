@@ -154,7 +154,6 @@
     ],
     "gameTypes": [
         {
-            "everyone_else": 0,
             "point_scheme": [
                 3,
                 2,
@@ -163,7 +162,6 @@
             "type": "Méně bodovaná"
         },
         {
-            "everyone_else": 0,
             "point_scheme": [
                 4,
                 2,
@@ -172,7 +170,6 @@
             "type": "Více bodovaná"
         },
         {
-            "everyone_else": 0,
             "point_scheme": [
                 6,
                 3,

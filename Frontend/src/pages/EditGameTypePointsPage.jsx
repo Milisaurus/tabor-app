@@ -132,15 +132,6 @@ const EditGameTypePointsPage = () => {
             }));
         }, 600); // Allow for animation to finish
     };
-    
-    
-    setTimeout(() => {
-        setCampData({
-            ...campData,
-            gameTypes: updatedGameTypes.filter((_, idx) => idx !== index),
-        });
-    }, 800); // Slightly longer timeout to accommodate the animation
-        
 
     if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
