@@ -126,12 +126,11 @@ const MainPage = () => {
     };
 
     // Mapping for game types to display the corresponding name
-    const gameTypeMapping = {
-        0: "Vlastní",
-        1: "Méně bodovaná",
-        2: "Více bodovaná",
-        3: "Velmi bodovaná"
+    const getGameTypeName = (gameTypeId) => {
+        const gameType = campData.gameTypes[gameTypeId - 1]; // Pokud gameTypeId odpovídá indexu
+        return gameType ? gameType.type : "Neznámý typ";
     };
+    
 
     // Delete individual activity or team game and update points and filtered games
     const handleDelete = async () => {
@@ -411,7 +410,7 @@ const MainPage = () => {
                                         ? (game.participants[0] === "odd" || game.participants[0] === "even" 
                                             ? (game.participants[0] === "odd" ? "Lichá" : "Sudá") 
                                             : `${game.participants.length} ${getParticipantLabel(game.participants.length)}`)
-                                        : gameTypeMapping[game.gameTypeId]}
+                                        : getGameTypeName(game.gameTypeId)}
                                 </span>
                             </div>
                         ))}

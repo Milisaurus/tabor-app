@@ -44,15 +44,15 @@ def calculate_points(number_of_teams, game_type):
         raise ValueError("The number of teams must be an unsigned int.")
 
     # Last team gets 1 point and every other gets +1 based on it's position
-    if game_type == "méně bodovaná":
+    if game_type == "Minibodovaná":
         return [number_of_teams - i for i in range(number_of_teams)]
 
     # Last team gets 2 points and every other gets +2 based on it's position
-    elif game_type == "více bodovaná":
+    elif game_type == "Medibodovaná":
         return [2 * (number_of_teams - i) for i in range(number_of_teams)]
 
     # Last team gets 3 points and every other gets +3 based on it's position
-    elif game_type == "velmi bodovaná":
+    elif game_type == "Megabodovaná":
         return [3 * (number_of_teams - i) for i in range(number_of_teams)]
 
 ############################################ APIs #############################################
@@ -203,12 +203,12 @@ def add_game_types(camp_name):
 
      # Define the game types and calculate the corresponding point schemes
     game_types = [
-        {"type": "Méně bodovaná",
-            "point_scheme": calculate_points(number_of_teams, "méně bodovaná"),},
-        {"type": "Více bodovaná",
-            "point_scheme": calculate_points(number_of_teams, "více bodovaná"),},
-        {"type": "Velmi bodovaná",
-            "point_scheme": calculate_points(number_of_teams, "velmi bodovaná"),}
+        {"type": "Minibodovaná",
+            "point_scheme": calculate_points(number_of_teams, "Minibodovaná"),},
+        {"type": "Medibodovaná",
+            "point_scheme": calculate_points(number_of_teams, "Medibodovaná"),},
+        {"type": "Megabodovaná",
+            "point_scheme": calculate_points(number_of_teams, "Megabodovaná"),}
     ]
 
     # Add the calculated game types to the camp data
@@ -268,6 +268,15 @@ def get_filtered_activities(camp_name):
                 camp_data.get("individualActivities", []) +
                 camp_data.get("teamGames", [])
             )
+
+    # Ensure all games have a "timestamp"
+    for game in filtered_games:
+        # Add a default value for timestamp if it doesn't exist
+        if 'timestamp' not in game:
+            game['timestamp'] = 0  # Default timestamp value if missing
+
+    # Sort the games based on timestamp (ascending order)
+    filtered_games.sort(key=lambda x: x['timestamp'])
 
 
     # Return the filtered games
