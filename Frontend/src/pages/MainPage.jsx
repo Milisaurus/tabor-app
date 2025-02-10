@@ -127,7 +127,8 @@ const MainPage = () => {
 
     // Mapping for game types to display the corresponding name
     const getGameTypeName = (gameTypeId) => {
-        const gameType = campData.gameTypes[gameTypeId - 1]; // Pokud gameTypeId odpovídá indexu
+        if (gameTypeId === 0) return "Vlastní"; 
+        const gameType = campData.gameTypes[gameTypeId - 1]; 
         return gameType ? gameType.type : "Neznámý typ";
     };
     

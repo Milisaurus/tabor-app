@@ -249,7 +249,9 @@ const CompetitionTablePage = () => {
                                 <span className="team-name" style={{ color: team.color }}>
                                     {team.name}
                                 </span>
-                                <span className="wins">{wins} výher</span>
+                                <span className="wins">
+                                    {wins} {wins === 1 ? "výhra" : (wins >= 2 && wins <= 4 ? "výhry" : "výher")}
+                                </span>
                             </li>
                         ))}
                 </ul>
