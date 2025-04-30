@@ -4,6 +4,9 @@ Aplikace *tabor-app* umožňuje vedoucím na táboře snadno sledovat výsledky 
 
 ---
 
+## Webová stránka
+https://tabor-app.pages.dev/
+
 ## 🚀 Instalace a spuštění
 
 1. *Naklonujte tento repozitář:*
